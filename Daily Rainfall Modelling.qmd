@@ -1,0 +1,162 @@
+---
+title: "Daily Rainfall Modelling using Lasso, Ridge and Elastic-Net Regressions in one of the automated-weather observation station in Mugla Province of Türkiye"
+author: 
+  - name: Mehmet AKSOY *(aksoy.mehmet@metu.edu.tr)*
+    affiliations:
+    - ref: metu
+    - ref: civil
+  - name: Sercan AKIL  *(sercan.akil@metu.edu.tr)*
+    affiliations:
+    - ref: metu
+    - ref: ggit
+  - name: Deniz Güvenç TEK  *(deniz.tek@metu.edu.tr)*
+    affiliations:
+    - ref: metu
+    - ref: stat
+affiliations:
+  - id: metu
+    name: Middle East Technical University, Ankara, Türkiye
+  - id: civil
+    name: Department of Civil Engineering
+  - id: ggit
+    name: Geodetic and Geographic Information Technologies
+  - id: stat
+    name: Department of Statistics
+format: 
+  html:
+    editor: visual
+    toc: true
+    number-sections: true
+---
+
+## Introduction
+
+Data period is between 01.01.2009 and 31.12.2023 for Mugla Station (17292). Elevation of the station is 646 meter.
+
+## Works in R
+
+### Uploading Necessary Packages
+
+```{r}
+#| warning: false
+library(readxl)
+library(tidyverse)
+library(lubridate)
+library(corrplot)
+library(rnaturalearth)
+library(sf)
+
+```
+
+### Study Location
+
+```{r, fig.width=9,fig.height=6}
+#| warning: false
+#| 
+rnaturalearth::ne_countries(scale='medium',returnclass = 'sf') |> 
+ggplot()  + geom_sf(fill = "white") +
+  geom_point(aes(x=28.3668,y=37.2095),size=4) + labs(x="",y="") + 
+  coord_sf(crs = st_crs(4326), xlim = c(23, 31), ylim = c(35,39)) + 
+  theme_bw() + 
+  theme(legend.position = "none",
+        panel.background = element_rect(fill = 'aliceblue')) +
+  annotate(geom="text", x=29, y=35.5, label="MEDITERRANEAN SEA", 
+        color="cornflowerblue", fontface = "bold.italic", size=4) + 
+  annotate(geom="text", x=30, y=38.5, label="TURKIYE", 
+        color="darkgray", fontface = "bold.italic", size=4) +
+  annotate(geom="text", x=23.1, y=38.4, label="GREECE", 
+        color="darkgray", fontface = "bold.italic", size=4) + 
+  annotate(geom="text", x=28.7, y=37.3, label="Mugla Station \n 17292", 
+        color="black", fontface = "bold.italic", size=4)
+```
+
+### Data Handling
+
+```{r}
+
+files<- list.files(paste0(here::here(),"/DATA"), pattern = "xlsx")
+listem<- list()
+missdates<- list()
+
+for(i in 1:length(files)) {
+
+  listem[[i]] <- read_excel( paste0(here::here(),"/DATA/", files[i]))
+  listem[[i]] <- listem[[i]][ ,-c(1,2)]
+
+  listem[[i]]<-
+    listem[[i]] |>
+    mutate(DATE= as.Date(with(listem[[i]], paste(YEAR,MONTH,DAY,sep="-")),"%Y-%m-%d")) |>
+    complete(DATE = seq(as.Date("2009-01-01"),
+                         as.Date("2023-12-31"), by = "day"))
+  listem[[i]] <- listem[[i]] [,-c(2:4)]
+  missdates[[i]]<- listem[[i]][which(is.na(listem[[i]] [,2] )),]
+}
+
+df<- listem[[1]]
+for(i in 1:(length(files)-1)) {
+  df <- merge(df, listem[[i+1]], by = "DATE", all = TRUE)
+}
+
+write.table(df, "merge.txt", row.names = FALSE, quote = FALSE, sep = "\t")
+```
+
+### Descriptive Statistics
+
+```{r}
+#| warning: false
+
+head(df)
+summary(df)
+```
+
+### Visualization of Data
+
+```{r, fig.width=9,fig.height=9}
+#| warning: false
+
+paletr<- c("#053061", "#2166AC" ,"#4393C3" ,"#92C5DE" ,
+           "#F4A582", "#D6604D" ,"#B2182B", "#67001F")
+corrplot(round(cor(df[,2:18], method = "pearson", use = "complete.obs"),2), 
+         method="color", col=paletr,  
+         type="upper",  
+         addCoef.col = "white", 
+         tl.col="black",  insig = "blank", 
+         diag=FALSE )
+```
+
+```{r, fig.width=9,fig.height=9}
+#| warning: false
+
+variable_names <- 
+c("Precipitation", "Minimum Temperature", "Maximum Temperature", 
+  "Average Temperature", "Minimum Dewpoint Temperature", 
+  "Maximum Dewpoint Temperature", "Average Dewpoint Temperature",
+  "Minimum Relative Humidity", "Maximum Relative Humidity", 
+  "Average Relative Humidity", "Cloudiness", "Air Pressure", 
+  "Average Wind Direction", "Average Wind Speed", 
+  "Evapotranspiration", "Solar Radiation", "Sun Exposure")
+colnames(df) <- append("Date", variable_names)
+
+df_plot<-
+df |>
+  pivot_longer(
+    cols = -c(1),
+    values_drop_na = FALSE)
+df_plot$name <- factor(df_plot$name, levels = colnames(df)[2:18])
+
+ggplot(df_plot, aes(x= Date, y=value,color=name)) + 
+  geom_line(size=0.1) + facet_wrap(~name, scales = "free_y", ncol=3) + 
+  theme_bw() + labs(x=" ",y=" ") + 
+  theme(legend.position = "none",
+        strip.background = element_rect(fill="white")) 
+```
+
+```{r, fig.width=9,fig.height=9}
+#| warning: false
+
+ggplot(df_plot, aes(x= Date, y=value, fill=name, group=year(Date))) +
+  geom_boxplot(outlier.shape = NA, alpha=0.7) + facet_wrap(~name, scales = "free_y", ncol=3) +
+  theme_bw() + labs(x=" ",y=" ") +
+  theme(legend.position = "none",
+        strip.background = element_rect(fill="white")) 
+```

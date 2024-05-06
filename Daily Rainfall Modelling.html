@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Mehmet AKSOY (aksoy.mehmet@metu.edu.tr)">
+<meta name="author" content="Sercan AKIL (sercan.akil@metu.edu.tr)">
+<meta name="author" content="Deniz Güvenç TEK (deniz.tek@metu.edu.tr)">
+
+<title>Daily Rainfall Modelling using Lasso, Ridge and Elastic-Net Regressions in one of the automated-weather observation station in Mugla Province of Türkiye</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="Daily Rainfall Modelling_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Daily Rainfall Modelling_files/libs/quarto-html/quarto.js"></script>
+<script src="Daily Rainfall Modelling_files/libs/quarto-html/popper.min.js"></script>
+<script src="Daily Rainfall Modelling_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Daily Rainfall Modelling_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Daily Rainfall Modelling_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Daily Rainfall Modelling_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Daily Rainfall Modelling_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Daily Rainfall Modelling_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Daily Rainfall Modelling_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a></li>
+  <li><a href="#works-in-r" id="toc-works-in-r" class="nav-link" data-scroll-target="#works-in-r"><span class="header-section-number">2</span> Works in R</a>
+  <ul class="collapse">
+  <li><a href="#uploading-necessary-packages" id="toc-uploading-necessary-packages" class="nav-link" data-scroll-target="#uploading-necessary-packages"><span class="header-section-number">2.1</span> Uploading Necessary Packages</a></li>
+  <li><a href="#study-location" id="toc-study-location" class="nav-link" data-scroll-target="#study-location"><span class="header-section-number">2.2</span> Study Location</a></li>
+  <li><a href="#data-handling" id="toc-data-handling" class="nav-link" data-scroll-target="#data-handling"><span class="header-section-number">2.3</span> Data Handling</a></li>
+  <li><a href="#descriptive-statistics" id="toc-descriptive-statistics" class="nav-link" data-scroll-target="#descriptive-statistics"><span class="header-section-number">2.4</span> Descriptive Statistics</a></li>
+  <li><a href="#visualization-of-data" id="toc-visualization-of-data" class="nav-link" data-scroll-target="#visualization-of-data"><span class="header-section-number">2.5</span> Visualization of Data</a></li>
+  </ul></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Daily Rainfall Modelling using Lasso, Ridge and Elastic-Net Regressions in one of the automated-weather observation station in Mugla Province of Türkiye</h1>
+</div>
+
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Authors</div>
+  <div class="quarto-title-meta-heading">Affiliations</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Mehmet AKSOY <em>(aksoy.mehmet@metu.edu.tr)</em> </p>
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Middle East Technical University, Ankara, Türkiye
+          </p>
+        <p class="affiliation">
+            Department of Civil Engineering
+          </p>
+      </div>
+      <div class="quarto-title-meta-contents">
+    <p class="author">Sercan AKIL <em>(sercan.akil@metu.edu.tr)</em> </p>
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Middle East Technical University, Ankara, Türkiye
+          </p>
+        <p class="affiliation">
+            Geodetic and Geographic Information Technologies
+          </p>
+      </div>
+      <div class="quarto-title-meta-contents">
+    <p class="author">Deniz Güvenç TEK <em>(deniz.tek@metu.edu.tr)</em> </p>
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Middle East Technical University, Ankara, Türkiye
+          </p>
+        <p class="affiliation">
+            Department of Statistics
+          </p>
+      </div>
+    </div>
+
+<div class="quarto-title-meta">
+
+      
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">1</span> Introduction</h2>
+<p>Data period is between 01.01.2009 and 31.12.2023 for Mugla Station (17292). Elevation of the station is 646 meter.</p>
+</section>
+<section id="works-in-r" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="works-in-r"><span class="header-section-number">2</span> Works in R</h2>
+<section id="uploading-necessary-packages" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="uploading-necessary-packages"><span class="header-section-number">2.1</span> Uploading Necessary Packages</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rnaturalearth)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="study-location" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="study-location"><span class="header-section-number">2.2</span> Study Location</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>rnaturalearth<span class="sc">::</span><span class="fu">ne_countries</span>(<span class="at">scale=</span><span class="st">'medium'</span>,<span class="at">returnclass =</span> <span class="st">'sf'</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()  <span class="sc">+</span> <span class="fu">geom_sf</span>(<span class="at">fill =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x=</span><span class="fl">28.3668</span>,<span class="at">y=</span><span class="fl">37.2095</span>),<span class="at">size=</span><span class="dv">4</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x=</span><span class="st">""</span>,<span class="at">y=</span><span class="st">""</span>) <span class="sc">+</span> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">crs =</span> <span class="fu">st_crs</span>(<span class="dv">4326</span>), <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">23</span>, <span class="dv">31</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">35</span>,<span class="dv">39</span>)) <span class="sc">+</span> </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">'aliceblue'</span>)) <span class="sc">+</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom=</span><span class="st">"text"</span>, <span class="at">x=</span><span class="dv">29</span>, <span class="at">y=</span><span class="fl">35.5</span>, <span class="at">label=</span><span class="st">"MEDITERRANEAN SEA"</span>, </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">color=</span><span class="st">"cornflowerblue"</span>, <span class="at">fontface =</span> <span class="st">"bold.italic"</span>, <span class="at">size=</span><span class="dv">4</span>) <span class="sc">+</span> </span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom=</span><span class="st">"text"</span>, <span class="at">x=</span><span class="dv">30</span>, <span class="at">y=</span><span class="fl">38.5</span>, <span class="at">label=</span><span class="st">"TURKIYE"</span>, </span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">color=</span><span class="st">"darkgray"</span>, <span class="at">fontface =</span> <span class="st">"bold.italic"</span>, <span class="at">size=</span><span class="dv">4</span>) <span class="sc">+</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom=</span><span class="st">"text"</span>, <span class="at">x=</span><span class="fl">23.1</span>, <span class="at">y=</span><span class="fl">38.4</span>, <span class="at">label=</span><span class="st">"GREECE"</span>, </span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">color=</span><span class="st">"darkgray"</span>, <span class="at">fontface =</span> <span class="st">"bold.italic"</span>, <span class="at">size=</span><span class="dv">4</span>) <span class="sc">+</span> </span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom=</span><span class="st">"text"</span>, <span class="at">x=</span><span class="fl">28.7</span>, <span class="at">y=</span><span class="fl">37.3</span>, <span class="at">label=</span><span class="st">"Mugla Station </span><span class="sc">\n</span><span class="st"> 17292"</span>, </span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">color=</span><span class="st">"black"</span>, <span class="at">fontface =</span> <span class="st">"bold.italic"</span>, <span class="at">size=</span><span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="864"></p>
+</div>
+</div>
+</section>
+<section id="data-handling" class="level3" data-number="2.3">
+<h3 data-number="2.3" class="anchored" data-anchor-id="data-handling"><span class="header-section-number">2.3</span> Data Handling</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>files<span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(),<span class="st">"/DATA"</span>), <span class="at">pattern =</span> <span class="st">"xlsx"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>listem<span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>missdates<span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(files)) {</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  listem[[i]] <span class="ot">&lt;-</span> <span class="fu">read_excel</span>( <span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(),<span class="st">"/DATA/"</span>, files[i]))</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  listem[[i]] <span class="ot">&lt;-</span> listem[[i]][ ,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)]</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  listem[[i]]<span class="ot">&lt;-</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    listem[[i]] <span class="sc">|&gt;</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">DATE=</span> <span class="fu">as.Date</span>(<span class="fu">with</span>(listem[[i]], <span class="fu">paste</span>(YEAR,MONTH,DAY,<span class="at">sep=</span><span class="st">"-"</span>)),<span class="st">"%Y-%m-%d"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">complete</span>(<span class="at">DATE =</span> <span class="fu">seq</span>(<span class="fu">as.Date</span>(<span class="st">"2009-01-01"</span>),</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">as.Date</span>(<span class="st">"2023-12-31"</span>), <span class="at">by =</span> <span class="st">"day"</span>))</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  listem[[i]] <span class="ot">&lt;-</span> listem[[i]] [,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>)]</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  missdates[[i]]<span class="ot">&lt;-</span> listem[[i]][<span class="fu">which</span>(<span class="fu">is.na</span>(listem[[i]] [,<span class="dv">2</span>] )),]</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>df<span class="ot">&lt;-</span> listem[[<span class="dv">1</span>]]</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>(<span class="fu">length</span>(files)<span class="sc">-</span><span class="dv">1</span>)) {</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">merge</span>(df, listem[[i<span class="sc">+</span><span class="dv">1</span>]], <span class="at">by =</span> <span class="st">"DATE"</span>, <span class="at">all =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(df, <span class="st">"merge.txt"</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">sep =</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="descriptive-statistics" class="level3" data-number="2.4">
+<h3 data-number="2.4" class="anchored" data-anchor-id="descriptive-statistics"><span class="header-section-number">2.4</span> Descriptive Statistics</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        DATE PRECI MINTEMP MAXTEMP AVETEMP TDEWMIN TDEWMAX AVETDEW MINRELHUM
+1 2009-01-01   0.0    -3.6     7.3     1.1   -10.8    -4.4    -6.9        39
+2 2009-01-02   0.0    -4.9     7.4     0.4    -5.3     4.2    -0.7        62
+3 2009-01-03  13.0     4.3     8.4     6.2     4.4     8.2     6.6        77
+4 2009-01-04  22.6     6.8     9.9     7.8     6.7     9.3     7.9        99
+5 2009-01-05  27.0     7.2    12.1     8.7     7.1    10.0     8.4        86
+6 2009-01-06  25.8     5.3    11.2     7.8     4.8    10.8     6.8        94
+  MAXRELHUM AVERELHUM CLOUD PRESSURE AVEWINDD AVEWINDS EVAP RADIATION SUNTIME
+1        69      50.2   0.0   1025.7      316      1.9   NA       2.1     3.2
+2        96      81.4   4.7   1025.3      126      0.8   NA       1.0     0.2
+3        99      96.0   7.0   1020.2      120      1.0   NA       0.3     0.0
+4        99      99.0   7.0   1016.3      117      1.2   NA       1.0     0.6
+5        99      98.3   7.0   1014.2      116      1.1   NA       1.1     0.5
+6        99      98.8   6.9   1011.1       24      1.7   NA       0.6     0.1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      DATE                PRECI            MINTEMP         MAXTEMP     
+ Min.   :2009-01-01   Min.   :  0.000   Min.   :-8.20   Min.   :-0.90  
+ 1st Qu.:2012-10-01   1st Qu.:  0.000   1st Qu.: 4.40   1st Qu.:14.60  
+ Median :2016-07-01   Median :  0.000   Median : 9.50   Median :22.10  
+ Mean   :2016-07-01   Mean   :  3.192   Mean   :10.22   Mean   :22.59  
+ 3rd Qu.:2020-03-31   3rd Qu.:  0.200   3rd Qu.:16.10   3rd Qu.:30.90  
+ Max.   :2023-12-31   Max.   :168.600   Max.   :27.90   Max.   :41.70  
+                      NA's   :5                                        
+    AVETEMP         TDEWMIN           TDEWMAX          AVETDEW       
+ Min.   :-5.30   Min.   :-19.400   Min.   :-13.30   Min.   :-15.400  
+ 1st Qu.: 8.90   1st Qu.:  0.900   1st Qu.:  7.20   1st Qu.:  4.500  
+ Median :14.90   Median :  4.500   Median : 10.30   Median :  7.700  
+ Mean   :15.77   Mean   :  4.045   Mean   : 10.07   Mean   :  7.312  
+ 3rd Qu.:23.10   3rd Qu.:  8.000   3rd Qu.: 13.80   3rd Qu.: 11.100  
+ Max.   :34.10   Max.   : 19.100   Max.   : 25.50   Max.   : 19.900  
+                                                                     
+   MINRELHUM        MAXRELHUM        AVERELHUM         CLOUD      
+ Min.   :  0.00   Min.   : 25.00   Min.   :15.00   Min.   :0.000  
+ 1st Qu.: 22.00   1st Qu.: 71.00   1st Qu.:47.40   1st Qu.:0.700  
+ Median : 32.00   Median : 91.00   Median :64.20   Median :2.000  
+ Mean   : 37.65   Mean   : 83.66   Mean   :63.92   Mean   :2.511  
+ 3rd Qu.: 49.00   3rd Qu.: 98.00   3rd Qu.:81.10   3rd Qu.:4.100  
+ Max.   :100.00   Max.   :100.00   Max.   :99.30   Max.   :7.600  
+                                                                  
+    PRESSURE         AVEWINDD        AVEWINDS          EVAP       
+ Min.   : 992.9   Min.   :  1.0   Min.   :0.000   Min.   : 0.000  
+ 1st Qu.:1008.4   1st Qu.:123.0   1st Qu.:1.000   1st Qu.: 0.600  
+ Median :1012.9   Median :176.0   Median :1.400   Median : 2.500  
+ Mean   :1013.3   Mean   :209.3   Mean   :1.418   Mean   : 3.591  
+ 3rd Qu.:1017.4   3rd Qu.:315.0   3rd Qu.:1.800   3rd Qu.: 5.300  
+ Max.   :1033.5   Max.   :360.0   Max.   :4.700   Max.   :17.700  
+                  NA's   :111     NA's   :111     NA's   :2289    
+   RADIATION        SUNTIME      
+ Min.   :0.000   Min.   : 0.000  
+ 1st Qu.:1.700   1st Qu.: 1.300  
+ Median :4.000   Median : 4.700  
+ Mean   :4.124   Mean   : 5.138  
+ 3rd Qu.:6.400   3rd Qu.: 8.800  
+ Max.   :8.600   Max.   :12.200  
+ NA's   :377     NA's   :139     </code></pre>
+</div>
+</div>
+</section>
+<section id="visualization-of-data" class="level3" data-number="2.5">
+<h3 data-number="2.5" class="anchored" data-anchor-id="visualization-of-data"><span class="header-section-number">2.5</span> Visualization of Data</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>paletr<span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"#053061"</span>, <span class="st">"#2166AC"</span> ,<span class="st">"#4393C3"</span> ,<span class="st">"#92C5DE"</span> ,</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>           <span class="st">"#F4A582"</span>, <span class="st">"#D6604D"</span> ,<span class="st">"#B2182B"</span>, <span class="st">"#67001F"</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">corrplot</span>(<span class="fu">round</span>(<span class="fu">cor</span>(df[,<span class="dv">2</span><span class="sc">:</span><span class="dv">18</span>], <span class="at">method =</span> <span class="st">"pearson"</span>, <span class="at">use =</span> <span class="st">"complete.obs"</span>),<span class="dv">2</span>), </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">method=</span><span class="st">"color"</span>, <span class="at">col=</span>paletr,  </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">type=</span><span class="st">"upper"</span>,  </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">addCoef.col =</span> <span class="st">"white"</span>, </span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">tl.col=</span><span class="st">"black"</span>,  <span class="at">insig =</span> <span class="st">"blank"</span>, </span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">diag=</span><span class="cn">FALSE</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="864"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>variable_names <span class="ot">&lt;-</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="st">"Precipitation"</span>, <span class="st">"Minimum Temperature"</span>, <span class="st">"Maximum Temperature"</span>, </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Average Temperature"</span>, <span class="st">"Minimum Dewpoint Temperature"</span>, </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Maximum Dewpoint Temperature"</span>, <span class="st">"Average Dewpoint Temperature"</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Minimum Relative Humidity"</span>, <span class="st">"Maximum Relative Humidity"</span>, </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Average Relative Humidity"</span>, <span class="st">"Cloudiness"</span>, <span class="st">"Air Pressure"</span>, </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Average Wind Direction"</span>, <span class="st">"Average Wind Speed"</span>, </span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Evapotranspiration"</span>, <span class="st">"Solar Radiation"</span>, <span class="st">"Sun Exposure"</span>)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(df) <span class="ot">&lt;-</span> <span class="fu">append</span>(<span class="st">"Date"</span>, variable_names)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>df_plot<span class="ot">&lt;-</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols =</span> <span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>),</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_drop_na =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>df_plot<span class="sc">$</span>name <span class="ot">&lt;-</span> <span class="fu">factor</span>(df_plot<span class="sc">$</span>name, <span class="at">levels =</span> <span class="fu">colnames</span>(df)[<span class="dv">2</span><span class="sc">:</span><span class="dv">18</span>])</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df_plot, <span class="fu">aes</span>(<span class="at">x=</span> Date, <span class="at">y=</span>value,<span class="at">color=</span>name)) <span class="sc">+</span> </span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="fl">0.1</span>) <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>name, <span class="at">scales =</span> <span class="st">"free_y"</span>, <span class="at">ncol=</span><span class="dv">3</span>) <span class="sc">+</span> </span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x=</span><span class="st">" "</span>,<span class="at">y=</span><span class="st">" "</span>) <span class="sc">+</span> </span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>,</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.background =</span> <span class="fu">element_rect</span>(<span class="at">fill=</span><span class="st">"white"</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="864"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df_plot, <span class="fu">aes</span>(<span class="at">x=</span> Date, <span class="at">y=</span>value, <span class="at">fill=</span>name, <span class="at">group=</span><span class="fu">year</span>(Date))) <span class="sc">+</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">outlier.shape =</span> <span class="cn">NA</span>, <span class="at">alpha=</span><span class="fl">0.7</span>) <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>name, <span class="at">scales =</span> <span class="st">"free_y"</span>, <span class="at">ncol=</span><span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x=</span><span class="st">" "</span>,<span class="at">y=</span><span class="st">" "</span>) <span class="sc">+</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.background =</span> <span class="fu">element_rect</span>(<span class="at">fill=</span><span class="st">"white"</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="864"></p>
+</div>
+</div>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
