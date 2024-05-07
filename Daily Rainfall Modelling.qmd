@@ -109,7 +109,7 @@ head(df)
 summary(df)
 ```
 
-### Visualization of Data
+### Visualization of the Data
 
 ```{r, fig.width=9,fig.height=9}
 #| warning: false
@@ -160,3 +160,108 @@ ggplot(df_plot, aes(x= Date, y=value, fill=name, group=year(Date))) +
   theme(legend.position = "none",
         strip.background = element_rect(fill="white")) 
 ```
+
+### EDA of the Precipitation
+
+#### Missing Value
+
+```{r}
+
+head(df)
+df_pre=df[,c(1,2)]
+head(df_pre)
+
+#Calculating the number of null values if there is one.
+
+pre_null_values= sum(is.na(df_pre$Precipitation))
+print(paste("Number of Null Values in Precipitation Column:",pre_null_values))
+
+```
+
+#### Time Series Plot of the Precipitation Data
+
+```{r}
+missing_date= df_pre$Date[is.na(df_pre$Precipitation)]
+missing_date
+
+library(ggplot2)
+
+#Time Series Plot of Precipitation (with Missing Data Highlighted (2009-2024)
+ggplot(df_pre, aes(x = Date, y = Precipitation)) +
+  geom_line(color = "red", size = 0.5,alpha=0.5) +  # Continuous line plot
+  geom_smooth(method = "loess", se = FALSE, color = "orange", size = 1.5) +  #Trend line
+  geom_point(aes(color = !is.na(Precipitation)), size = 1,alpha=0.5, shape = 21, fill = "white", show.legend = FALSE) +
+  geom_text(data = subset(df_pre, is.na(Precipitation)), aes(label = "NA", y = 0), vjust = -0.5, color = "blue",size= 3) +  # Marking NAs
+  scale_color_manual(values = c("black", "red")) +  # Red points for non-missing data
+  labs(title = "Time Series Plot of Precipitation Data (2009-2024)",
+       x = "Date",
+       y = "Precipitation (mm)") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        plot.title = element_text(hjust = 0.5)) #Centering the title
+
+#Time Series Plot of Precipitation (with Missing Data Highlighted (2021-2024)
+
+df_pre_p1= filter(df_pre, Date>= as.Date("2021-01-01"))
+
+
+ggplot(df_pre_p1, aes(x = Date, y = Precipitation)) +
+  geom_line(color = "red", size = 1) +  # Plotting the precipitation data
+  geom_point(aes(color = !is.na(Precipitation)), size = 2, shape = 21, fill = "white", show.legend = FALSE) +
+  scale_color_manual(values = c("orange", "red")) +  # Use red points to mark non-missing data
+  labs(title = "Time Series Plot of Precipitation Data (2021-2024)",
+       x = "Date",
+       y = "Precipitation (mm)") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Improve readability of x-axis labels
+
+```
+
+According to the time series plot of the precipitation, there is no specific long-term trend (orange line) over the years. 4 of the 5 null values are found sequentially and one of them is located in "2012-11-09". The plot exhibits high volatility and also might be observed some seasonality (clearly observed in plot 2).
+
+#### **Seasonality Analyze**
+
+```{r}
+#Seasonal Decomposition
+#Mean Imputation for NA values
+df_pre1=df_pre
+mean_imput=mean(df_pre1$Precipitation,na.rm=TRUE)
+df_pre1$Precipitation[is.na(df_pre1$Precipitation)]=mean_imput
+df_pre_ts= ts(df_pre1$Precipitation, frequency = 365)
+
+library(forecast)
+library(tseries)
+library(seasonal)
+library(stats)
+library(gridExtra)
+library(grid)
+
+result_stl <- stl(df_pre_ts, s.window = "periodic")
+plot(result_stl)
+
+
+ljung_box_result= Box.test(df_pre1$Precipitation, lag= 365, type= "Ljung-Box")
+print(ljung_box_result)
+
+```
+
+-   Ho: No auto correlation for lags=365
+
+-   H1: Some auto correlation for lags=365
+
+Since the p-value is less than 0.05 we suggest that there is some autocorrelation for lags=365 in Precipitation data which is a strong indication of seasonality. Also, we can clearly observe seasonality in the Seasonality Component plot.
+
+#### **Stationarity Analyze**
+
+```{r}
+adf_test= adf.test(df_pre1$Precipitation, alternative = "stationary")
+print(adf_test)
+
+
+```
+
+-   Ho: The time series is non-stationary
+
+-   H1: The time series is stationary
+
+Since our p-value is less than 0.05, it can be concluded that the time series is stationary. That means that the mean, variance and autocorrelation of the series do not change over the years. Since we satisfied the assumption of stationary we can perform Statistical Models as well as Machine Learning Approaches.
