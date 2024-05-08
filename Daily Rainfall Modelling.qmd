@@ -166,7 +166,7 @@ ggplot(df_plot, aes(x= Date, y=value, fill=name, group=year(Date))) +
 #### Missing Value
 
 ```{r}
-
+#| warning: false
 head(df)
 df_pre=df[,c(1,2)]
 head(df_pre)
@@ -181,6 +181,7 @@ print(paste("Number of Null Values in Precipitation Column:",pre_null_values))
 #### Time Series Plot of the Precipitation Data
 
 ```{r}
+#| warning: false
 missing_date= df_pre$Date[is.na(df_pre$Precipitation)]
 missing_date
 
@@ -222,6 +223,7 @@ According to the time series plot of the precipitation, there is no specific lon
 #### **Seasonality Analyze**
 
 ```{r}
+#| warning: false
 #Seasonal Decomposition
 #Mean Imputation for NA values
 df_pre1=df_pre
@@ -254,6 +256,7 @@ Since the p-value is less than 0.05 we suggest that there is some autocorrelatio
 #### **Stationarity Analyze**
 
 ```{r}
+#| warning: false
 adf_test= adf.test(df_pre1$Precipitation, alternative = "stationary")
 print(adf_test)
 
