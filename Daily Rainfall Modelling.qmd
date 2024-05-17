@@ -45,7 +45,15 @@ library(lubridate)
 library(corrplot)
 library(rnaturalearth)
 library(sf)
-
+library(ggplot2)
+library(forecast)
+library(tseries)
+library(seasonal)
+library(stats)
+library(gridExtra)
+library(grid)
+library(glmnet)
+library(ISLR)
 ```
 
 ### Study Location
@@ -167,7 +175,7 @@ ggplot(df_plot, aes(x= Date, y=value, fill=name, group=year(Date))) +
 
 ```{r}
 #| warning: false
-head(df)
+#head(df)
 df_pre=df[,c(1,2)]
 head(df_pre)
 
@@ -175,7 +183,6 @@ head(df_pre)
 
 pre_null_values= sum(is.na(df_pre$Precipitation))
 print(paste("Number of Null Values in Precipitation Column:",pre_null_values))
-
 ```
 
 #### Time Series Plot of the Precipitation Data
@@ -184,8 +191,6 @@ print(paste("Number of Null Values in Precipitation Column:",pre_null_values))
 #| warning: false
 missing_date= df_pre$Date[is.na(df_pre$Precipitation)]
 missing_date
-
-library(ggplot2)
 
 #Time Series Plot of Precipitation (with Missing Data Highlighted (2009-2024)
 ggplot(df_pre, aes(x = Date, y = Precipitation)) +
@@ -215,7 +220,6 @@ ggplot(df_pre_p1, aes(x = Date, y = Precipitation)) +
        y = "Precipitation (mm)") +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Improve readability of x-axis labels
-
 ```
 
 According to the time series plot of the precipitation, there is no specific long-term trend (orange line) over the years. 4 of the 5 null values are found sequentially and one of them is located in "2012-11-09". The plot exhibits high volatility and also might be observed some seasonality (clearly observed in plot 2).
@@ -230,21 +234,10 @@ df_pre1=df_pre
 mean_imput=mean(df_pre1$Precipitation,na.rm=TRUE)
 df_pre1$Precipitation[is.na(df_pre1$Precipitation)]=mean_imput
 df_pre_ts= ts(df_pre1$Precipitation, frequency = 365)
-
-library(forecast)
-library(tseries)
-library(seasonal)
-library(stats)
-library(gridExtra)
-library(grid)
-
 result_stl <- stl(df_pre_ts, s.window = "periodic")
 plot(result_stl)
-
-
 ljung_box_result= Box.test(df_pre1$Precipitation, lag= 365, type= "Ljung-Box")
 print(ljung_box_result)
-
 ```
 
 -   Ho: No auto correlation for lags=365
@@ -259,8 +252,6 @@ Since the p-value is less than 0.05 we suggest that there is some autocorrelatio
 #| warning: false
 adf_test= adf.test(df_pre1$Precipitation, alternative = "stationary")
 print(adf_test)
-
-
 ```
 
 -   Ho: The time series is non-stationary
@@ -268,3 +259,95 @@ print(adf_test)
 -   H1: The time series is stationary
 
 Since our p-value is less than 0.05, it can be concluded that the time series is stationary. That means that the mean, variance and autocorrelation of the series do not change over the years. Since we satisfied the assumption of stationary we can perform Statistical Models as well as Machine Learning Approaches.
+
+#### **Monthly Total Means**
+
+```{r, fig.width=9,fig.height=6}
+#| warning: false
+
+df |> 
+  mutate(Month = month(Date), Year = year(Date)) |> 
+  group_by(Month, Year) |> 
+  summarize(TotalPrecipitation = sum(Precipitation, na.rm = TRUE), 
+            .groups = 'drop') |> 
+  group_by(Month) |> 
+  summarize(MeanPrecipitation = mean(TotalPrecipitation, na.rm = TRUE), 
+            .groups = 'drop') |> 
+  ggplot(aes(x=factor(month.name, levels=month.name), 
+             y=MeanPrecipitation, group = 1)) + 
+  geom_bar(stat = "identity", fill = "skyblue", color="navyblue") + 
+  labs(x = "Month", y = "Precipitation (mm)") + 
+  geom_line(color = "navyblue", size = 1) + 
+  geom_point(color = "navyblue", size = 2) + 
+  theme_bw() + theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+#### **Ridge & Lasso**
+
+```{r}
+#| warning: false
+df_n<- 
+ df |> 
+  select(!Evapotranspiration) |> 
+  mutate(Month = month(Date)) |>  drop_na()  |> 
+  filter(Date < "2023-01-01" ) 
+
+x<- model.matrix(Precipitation ~. , df_n )[,-c(1:2)]
+y<- df_n$Precipitation
+
+set.seed(1)
+#train <- sample(1:nrow(x), nrow(x)*0.8)
+train <- seq(1:4419)
+
+#  RIDGE
+grid <- 10^seq(10, -2, length=100)
+ridge.mod <- glmnet(x[train,], y[train], alpha=0)
+
+library(plotmo)
+plot_glmnet(ridge.mod,label=8)
+
+ridge.pred <- predict(ridge.mod, s=4, newx = x[-train,])
+mean( (ridge.pred - y[-train])^2 )
+
+set.seed(1)
+cv.out <- cv.glmnet(x[train,], y[train], alpha=0)
+plot(cv.out)
+bestlambda <- cv.out$lambda.min ; bestlambda
+
+ridge.pred <- predict(ridge.mod, s=bestlambda, newx = x[-train,])
+mean( (ridge.pred - y[-train])^2 )
+
+out<- glmnet(x[train,], y[train],alpha=0)
+predict(out,type="coefficients",s=bestlambda)
+
+pp<- predict(out, newx = x[-train,], type = "response", s=bestlambda)
+pp2<- ifelse(pp < 0, 0, pp )
+
+plot(y[-train], pp2)
+
+# LASSO 
+
+lasso.mod <- glmnet(x[train,],y[train], alpha=1)
+plot_glmnet(lasso.mod,label=8)
+
+set.seed(1)
+cv.out=cv.glmnet(x[train ,],y[train],alpha=1)
+plot(cv.out)
+bestlam=cv.out$lambda.min ; bestlam
+
+lasso.pred <- predict(lasso.mod, s=4, newx = x[-train,])
+mean( (lasso.pred - y[-train])^2 )
+
+lasso.pred=predict(lasso.mod,s=bestlam ,newx=x[-train,])
+mean((lasso.pred-y[-train])^2)
+
+out<- glmnet(x[train,], y[train],alpha=1)
+predict(out,type="coefficients",s=bestlam)
+
+pp_2<- predict(out, newx = x[-train,], type = "response", s=bestlam)
+pp2_2<- ifelse(pp_2 < 0, 0, pp_2 )
+
+plot(y[-train], pp2_2)
+
+### deseasonalized <- seasadj(result_stl) ????
+```
