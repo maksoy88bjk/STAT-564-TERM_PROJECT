@@ -1,5 +1,5 @@
 ---
-title: "Daily Rainfall Modelling using Lasso, Ridge and Elastic-Net Regressions in one of the automated-weather observation station in Mugla Province of Türkiye"
+title: "Daily Rainfall Modelling using Lasso, Ridge and Elastic-Net Regressions in one of the automated-weather observation station in Mugla Province of TC<rkiye"
 author: 
   - name: Mehmet AKSOY *(aksoy.mehmet@metu.edu.tr)*
     affiliations:
@@ -9,13 +9,13 @@ author:
     affiliations:
     - ref: metu
     - ref: ggit
-  - name: Deniz Güvenç TEK  *(deniz.tek@metu.edu.tr)*
+  - name: Deniz GC<venC' TEK  *(deniz.tek@metu.edu.tr)*
     affiliations:
     - ref: metu
     - ref: stat
 affiliations:
   - id: metu
-    name: Middle East Technical University, Ankara, Türkiye
+    name: Middle East Technical University, Ankara, TC<rkiye
   - id: civil
     name: Department of Civil Engineering
   - id: ggit
@@ -244,7 +244,7 @@ print(ljung_box_result)
 
 -   H1: Some auto correlation for lags=365
 
-Since the p-value is less than 0.05 we suggest that there is some autocorrelation for lags=365 in Precipitation data which is a strong indication of seasonality. Also, we can clearly observe seasonality in the Seasonality Component plot.
+Since the p-value is less than 0.05 we suggest that there is some autocorrelation for lags=365 in Precipitation data which is a strong indication of seasonality. Also, we can clearly observe seasonality in the Seasonality Component plot.
 
 #### **Stationarity Analyze**
 
@@ -351,3 +351,13 @@ plot(y[-train], pp2_2)
 
 ### deseasonalized <- seasadj(result_stl) ????
 ```
+
+-   Ridge Regression
+
+MSE score is found??77.69??with chosen best lambda??which??is 0.433. According to the plot of the relationship between lambda and coefficients, Average wind speed took the highest coefficient??which??means there is a strong relationship between precipitation. Also, we??penalized??each variable and average wind speed most to avoid bias and overfitting.??Anyway,??we get poor performance on Ridge regression by looking at the plot of actual and predicted values.??Since our precipitation exhibits non-linearity and??it??recognises??rainy days as??spikes??we should think about non-linear solutions like random forest, neural network??etc.
+
+-   Lasso Regression
+
+We get similar results when we compare with the results of Ridge regression. Unlike the usual, no variables shrunk towards zero.??This??means each variable is highly correlated and affects the predictor variable with the chosen??of??the optimal??lambda value. Because of??that??can't we use Lasso regression as a feature selection phase?
+
+Do we need to scale both regreesion and revise the process?
