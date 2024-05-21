@@ -361,3 +361,49 @@ MSE score is found??77.69??with chosen best lambda??which??is 0.433. According t
 We get similar results when we compare with the results of Ridge regression. Unlike the usual, no variables shrunk towards zero.??This??means each variable is highly correlated and affects the predictor variable with the chosen??of??the optimal??lambda value. Because of??that??can't we use Lasso regression as a feature selection phase?
 
 Do we need to scale both regreesion and revise the process?
+
+#### Principle Component Analysis (PCA)
+
+```{r}
+#df_pre1 is the revised data where mean imputation applied
+#Mean imputation in whole data
+df_mi=df
+mean_imput1=mean(df_mi$Precipitation,na.rm=TRUE)
+mean_imput2=mean(df_mi$`Average Wind Direction`,na.rm=TRUE)
+mean_imput3=mean(df_mi$`Solar Radiation`,na.rm=TRUE)
+mean_imput4=mean(df_mi$`Sun Exposure`,na.rm=TRUE)
+mean_imput5=mean(df_mi$`Average Wind Speed`,na.rm=TRUE)
+df_mi$Precipitation[is.na(df_mi$Precipitation)]=mean_imput1
+df_mi$`Average Wind Direction`[is.na(df_mi$`Average Wind Direction`)]=mean_imput2
+df_mi$`Solar Radiation`[is.na(df_mi$`Solar Radiation`)]=mean_imput3
+df_mi$`Sun Exposure`[is.na(df_mi$`Sun Exposure`)]=mean_imput4
+df_mi$`Average Wind Speed`[is.na(df_mi$`Average Wind Speed`)]=mean_imput5
+df_pca= df_mi[,-which(names(df_mi) %in% c("Evapotranspiration","Precipitation","Date"))]
+names(df_pca)[colSums(is.na(df_pca)) > 0]
+
+#Since PCA sensitive to outliers, scale function applied before utilized PCA.
+df_pca_s=scale(df_pca)
+pca_res= prcomp(df_pca_s, center=TRUE, scale.=TRUE)
+summary(pca_res)
+
+# Explained variance by each principal component
+explained_variance <- pca_res$sdev^2 / sum(pca_res$sdev^2)
+explained_variance
+
+# Cumulative explained variance
+cumulative_variance <- cumsum(explained_variance)
+cumulative_variance
+
+# Scree plot to visualize the explained variance
+scree_plot <- qplot(1:length(explained_variance), explained_variance, geom = 'line') +
+  labs(title = "Scree Plot", x = "Principal Component", y = "Proportion of Variance Explained") +
+  theme_minimal()
+print(scree_plot)
+
+# Cumulative explained variance plot
+cumulative_plot <- qplot(1:length(cumulative_variance), cumulative_variance, geom = 'line') +
+  labs(title = "Cumulative Explained Variance", x = "Principal Component", y = "Cumulative Proportion of Variance Explained") +
+  theme_minimal()
+print(cumulative_plot)
+
+```
