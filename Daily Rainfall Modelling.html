@@ -10,7 +10,7 @@
 <meta name="author" content="Sercan AKIL (sercan.akil@metu.edu.tr)">
 <meta name="author" content="Deniz Güvenç TEK (deniz.tek@metu.edu.tr)">
 
-<title>Daily Rainfall Modelling using Lasso, Ridge and Elastic-Net Regressions in one of the automated-weather observation station in Mugla Province of Türkiye</title>
+<title>Daily Rainfall Modelling in one of the automated-weather observation station in Mugla Province of Türkiye</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -57,7 +57,26 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="Daily Rainfall Modelling_files/libs/clipboard/clipboard.min.js"></script>
@@ -83,15 +102,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a></li>
-  <li><a href="#works-in-r" id="toc-works-in-r" class="nav-link" data-scroll-target="#works-in-r"><span class="header-section-number">2</span> Works in R</a>
+  <li><a href="#applications-in-r" id="toc-applications-in-r" class="nav-link" data-scroll-target="#applications-in-r"><span class="header-section-number">2</span> Applications in R</a>
   <ul class="collapse">
-  <li><a href="#uploading-necessary-packages" id="toc-uploading-necessary-packages" class="nav-link" data-scroll-target="#uploading-necessary-packages"><span class="header-section-number">2.1</span> Uploading Necessary Packages</a></li>
-  <li><a href="#study-location" id="toc-study-location" class="nav-link" data-scroll-target="#study-location"><span class="header-section-number">2.2</span> Study Location</a></li>
-  <li><a href="#data-handling" id="toc-data-handling" class="nav-link" data-scroll-target="#data-handling"><span class="header-section-number">2.3</span> Data Handling</a></li>
-  <li><a href="#descriptive-statistics" id="toc-descriptive-statistics" class="nav-link" data-scroll-target="#descriptive-statistics"><span class="header-section-number">2.4</span> Descriptive Statistics</a></li>
-  <li><a href="#visualization-of-the-data" id="toc-visualization-of-the-data" class="nav-link" data-scroll-target="#visualization-of-the-data"><span class="header-section-number">2.5</span> Visualization of the Data</a></li>
-  <li><a href="#eda-of-the-precipitation" id="toc-eda-of-the-precipitation" class="nav-link" data-scroll-target="#eda-of-the-precipitation"><span class="header-section-number">2.6</span> EDA of the Precipitation</a></li>
+  <li><a href="#uploading-necessary-packages" id="toc-uploading-necessary-packages" class="nav-link" data-scroll-target="#uploading-necessary-packages"><span class="header-section-number">2.0.1</span> Uploading Necessary Packages</a></li>
+  <li><a href="#study-location-data" id="toc-study-location-data" class="nav-link" data-scroll-target="#study-location-data"><span class="header-section-number">2.1</span> Study Location &amp; Data</a>
+  <ul class="collapse">
+  <li><a href="#data-handling" id="toc-data-handling" class="nav-link" data-scroll-target="#data-handling"><span class="header-section-number">2.1.1</span> Data Handling</a></li>
+  <li><a href="#descriptive-statistics" id="toc-descriptive-statistics" class="nav-link" data-scroll-target="#descriptive-statistics"><span class="header-section-number">2.1.2</span> Descriptive Statistics</a></li>
+  <li><a href="#visualization-of-the-data" id="toc-visualization-of-the-data" class="nav-link" data-scroll-target="#visualization-of-the-data"><span class="header-section-number">2.1.3</span> Visualization of the Data</a></li>
   </ul></li>
+  <li><a href="#eda-of-the-precipitation" id="toc-eda-of-the-precipitation" class="nav-link" data-scroll-target="#eda-of-the-precipitation"><span class="header-section-number">2.2</span> EDA of the Precipitation</a>
+  <ul class="collapse">
+  <li><a href="#missing-value" id="toc-missing-value" class="nav-link" data-scroll-target="#missing-value"><span class="header-section-number">2.2.1</span> Missing Value</a></li>
+  <li><a href="#time-series-plot-of-the-precipitation-data" id="toc-time-series-plot-of-the-precipitation-data" class="nav-link" data-scroll-target="#time-series-plot-of-the-precipitation-data"><span class="header-section-number">2.2.2</span> Time Series Plot of the Precipitation Data</a></li>
+  <li><a href="#seasonality-analyze" id="toc-seasonality-analyze" class="nav-link" data-scroll-target="#seasonality-analyze"><span class="header-section-number">2.2.3</span> Seasonality Analyze</a></li>
+  <li><a href="#stationarity-analyze" id="toc-stationarity-analyze" class="nav-link" data-scroll-target="#stationarity-analyze"><span class="header-section-number">2.2.4</span> Stationarity Analyze</a></li>
+  <li><a href="#monthly-total-means" id="toc-monthly-total-means" class="nav-link" data-scroll-target="#monthly-total-means"><span class="header-section-number">2.2.5</span> Monthly Total Means</a></li>
+  </ul></li>
+  <li><a href="#ridge-lasso-regularization" id="toc-ridge-lasso-regularization" class="nav-link" data-scroll-target="#ridge-lasso-regularization"><span class="header-section-number">2.3</span> Ridge &amp; Lasso Regularization</a></li>
+  <li><a href="#fitting-regression-trees" id="toc-fitting-regression-trees" class="nav-link" data-scroll-target="#fitting-regression-trees"><span class="header-section-number">2.4</span> Fitting Regression Trees</a>
+  <ul class="collapse">
+  <li><a href="#bagging-and-random-forests" id="toc-bagging-and-random-forests" class="nav-link" data-scroll-target="#bagging-and-random-forests"><span class="header-section-number">2.4.1</span> Bagging and Random Forests</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">3</span> Conclusion</a></li>
   </ul>
 </nav>
 </div>
@@ -99,7 +133,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Daily Rainfall Modelling using Lasso, Ridge and Elastic-Net Regressions in one of the automated-weather observation station in Mugla Province of Türkiye</h1>
+<h1 class="title">Daily Rainfall Modelling in one of the automated-weather observation station in Mugla Province of Türkiye</h1>
 </div>
 
 
@@ -152,14 +186,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<section id="introduction" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">1</span> Introduction</h2>
-<p>Data period is between 01.01.2009 and 31.12.2023 for Mugla Station (17292). Elevation of the station is 646 meter.</p>
+<section id="introduction" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
+<p>Precipitation is one of the most important meteorological factors that have large impacts on human life and ecosystems worldwide in many ways such as freshwater, irrigation, hydropower production etc. As many authors have indicated that the nature of precipitation shows high variability in terms of both spatial and temporal scales <span class="citation" data-cites="domroes1998a f.2002a mitchell2005a">(<a href="#ref-domroes1998a" role="doc-biblioref">Domroes, Kaviani, and Schaefer 1998</a>; <a href="#ref-f.2002a" role="doc-biblioref">F. 2002</a>; <a href="#ref-mitchell2005a" role="doc-biblioref">Mitchell and Jones 2005</a>)</span>. Therefore, studies on precipitation are very considerable particularly taking into account of climate change effects.</p>
+<p>Tree models are one of the most natural and popular method to model categorical response variables, even these methods can also be used to model continuous responses. In the literature there are many studies that are used tree-based models to predict precipitation amounts, fill the missing data and categorize precipitation types <span class="citation" data-cites="choubin2018 kim2010 englehart2009 wei2019">(<a href="#ref-choubin2018" role="doc-biblioref">Choubin et al. 2018</a>; <a href="#ref-kim2010" role="doc-biblioref">Kim and Pachepsky 2010</a>; <a href="#ref-englehart2009" role="doc-biblioref">Englehart and Douglas 2009</a>; <a href="#ref-wei2019" role="doc-biblioref">Wei, Yan, and Jones 2019</a>)</span>.</p>
+<p>This study is focused on daily rainfall modelling for Muğla Province by using meteorological observations.</p>
 </section>
-<section id="works-in-r" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="works-in-r"><span class="header-section-number">2</span> Works in R</h2>
-<section id="uploading-necessary-packages" class="level3" data-number="2.1">
-<h3 data-number="2.1" class="anchored" data-anchor-id="uploading-necessary-packages"><span class="header-section-number">2.1</span> Uploading Necessary Packages</h3>
+<section id="applications-in-r" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Applications in R</h1>
+<section id="uploading-necessary-packages" class="level3" data-number="2.0.1">
+<h3 data-number="2.0.1" class="anchored" data-anchor-id="uploading-necessary-packages"><span class="header-section-number">2.0.1</span> Uploading Necessary Packages</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -175,11 +211,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(grid)</span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ISLR)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ISLR)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotmo)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tree)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="study-location" class="level3" data-number="2.2">
-<h3 data-number="2.2" class="anchored" data-anchor-id="study-location"><span class="header-section-number">2.2</span> Study Location</h3>
+<section id="study-location-data" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="study-location-data"><span class="header-section-number">2.1</span> Study Location &amp; Data</h2>
+<p>In this study, Muğla Province is selected as study area where is located south western part of Turkey near the Mediterranean Sea. The meteorological station 17292 has been operated for providing climatic observations by Turkish State Meteorological Service. The figure below is shown for location of this station.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>rnaturalearth<span class="sc">::</span><span class="fu">ne_countries</span>(<span class="at">scale=</span><span class="st">'medium'</span>,<span class="at">returnclass =</span> <span class="st">'sf'</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()  <span class="sc">+</span> <span class="fu">geom_sf</span>(<span class="at">fill =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
@@ -200,9 +240,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="864"></p>
 </div>
 </div>
-</section>
-<section id="data-handling" class="level3" data-number="2.3">
-<h3 data-number="2.3" class="anchored" data-anchor-id="data-handling"><span class="header-section-number">2.3</span> Data Handling</h3>
+<section id="data-handling" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="data-handling"><span class="header-section-number">2.1.1</span> Data Handling</h3>
+<p>Data period is between 01.01.2009 and 31.12.2023 for Mugla Station (17292). Elevation of the station is 646 meter. Daily precipitation data is used as response variable in modelling. Distinct daily observation variables are used as predictors such as temperature (°C), dew point temperature (°C), sea-level air pressure (mb), cloud coverage (0-8), relative humidity (%), solar exposure (hour), solar radiation (W/m2) direction of wind (°) and speed (m/sec).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>files<span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="fu">paste0</span>(here<span class="sc">::</span><span class="fu">here</span>(),<span class="st">"/DATA"</span>), <span class="at">pattern =</span> <span class="st">"xlsx"</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>listem<span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
@@ -230,8 +270,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(df, <span class="st">"merge.txt"</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>, <span class="at">sep =</span> <span class="st">"</span><span class="sc">\t</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="descriptive-statistics" class="level3" data-number="2.4">
-<h3 data-number="2.4" class="anchored" data-anchor-id="descriptive-statistics"><span class="header-section-number">2.4</span> Descriptive Statistics</h3>
+<section id="descriptive-statistics" class="level3" data-number="2.1.2">
+<h3 data-number="2.1.2" class="anchored" data-anchor-id="descriptive-statistics"><span class="header-section-number">2.1.2</span> Descriptive Statistics</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -295,8 +335,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="visualization-of-the-data" class="level3" data-number="2.5">
-<h3 data-number="2.5" class="anchored" data-anchor-id="visualization-of-the-data"><span class="header-section-number">2.5</span> Visualization of the Data</h3>
+<section id="visualization-of-the-data" class="level3" data-number="2.1.3">
+<h3 data-number="2.1.3" class="anchored" data-anchor-id="visualization-of-the-data"><span class="header-section-number">2.1.3</span> Visualization of the Data</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>paletr<span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"#053061"</span>, <span class="st">"#2166AC"</span> ,<span class="st">"#4393C3"</span> ,<span class="st">"#92C5DE"</span> ,</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>           <span class="st">"#F4A582"</span>, <span class="st">"#D6604D"</span> ,<span class="st">"#B2182B"</span>, <span class="st">"#67001F"</span>)</span>
@@ -312,13 +352,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>variable_names <span class="ot">&lt;-</span> </span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="st">"Precipitation"</span>, <span class="st">"Minimum Temperature"</span>, <span class="st">"Maximum Temperature"</span>, </span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Average Temperature"</span>, <span class="st">"Minimum Dewpoint Temperature"</span>, </span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Maximum Dewpoint Temperature"</span>, <span class="st">"Average Dewpoint Temperature"</span>,</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Minimum Relative Humidity"</span>, <span class="st">"Maximum Relative Humidity"</span>, </span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Average Relative Humidity"</span>, <span class="st">"Cloudiness"</span>, <span class="st">"Air Pressure"</span>, </span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Average Wind Direction"</span>, <span class="st">"Average Wind Speed"</span>, </span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Evapotranspiration"</span>, <span class="st">"Solar Radiation"</span>, <span class="st">"Sun Exposure"</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="st">"Precipitation"</span>, <span class="st">"Minimum_Temperature"</span>, <span class="st">"Maximum_Temperature"</span>, </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Average_Temperature"</span>, <span class="st">"Minimum_Dewpoint_Temperature"</span>, </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Maximum_Dewpoint_Temperature"</span>, <span class="st">"Average_Dewpoint_Temperature"</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Minimum_Relative_Humidity"</span>, <span class="st">"Maximum_Relative_Humidity"</span>, </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Average_Relative_Humidity"</span>, <span class="st">"Cloudiness"</span>, <span class="st">"Air_Pressure"</span>, </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Average_Wind_Direction"</span>, <span class="st">"Average_Wind_Speed"</span>, </span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Evapotranspiration"</span>, <span class="st">"Solar_Radiation"</span>, <span class="st">"Sun_Exposure"</span>)</span>
 <span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(df) <span class="ot">&lt;-</span> <span class="fu">append</span>(<span class="st">"Date"</span>, variable_names)</span>
 <span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>df_plot<span class="ot">&lt;-</span></span>
@@ -348,14 +388,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="eda-of-the-precipitation" class="level3" data-number="2.6">
-<h3 data-number="2.6" class="anchored" data-anchor-id="eda-of-the-precipitation"><span class="header-section-number">2.6</span> EDA of the Precipitation</h3>
-<section id="missing-value" class="level4" data-number="2.6.1">
-<h4 data-number="2.6.1" class="anchored" data-anchor-id="missing-value"><span class="header-section-number">2.6.1</span> Missing Value</h4>
+</section>
+<section id="eda-of-the-precipitation" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="eda-of-the-precipitation"><span class="header-section-number">2.2</span> EDA of the Precipitation</h2>
+<section id="missing-value" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="missing-value"><span class="header-section-number">2.2.1</span> Missing Value</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#head(df)</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>df_pre<span class="ot">=</span>df[,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)]</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df_pre)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df_pre<span class="ot">=</span>df[,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)]</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df_pre)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        Date Precipitation
 1 2009-01-01           0.0
@@ -374,8 +414,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="time-series-plot-of-the-precipitation-data" class="level4" data-number="2.6.2">
-<h4 data-number="2.6.2" class="anchored" data-anchor-id="time-series-plot-of-the-precipitation-data"><span class="header-section-number">2.6.2</span> Time Series Plot of the Precipitation Data</h4>
+<section id="time-series-plot-of-the-precipitation-data" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="time-series-plot-of-the-precipitation-data"><span class="header-section-number">2.2.2</span> Time Series Plot of the Precipitation Data</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>missing_date<span class="ot">=</span> df_pre<span class="sc">$</span>Date[<span class="fu">is.na</span>(df_pre<span class="sc">$</span>Precipitation)]</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>missing_date</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -418,8 +458,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>According to the time series plot of the precipitation, there is no specific long-term trend (orange line) over the years. 4 of the 5 null values are found sequentially and one of them is located in “2012-11-09”. The plot exhibits high volatility and also might be observed some seasonality (clearly observed in plot 2).</p>
 </section>
-<section id="seasonality-analyze" class="level4" data-number="2.6.3">
-<h4 data-number="2.6.3" class="anchored" data-anchor-id="seasonality-analyze"><span class="header-section-number">2.6.3</span> <strong>Seasonality Analyze</strong></h4>
+<section id="seasonality-analyze" class="level3" data-number="2.2.3">
+<h3 data-number="2.2.3" class="anchored" data-anchor-id="seasonality-analyze"><span class="header-section-number">2.2.3</span> Seasonality Analyze</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Seasonal Decomposition</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co">#Mean Imputation for NA values</span></span>
@@ -446,10 +486,10 @@ X-squared = 4280.5, df = 365, p-value &lt; 2.2e-16</code></pre>
 <li><p>Ho: No auto correlation for lags=365</p></li>
 <li><p>H1: Some auto correlation for lags=365</p></li>
 </ul>
-<p>Since the p-value is less than 0.05 we suggest that there is some autocorrelation for lags=365 in Precipitation data which is a strong indication of seasonality. Also, we can&nbsp;clearly&nbsp;observe seasonality in the Seasonality Component plot.</p>
+<p>Since the p-value is less than 0.05 we suggest that there is some autocorrelation for lags=365 in Precipitation data which is a strong indication of seasonality. Also, we can clearly observe seasonality in the Seasonality Component plot.</p>
 </section>
-<section id="stationarity-analyze" class="level4" data-number="2.6.4">
-<h4 data-number="2.6.4" class="anchored" data-anchor-id="stationarity-analyze"><span class="header-section-number">2.6.4</span> <strong>Stationarity Analyze</strong></h4>
+<section id="stationarity-analyze" class="level3" data-number="2.2.4">
+<h3 data-number="2.2.4" class="anchored" data-anchor-id="stationarity-analyze"><span class="header-section-number">2.2.4</span> Stationarity Analyze</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>adf_test<span class="ot">=</span> <span class="fu">adf.test</span>(df_pre1<span class="sc">$</span>Precipitation, <span class="at">alternative =</span> <span class="st">"stationary"</span>)</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(adf_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -468,8 +508,8 @@ alternative hypothesis: stationary</code></pre>
 </ul>
 <p>Since our p-value is less than 0.05, it can be concluded that the time series is stationary. That means that the mean, variance and autocorrelation of the series do not change over the years. Since we satisfied the assumption of stationary we can perform Statistical Models as well as Machine Learning Approaches.</p>
 </section>
-<section id="monthly-total-means" class="level4" data-number="2.6.5">
-<h4 data-number="2.6.5" class="anchored" data-anchor-id="monthly-total-means"><span class="header-section-number">2.6.5</span> <strong>Monthly Total Means</strong></h4>
+<section id="monthly-total-means" class="level3" data-number="2.2.5">
+<h3 data-number="2.2.5" class="anchored" data-anchor-id="monthly-total-means"><span class="header-section-number">2.2.5</span> Monthly Total Means</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">|&gt;</span> </span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Month =</span> <span class="fu">month</span>(Date), <span class="at">Year =</span> <span class="fu">year</span>(Date)) <span class="sc">|&gt;</span> </span>
@@ -491,73 +531,80 @@ alternative hypothesis: stationary</code></pre>
 </div>
 </div>
 </section>
-<section id="ridge-lasso" class="level4" data-number="2.6.6">
-<h4 data-number="2.6.6" class="anchored" data-anchor-id="ridge-lasso"><span class="header-section-number">2.6.6</span> <strong>Ridge &amp; Lasso</strong></h4>
+</section>
+<section id="ridge-lasso-regularization" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="ridge-lasso-regularization"><span class="header-section-number">2.3</span> Ridge &amp; Lasso Regularization</h2>
+<p>Hydrometeorologists measure time differently than the standard January to December calendar year. For those of us that model and track the movement of water through the landscape, the year begins on October 1st and ends on September 30th. This is known as a water year.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>df_n<span class="ot">&lt;-</span> </span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a> df <span class="sc">|&gt;</span> </span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">!</span>Evapotranspiration) <span class="sc">|&gt;</span> </span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Month =</span> <span class="fu">month</span>(Date)) <span class="sc">|&gt;</span>  <span class="fu">drop_na</span>()  <span class="sc">|&gt;</span> </span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">!</span>Evapotranspiration) <span class="sc">|&gt;</span> </span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()  <span class="sc">|&gt;</span> </span>
 <span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Date <span class="sc">&lt;</span> <span class="st">"2023-01-01"</span> ) </span>
 <span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>x<span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(Precipitation <span class="sc">~</span>. , df_n )[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)]</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>y<span class="ot">&lt;-</span> df_n<span class="sc">$</span>Precipitation</span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a><span class="co">#train &lt;- sample(1:nrow(x), nrow(x)*0.8)</span></span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4419</span>)</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>df_n<span class="sc">$</span>Month<span class="ot">&lt;-</span><span class="fu">ifelse</span>(<span class="fu">month</span>(df_n<span class="sc">$</span>Date)<span class="sc">&gt;=</span><span class="dv">10</span>, </span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">month</span>(df_n<span class="sc">$</span>Date)<span class="sc">-</span><span class="dv">9</span>,</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">month</span>(df_n<span class="sc">$</span>Date)<span class="sc">+</span><span class="dv">3</span>) </span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>x<span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(Precipitation <span class="sc">~</span>. , df_n )[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)]</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>y<span class="ot">&lt;-</span> df_n<span class="sc">$</span>Precipitation</span>
 <span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a><span class="co">#  RIDGE</span></span>
-<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="dv">10</span><span class="sc">^</span><span class="fu">seq</span>(<span class="dv">10</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="at">length=</span><span class="dv">100</span>)</span>
-<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>ridge.mod <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(x[train,], y[train], <span class="at">alpha=</span><span class="dv">0</span>)</span>
-<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotmo)</span>
-<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_glmnet</span>(ridge.mod,<span class="at">label=</span><span class="dv">8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a><span class="co">#train &lt;- sample(1:nrow(x), nrow(x)*0.8)</span></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a><span class="co">#train &lt;- seq(1:4419)</span></span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span>  <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span> <span class="fu">nrow</span>(df_n <span class="sc">|&gt;</span>  <span class="fu">filter</span>(Date <span class="sc">&lt;</span> <span class="st">"2021-01-01"</span> ) ) ) </span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a><span class="co">#  RIDGE</span></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="dv">10</span><span class="sc">^</span><span class="fu">seq</span>(<span class="dv">10</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="at">length=</span><span class="dv">100</span>)</span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>ridge.mod <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(x[train,], y[train], <span class="at">alpha=</span><span class="dv">0</span>)</span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_glmnet</span>(ridge.mod,<span class="at">label=</span><span class="dv">8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>ridge.pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(ridge.mod, <span class="at">s=</span><span class="dv">4</span>, <span class="at">newx =</span> x[<span class="sc">-</span>train,])</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>( (ridge.pred <span class="sc">-</span> y[<span class="sc">-</span>train])<span class="sc">^</span><span class="dv">2</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 77.69406</code></pre>
+<pre><code>[1] 73.67183</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>cv.out <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(x[train,], y[train], <span class="at">alpha=</span><span class="dv">0</span>)</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(cv.out)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ten-fold cross-validation</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>cv.out <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(x[train,], y[train], <span class="at">alpha=</span><span class="dv">0</span>)</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(cv.out)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-13-2.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>bestlambda <span class="ot">&lt;-</span> cv.out<span class="sc">$</span>lambda.min ; bestlambda</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.4336913</code></pre>
+<pre><code>[1] 0.4392184</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>ridge.pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(ridge.mod, <span class="at">s=</span>bestlambda, <span class="at">newx =</span> x[<span class="sc">-</span>train,])</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>( (ridge.pred <span class="sc">-</span> y[<span class="sc">-</span>train])<span class="sc">^</span><span class="dv">2</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 72.91</code></pre>
+<pre><code>[1] 69.49357</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>out<span class="ot">&lt;-</span> <span class="fu">glmnet</span>(x[train,], y[train],<span class="at">alpha=</span><span class="dv">0</span>)</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(out,<span class="at">type=</span><span class="st">"coefficients"</span>,<span class="at">s=</span>bestlambda)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>17 x 1 sparse Matrix of class "dgCMatrix"
-                                          s1
-(Intercept)                     4.667781e+02
-`Minimum Temperature`           1.441337e-01
-`Maximum Temperature`           3.818872e-02
-`Average Temperature`           1.036416e-01
-`Minimum Dewpoint Temperature` -1.650406e-01
-`Maximum Dewpoint Temperature` -1.611862e-01
-`Average Dewpoint Temperature` -2.929102e-01
-`Minimum Relative Humidity`     1.396466e-01
-`Maximum Relative Humidity`     4.777217e-04
-`Average Relative Humidity`     2.041478e-01
-Cloudiness                      1.294618e-01
-`Air Pressure`                 -4.776345e-01
-`Average Wind Direction`       -1.133004e-03
-`Average Wind Speed`            5.981384e-01
-`Solar Radiation`               5.280415e-02
-`Sun Exposure`                  7.415323e-02
-Month                           1.607184e-01</code></pre>
+                                        s1
+(Intercept)                  460.383948666
+Minimum_Temperature            0.193974465
+Maximum_Temperature            0.056172042
+Average_Temperature            0.117465526
+Minimum_Dewpoint_Temperature  -0.163577443
+Maximum_Dewpoint_Temperature  -0.171714928
+Average_Dewpoint_Temperature  -0.287541813
+Minimum_Relative_Humidity      0.146014534
+Maximum_Relative_Humidity      0.004352156
+Average_Relative_Humidity      0.200326824
+Cloudiness                     0.061818532
+Air_Pressure                  -0.470274958
+Average_Wind_Direction        -0.001109263
+Average_Wind_Speed             0.577117843
+Solar_Radiation                0.007868464
+Sun_Exposure                   0.073783086
+Month                         -0.154203399</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>pp<span class="ot">&lt;-</span> <span class="fu">predict</span>(out, <span class="at">newx =</span> x[<span class="sc">-</span>train,], <span class="at">type =</span> <span class="st">"response"</span>, <span class="at">s=</span>bestlambda)</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>pp2<span class="ot">&lt;-</span> <span class="fu">ifelse</span>(pp <span class="sc">&lt;</span> <span class="dv">0</span>, <span class="dv">0</span>, pp )</span>
@@ -581,40 +628,40 @@ Month                           1.607184e-01</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>bestlam<span class="ot">=</span>cv.out<span class="sc">$</span>lambda.min ; bestlam</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.001595281</code></pre>
+<pre><code>[1] 0.002572511</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>lasso.pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(lasso.mod, <span class="at">s=</span><span class="dv">4</span>, <span class="at">newx =</span> x[<span class="sc">-</span>train,])</span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>( (lasso.pred <span class="sc">-</span> y[<span class="sc">-</span>train])<span class="sc">^</span><span class="dv">2</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 103.4709</code></pre>
+<pre><code>[1] 94.67503</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>lasso.pred<span class="ot">=</span><span class="fu">predict</span>(lasso.mod,<span class="at">s=</span>bestlam ,<span class="at">newx=</span>x[<span class="sc">-</span>train,])</span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>((lasso.pred<span class="sc">-</span>y[<span class="sc">-</span>train])<span class="sc">^</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 72.85065</code></pre>
+<pre><code>[1] 68.86685</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>out<span class="ot">&lt;-</span> <span class="fu">glmnet</span>(x[train,], y[train],<span class="at">alpha=</span><span class="dv">1</span>)</span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(out,<span class="at">type=</span><span class="st">"coefficients"</span>,<span class="at">s=</span>bestlam)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>17 x 1 sparse Matrix of class "dgCMatrix"
-                                          s1
-(Intercept)                     4.500607e+02
-`Minimum Temperature`          -1.179317e-01
-`Maximum Temperature`           8.896572e-02
-`Average Temperature`           1.145686e+00
-`Minimum Dewpoint Temperature`  1.077595e-01
-`Maximum Dewpoint Temperature` -3.796106e-02
-`Average Dewpoint Temperature` -1.601831e+00
-`Minimum Relative Humidity`     1.066981e-01
-`Maximum Relative Humidity`    -4.929477e-02
-`Average Relative Humidity`     5.295972e-01
-Cloudiness                      2.150217e-01
-`Air Pressure`                 -4.849575e-01
-`Average Wind Direction`       -7.928022e-04
-`Average Wind Speed`            1.045431e+00
-`Solar Radiation`               8.319031e-02
-`Sun Exposure`                  5.216058e-02
-Month                           1.770313e-01</code></pre>
+                                        s1
+(Intercept)                   4.450810e+02
+Minimum_Temperature           3.009011e-02
+Maximum_Temperature           1.588191e-01
+Average_Temperature           1.056947e+00
+Minimum_Dewpoint_Temperature  7.878162e-02
+Maximum_Dewpoint_Temperature -6.202769e-02
+Average_Dewpoint_Temperature -1.596246e+00
+Minimum_Relative_Humidity     1.253405e-01
+Maximum_Relative_Humidity    -2.779996e-02
+Average_Relative_Humidity     5.097391e-01
+Cloudiness                    1.221550e-01
+Air_Pressure                 -4.798007e-01
+Average_Wind_Direction       -9.389233e-04
+Average_Wind_Speed            9.731138e-01
+Solar_Radiation               1.206147e-02
+Sun_Exposure                  6.370167e-02
+Month                        -1.620786e-01</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>pp_2<span class="ot">&lt;-</span> <span class="fu">predict</span>(out, <span class="at">newx =</span> x[<span class="sc">-</span>train,], <span class="at">type =</span> <span class="st">"response"</span>, <span class="at">s=</span>bestlam)</span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>pp2_2<span class="ot">&lt;-</span> <span class="fu">ifelse</span>(pp_2 <span class="sc">&lt;</span> <span class="dv">0</span>, <span class="dv">0</span>, pp_2 )</span>
@@ -625,11 +672,146 @@ Month                           1.770313e-01</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="do">### deseasonalized &lt;- seasadj(result_stl) ????</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<ul>
+<li>Ridge Regression</li>
+</ul>
+<p>MSE score is found??77.69??with chosen best lambda??which??is 0.433. According to the plot of the relationship between lambda and coefficients, Average wind speed took the highest coefficient??which??means there is a strong relationship between precipitation. Also, we??penalized??each variable and average wind speed most to avoid bias and overfitting.??Anyway,??we get poor performance on Ridge regression by looking at the plot of actual and predicted values.??Since our precipitation exhibits non-linearity and??it??recognises??rainy days as??spikes??we should think about non-linear solutions like random forest, neural network??etc.</p>
+<ul>
+<li>Lasso Regression</li>
+</ul>
+<p>We get similar results when we compare with the results of Ridge regression. Unlike the usual, no variables shrunk towards zero.??This??means each variable is highly correlated and affects the predictor variable with the chosen??of??the optimal??lambda value. Because of??that??can’t we use Lasso regression as a feature selection phase?</p>
+<p>Do we need to scale both regreesion and revise the process?</p>
+</section>
+<section id="fitting-regression-trees" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="fitting-regression-trees"><span class="header-section-number">2.4</span> Fitting Regression Trees</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>df_tree<span class="ot">&lt;-</span> df_n[,<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>tree.precipitation <span class="ot">&lt;-</span> <span class="fu">tree</span>(Precipitation<span class="sc">~</span>.,df_tree, <span class="at">subset=</span>train)</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(tree.precipitation)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Regression tree:
+tree(formula = Precipitation ~ ., data = df_tree, subset = train)
+Variables actually used in tree construction:
+[1] "Average_Relative_Humidity" "Air_Pressure"             
+[3] "Month"                     "Average_Wind_Speed"       
+[5] "Maximum_Temperature"      
+Number of terminal nodes:  10 
+Residual mean deviance:  60.71 = 246500 / 4060 
+Distribution of residuals:
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+-67.910  -0.634  -0.634   0.000  -0.634 121.900 </code></pre>
+</div>
+</div>
+<p>Notice that the output of summary() indicates that only five of the variables have been used in constructing the tree. Relative humidity, air pressure and month variables become the most important ones, as we expected except cloudiness. In the context of a regression tree, the deviance is simply the sum of squared errors for the tree. We now plot the tree.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(tree.precipitation)</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(tree.precipitation,<span class="at">pretty=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="864"></p>
+</div>
+</div>
+<p>Now we use the cv.tree() function to see whether pruning the tree will improve performance. K-fold cross validation technique is preformed to prune the regression tree. The minimum deviance is available where number of terminal nodes is 4. Thus, we can prune the regression tree from 10 to 4 terminal nodes.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>cv.precipitation <span class="ot">&lt;-</span> <span class="fu">cv.tree</span>(tree.precipitation);cv.precipitation</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$size
+[1] 10  9  8  6  5  4  3  2  1
+
+$dev
+[1] 332615.6 327297.8 324067.8 326608.8 324331.5 318885.9 325263.1 334403.1
+[9] 417780.2
+
+$k
+[1]      -Inf  4555.490  5960.282  6456.620  7022.787  9649.365 14640.983
+[8] 27054.240 89204.423
+
+$method
+[1] "deviance"
+
+attr(,"class")
+[1] "prune"         "tree.sequence"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(cv.precipitation<span class="sc">$</span>size, cv.precipitation<span class="sc">$</span>dev,</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">type=</span><span class="st">'b'</span>, <span class="at">col=</span><span class="st">"dodgerblue"</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">which.min</span>(<span class="fu">rev</span>(cv.precipitation<span class="sc">$</span>dev)), <span class="at">col=</span><span class="st">"firebrick"</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">lty=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="864"></p>
+</div>
+</div>
+<p>In this case, the four-node tree is selected by cross-validation. Thus, we can prune the tree, we could do so as follows, using the prune.tree() function:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>prune.precipitation <span class="ot">&lt;-</span> <span class="fu">prune.tree</span>(tree.precipitation,<span class="at">best=</span><span class="dv">4</span>)</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(prune.precipitation)</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(prune.precipitation,<span class="at">pretty=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="864"></p>
+</div>
+</div>
+<p>In keeping with the cross-validation results, we use the unpruned tree to make predictions on the test set.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>yhat <span class="ot">&lt;-</span> <span class="fu">predict</span>(tree.precipitation,<span class="at">newdata=</span>df_tree[<span class="sc">-</span>train,])</span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>df_tree.test <span class="ot">&lt;-</span> df_tree[<span class="sc">-</span>train,<span class="st">"Precipitation"</span>]</span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>plot_test<span class="ot">&lt;-</span></span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(yhat, df_tree.test) <span class="sc">|&gt;</span> </span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span> yhat, <span class="at">y=</span>df_tree.test)) <span class="sc">+</span> </span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">2</span>, <span class="at">alpha=</span><span class="fl">0.5</span>, <span class="at">color=</span><span class="st">"dodgerblue"</span>) <span class="sc">+</span> </span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>() <span class="sc">+</span> </span>
+<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Predicted Response"</span>,<span class="at">y=</span><span class="st">"True Response"</span>) <span class="sc">+</span> </span>
+<span id="cb55-11"><a href="#cb55-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x=</span><span class="dv">60</span>, <span class="at">y=</span><span class="dv">20</span>, <span class="at">label=</span> </span>
+<span id="cb55-12"><a href="#cb55-12" aria-hidden="true" tabindex="-1"></a>             <span class="fu">paste</span>(<span class="st">"MSE is"</span>,</span>
+<span id="cb55-13"><a href="#cb55-13" aria-hidden="true" tabindex="-1"></a>             <span class="fu">round</span>(<span class="fu">mean</span>((yhat <span class="sc">-</span> df_tree.test)<span class="sc">^</span><span class="dv">2</span>),<span class="dv">2</span>)))</span>
+<span id="cb55-14"><a href="#cb55-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-15"><a href="#cb55-15" aria-hidden="true" tabindex="-1"></a>plot_test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="864"></p>
+</div>
+</div>
+<p>In other words, the test set MSE associated with the regression tree is 64.19. The square root of the MSE is therefore around 8.01, indicating that this model leads to test predictions that are within around 8.01 mm of the true median precipitation value for the Mugla Station.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>yhat_prune <span class="ot">&lt;-</span><span class="fu">predict</span>(prune.precipitation,<span class="at">newdata=</span>df_tree[<span class="sc">-</span>train,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The MSE and RMSE for pruned tree are estimated as 73.2 and 8.56, respectively. Due to the nature of regression trees the predictions equal to averages of response variables in training data based on embranchment of the tree. In our example, predictions are available for five and 4 variables for unpruned and pruned cases, respectively.</p>
+<section id="bagging-and-random-forests" class="level3" data-number="2.4.1">
+<h3 data-number="2.4.1" class="anchored" data-anchor-id="bagging-and-random-forests"><span class="header-section-number">2.4.1</span> Bagging and Random Forests</h3>
 </section>
 </section>
+</section>
+<section id="conclusion" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Conclusion</h1>
+<p>Eshel and Farrell <span class="citation" data-cites="eshel2000">(<a href="#ref-eshel2000" role="doc-biblioref">Eshel and Farrell 2000</a>)</span> investigated rainfall variability over Eastern Mediterranean and they showed that rainfall is mostly depend on pressure anomalies. Lower air pressure is mostly related with precipitation since mostly frontal systems brings rainfall over Eastern Mediterranean. These frontal systems also means windy storms which comes from over Mediterranean Sea. Similarly, relative humidity is highly related with precipitation since rainfall formation is much easier in saturated air conditions. As everyone might guess cloud is necessary for rainfall production. By the way, dew point temperature means that how much air should be cooled to be saturated without any moisture addition. Thus, closer dew point temperature and air temperature means highly saturated and vice versa. As stated above, relative humidity, cloud coverage, air pressure, dew point temperature, wind direction, wind speed and temperature should be used as predictors while response is precipitation. However, only relative humidity, air pressure and wind direction parameters are used in our pruned trees. This situation most probably caused because of predictor’s correlation between each other. Correlation matrix of variables is given in Figure 11. As shown in the Figure, some variables are highly correlated with each other whether positive or negative. For example, correlation coefficient between cloud coverage and relative humidity is 0.7 and -0.6 between dew point temperature and air pressure. Thus, using many variables has become unnecessary.</p>
+
 </section>
 
-</main>
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-choubin2018" class="csl-entry" role="listitem">
+Choubin, Bahram, Gholamreza Zehtabian, Ali Azareh, Elham Rafiei-Sardooi, Farzaneh Sajedi-Hosseini, and Özgür Kişi. 2018. <span>“Precipitation Forecasting Using Classification and Regression Trees (CART) Model: A Comparative Study of Different Approaches.”</span> <em>Environmental Earth Sciences</em> 77 (8). <a href="https://doi.org/10.1007/s12665-018-7498-z">https://doi.org/10.1007/s12665-018-7498-z</a>.
+</div>
+<div id="ref-domroes1998a" class="csl-entry" role="listitem">
+Domroes, M., M. Kaviani, and D. Schaefer. 1998. <span>“An Analysis of Regional and Intra-Annual Precipitation Variability over Iran Using Multivariate Statistical Methods.”</span> <em>Theoretical and Applied Climatology</em> 61 (3-4): 151–59. <a href="https://doi.org/10.1007/s007040050060">https://doi.org/10.1007/s007040050060</a>.
+</div>
+<div id="ref-englehart2009" class="csl-entry" role="listitem">
+Englehart, Phil J., and Arthur V. Douglas. 2009. <span>“Diagnosing Warm<span>-</span>Season Rainfall Variability in Mexico: A Classification Tree Approach.”</span> <em>International Journal of Climatology</em> 30 (5): 694–704. <a href="https://doi.org/10.1002/joc.1934">https://doi.org/10.1002/joc.1934</a>.
+</div>
+<div id="ref-eshel2000" class="csl-entry" role="listitem">
+Eshel, Gidon, and Brian F. Farrell. 2000. <span>“Mechanisms of Eastern Mediterranean Rainfall Variability.”</span> <em>Journal of the Atmospheric Sciences</em> 57 (19): 3219–32. <a href="https://doi.org/10.1175/1520-0469(2000)057<3219:moemrv>2.0.co;2">https://doi.org/10.1175/1520-0469(2000)057&lt;3219:moemrv&gt;2.0.co;2</a>.
+</div>
+<div id="ref-f.2002a" class="csl-entry" role="listitem">
+F., Giorgi. 2002. <span>“Variability and Trends of Sub-Continental Scale Surface Climate in the Twentieth Century. Part i: Observations.”</span> <em>Climate Dynamics</em> 18 (8): 675–91. <a href="https://doi.org/10.1007/s00382-001-0204-x">https://doi.org/10.1007/s00382-001-0204-x</a>.
+</div>
+<div id="ref-kim2010" class="csl-entry" role="listitem">
+Kim, Jung-Woo, and Yakov A. Pachepsky. 2010. <span>“Reconstructing Missing Daily Precipitation Data Using Regression Trees and Artificial Neural Networks for SWAT Streamflow Simulation.”</span> <em>Journal of Hydrology</em> 394 (3-4): 305–14. <a href="https://doi.org/10.1016/j.jhydrol.2010.09.005">https://doi.org/10.1016/j.jhydrol.2010.09.005</a>.
+</div>
+<div id="ref-mitchell2005a" class="csl-entry" role="listitem">
+Mitchell, Timothy D., and Philip D. Jones. 2005. <span>“An Improved Method of Constructing a Database of Monthly Climate Observations and Associated High-Resolution Grids.”</span> <em>International Journal of Climatology</em> 25 (6): 693–712. <a href="https://doi.org/10.1002/joc.1181">https://doi.org/10.1002/joc.1181</a>.
+</div>
+<div id="ref-wei2019" class="csl-entry" role="listitem">
+Wei, Wenguang, Zhongwei Yan, and Phil D. Jones. 2019. <span>“A Decision<span>-</span>Tree Approach to Seasonal Prediction of Extreme Precipitation in Eastern China.”</span> <em>International Journal of Climatology</em> 40 (1): 255–72. <a href="https://doi.org/10.1002/joc.6207">https://doi.org/10.1002/joc.6207</a>.
+</div>
+</div></section></div></main>
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
