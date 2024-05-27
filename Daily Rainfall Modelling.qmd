@@ -34,7 +34,11 @@ bibliography: references.bib
 
 Precipitation is one of the most important meteorological factors that have large impacts on human life and ecosystems worldwide in many ways such as freshwater, irrigation, hydropower production etc. As many authors have indicated that the nature of precipitation shows high variability in terms of both spatial and temporal scales [@domroes1998a; @f.2002a; @mitchell2005a]. Therefore, studies on precipitation are very considerable particularly taking into account of climate change effects.
 
-Tree models are one of the most natural and popular method to model categorical response variables, even these methods can also be used to model continuous responses. In the literature there are many studies that are used tree-based models to predict precipitation amounts, fill the missing data and categorize precipitation types [@choubin2018; @kim2010; @englehart2009; @wei2019].
+#regularization
+
+#sarima
+
+Tree decision models are one of the most natural and popular method to model categorical response variables, even these methods can also be used to model continuous responses. In the literature there are many studies that are used tree-based models to predict precipitation amounts, fill the missing data and categorize precipitation types [@choubin2018; @kim2010; @englehart2009; @wei2019].
 
 This study is focused on daily rainfall modelling for Muğla Province by using meteorological observations.
 
@@ -93,6 +97,8 @@ ggplot()  + geom_sf(fill = "white") +
 
 Data period is between 01.01.2009 and 31.12.2023 for Mugla Station (17292). Elevation of the station is 646 meter. Daily precipitation data is used as response variable in modelling. Distinct daily observation variables are used as predictors such as temperature (°C), dew point temperature (°C), sea-level air pressure (mb), cloud coverage (0-8), relative humidity (%), solar exposure (hour), solar radiation (W/m^2^) direction of wind (°) and speed (m/sec).
 
+#complete eksik verileri tamamlama; date kolunu olusturduk vb.
+
 ```{r}
 
 files<- list.files(paste0(here::here(),"/DATA"), pattern = "xlsx")
@@ -134,7 +140,7 @@ summary(df)
 
 ### Visualization of the Data
 
-As stated above, relative humidity and cloud cloud coverage should be used as predictors while response is precipitation since the relationship is higher than other variables. However, predictor’s correlation between each other is also high whether positively or negatively. For example, correlation coefficient between cloud coverage and relative humidity is 0.67 or between maximum relative humidity and solar radiation is 0.72. This situation will most likely result in not needing to use many variables.
+As stated above, relative humidity and cloud cloud coverage should be used as predictors while response is precipitation since the relationship is higher than other variables. However, predictor's correlation between each other is also high whether positively or negatively. For example, correlation coefficient between cloud coverage and relative humidity is 0.67 or between maximum relative humidity and solar radiation is 0.72. This situation will most likely result in not needing to use many variables.
 
 ```{r, fig.width=9,fig.height=9}
 #| warning: false
@@ -511,4 +517,4 @@ The results indicate that across all of the trees considered in the random fores
 
 # Conclusion
 
-Eshel and Farrell [@eshel2000] investigated rainfall variability over Eastern Mediterranean and they showed that rainfall is mostly depend on pressure anomalies. Lower air pressure is mostly related with precipitation since mostly frontal systems brings rainfall over Eastern Mediterranean. These frontal systems also means windy storms which comes from over Mediterranean Sea. Similarly, relative humidity is highly related with precipitation since rainfall formation is much easier in saturated air conditions. As everyone might guess cloud is necessary for rainfall production. By the way, dew point temperature means that how much air should be cooled to be saturated without any moisture addition. Thus, closer dew point temperature and air temperature means highly saturated and vice versa. As stated above, relative humidity, cloud coverage, air pressure, dew point temperature, wind direction, wind speed and temperature should be used as predictors while response is precipitation. However, only relative humidity, air pressure and wind direction parameters are used in our pruned trees. This situation most probably caused because of predictor’s correlation between each other. Correlation matrix of variables is given in Figure 11. As shown in the Figure, some variables are highly correlated with each other whether positive or negative. For example, correlation coefficient between cloud coverage and relative humidity is 0.7 and -0.6 between dew point temperature and air pressure. Thus, using many variables has become unnecessary.
+Eshel and Farrell [@eshel2000] investigated rainfall variability over Eastern Mediterranean and they showed that rainfall is mostly depend on pressure anomalies. Lower air pressure is mostly related with precipitation since mostly frontal systems brings rainfall over Eastern Mediterranean. These frontal systems also means windy storms which comes from over Mediterranean Sea. Similarly, relative humidity is highly related with precipitation since rainfall formation is much easier in saturated air conditions. As everyone might guess cloud is necessary for rainfall production. By the way, dew point temperature means that how much air should be cooled to be saturated without any moisture addition. Thus, closer dew point temperature and air temperature means highly saturated and vice versa. As stated above, relative humidity, cloud coverage, air pressure, dew point temperature, wind direction, wind speed and temperature should be used as predictors while response is precipitation. However, only relative humidity, air pressure and wind direction parameters are used in our pruned trees. This situation most probably caused because of predictor's correlation between each other. Correlation matrix of variables is given in Figure 11. As shown in the Figure, some variables are highly correlated with each other whether positive or negative. For example, correlation coefficient between cloud coverage and relative humidity is 0.7 and -0.6 between dew point temperature and air pressure. Thus, using many variables has become unnecessary.
