@@ -189,7 +189,126 @@ write.table(df, "merge.txt", row.names = FALSE, quote = FALSE, sep = "\t")
 
 ### Descriptive Statistics
 
-VARIABLE EXPLANATION + STATISTICS
+1.  **Precipitation**: This is any form of water - liquid or solid - that falls from the atmosphere and reaches the ground. It includes rain, snow, sleet, and hail. It is usually measured in millimeters (mm).
+
+    -   Median: 0.000 mm
+
+    -   Mean: 3.192 mm
+
+    -   Maximum: 168.600 mm
+
+    -    Most days experience no precipitation, but there are occasional instances of heavy rainfall, with a maximum of 168.6 mm.
+
+2.  **Temperature**: This is a measure of the warmth or coldness of the atmosphere as determined by a thermometer. It is typically reported in degrees Celsius (°C).
+
+    -   Median (Minimum Temperature): 9.50°C
+
+    -   Mean (Minimum Temperature): 10.22°C
+
+    -   Maximum (Minimum Temperature): 27.90°C
+
+    -   Median (Maximum Temperature): 22.10°C
+
+    -   Mean (Maximum Temperature): 22.59°C
+
+    -   Maximum (Maximum Temperature): 41.70°C
+
+    -   The temperature ranges from cold to hot conditions, with mean temperatures around 10-15°C and maximum temperatures reaching as high as 41.7°C.
+
+3.  **Dew Point Temperature**: This is the temperature at which air becomes saturated with moisture and dew can form. It is an indicator of the moisture content in the air and is measured in degrees Celsius (°C).
+
+    -   Median: 4.50°C
+
+    -   Mean: 7.312°C
+
+    -   Maximum: 19.90°C
+
+    -   Dewpoint temperatures indicate varying levels of atmospheric moisture, ranging from dry to humid conditions.
+
+4.  **Relative Humidity**: This is the amount of moisture in the air compared to what the air can hold at that temperature. It is expressed as a percentage (%).
+
+    -   Median: 32.00%
+
+    -   Mean: 37.65%
+
+    -   Maximum: 100.00%
+
+    -    Relative humidity values show a wide range of humidity levels, from very dry to highly moist air.
+
+5.  **Cloudiness**: This refers to the extent of cloud cover in the skyor in descriptive terms such as clear, partly cloudy, mostly cloudy, or overcast.
+
+    -   Median: 2.000
+
+    -   Mean: 2.511
+
+    -   Maximum: 7.600
+
+    -   Cloudiness varies from clear to cloudy days, with a mean cloudiness value suggesting moderate cloud cover.
+
+6.  **Wind Speed**: This measures how fast the air is moving. It is typically reported in meters per second (m/s), kilometers per hour (km/h).
+
+    -   Median: 1.400 m/s
+
+    -   Mean: 1.418 m/s
+
+    -   Maximum: 4.700 m/s
+
+    -   Wind speeds are generally low, with occasional higher speeds recorded.
+
+7.  **Wind Direction**: This indicates the direction from which the wind is blowing. It is usually expressed in degrees (°) from true north or using compass directions (e.g., N, NE, E).
+
+    -   **Mean**: 209.3 degrees
+
+    -   **Median**: 176.0 degrees
+
+    -   **Minimum**: 1.0 degrees
+
+    -   **Maximum**: 360.0 degrees
+
+    -   **NA's (Missing Values)**: 111
+
+    -   These statistics indicate the average, middle, minimum, and maximum wind directions recorded in the dataset, measured in degrees from true north. The presence of missing values (NA's) suggests that wind direction data is unavailable for some observations.
+
+8.  **Evapotranspiration**: This is the sum of evaporation from the land surface plus transpiration from plants. It represents the amount of water transferred from the land to the atmosphere. It is usually measured in millimeters (mm).
+
+    -   Median: 2.500 mm
+
+    -   Mean: 3.591 mm
+
+    -   Maximum: 17.700 mm
+
+    -   Evapotranspiration rates vary, reflecting differences in water loss from soil and plants.
+
+9.  **Solar Radiation**: This is the energy from the sun received at the Earth's surface. It is typically measured in watts per square meter (W/m²).
+
+    -   Median: 4.000 MJ/m²
+
+    -   Mean: 4.124 MJ/m²
+
+    -   Maximum: 8.600 MJ/m²
+
+    -   Solar radiation fluctuates, affecting temperature and other weather parameters.
+
+10. **Sun Exposure**: This refers to the duration and intensity of sunlight reaching a particular area. It is often measured in hours per day.
+
+    -   Median: 4.700 hours
+
+    -   Mean: 5.138 hours
+
+    -   Maximum: 12.200 hours
+
+    -   Sun exposure varies, reflecting differences in daylight duration.
+
+11. **Pressure**: This is the force exerted by the atmosphere at a given point. It is usually measured in hectopascals (hPa) or millibars (mb).
+
+Sea level pressure typically ranges around 1013.25 hectopascals (hPa) or millibars (mb), which is considered the standard atmospheric pressure at sea level. However, actual sea level pressure can vary depending on weather conditions:
+
+-   **High Pressure Systems**: These are usually associated with calm and fair weather. Sea level pressures in high-pressure systems typically range from about 1015 hPa to over 1040 hPa.
+-   **Low Pressure Systems**: These are associated with stormy and unsettled weather. Sea level pressures in low-pressure systems can drop below 1000 hPa, and in severe storms like hurricanes or typhoons, pressures can drop significantly lower, sometimes reaching around 950 hPa or even lower.
+    -   Median: 1012.9 hPa
+    -   Mean: 1013.3 hPa
+    -   Maximum: 1033.5 hPa
+    -   Air pressure values fall within typical sea-level pressure ranges, indicating relatively stable atmospheric conditions.
 
 ```{r}
 #| warning: false
