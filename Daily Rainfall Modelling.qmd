@@ -42,7 +42,7 @@ SARIMA models facilitate differencing by both seasonal and non-seasonal frequenc
 
 Tree decision models are one of the most natural and popular method to model categorical response variables, even these methods can also be used to model continuous responses. In the literature there are many studies that are used tree-based models to predict precipitation amounts, fill the missing data and categorize precipitation types [@choubin2018; @kim2010; @englehart2009; @wei2019].
 
-Regularization is a technique used to prevent overfitting in statistical models by adding a penalty to the model complexity. In the context of regression models, shrinkage methods are a form of regularization that reduce the size of the coefficients towards zero, effectively shrinking them. This can enhance the model\'s generalization to new data by avoiding overfitting.
+Regularization is a technique used to prevent overfitting in statistical models by adding a penalty to the model complexity. In the context of regression models, shrinkage methods are a form of regularization that reduce the size of the coefficients towards zero, effectively shrinking them. This can enhance the model's generalization to new data by avoiding overfitting.
 
 Two common shrinkage methods are:
 
@@ -50,7 +50,7 @@ Two common shrinkage methods are:
 
 2.  **Lasso Regression (L1 regularization)**: Adds a penalty equal to the sum of the absolute values of the coefficients.
 
-The SARIMA (Seasonal Autoregressive Integrated Moving Average) model is a powerful tool for time series forecasting that accounts for both non-seasonal and seasonal components. While SARIMA itself does not directly incorporate regularization methods like those used in regression, regularization can be applied in the context of model selection and parameter estimation to enhance the model\'s performance.
+The SARIMA (Seasonal Autoregressive Integrated Moving Average) model is a powerful tool for time series forecasting that accounts for both non-seasonal and seasonal components. While SARIMA itself does not directly incorporate regularization methods like those used in regression, regularization can be applied in the context of model selection and parameter estimation to enhance the model's performance.
 
 **Regularization in SARIMA**:
 
@@ -98,7 +98,7 @@ Tree-based models, including Decision Trees, Random Forests, and Gradient Boosti
 
 This study is focused on daily rainfall modelling for Muğla Province by using meteorological observations.
 
-# Applications in R
+# Preliminary Preparations
 
 ### Uploading Necessary Packages
 
@@ -123,6 +123,7 @@ library(plotmo)
 library(MASS)
 library(tree)
 library(randomForest)
+library(gbm)
 ```
 
 ## Study Location & Data
@@ -197,7 +198,7 @@ write.table(df, "merge.txt", row.names = FALSE, quote = FALSE, sep = "\t")
 
     -   Maximum: 168.600 mm
 
-    -    Most days experience no precipitation, but there are occasional instances of heavy rainfall, with a maximum of 168.6 mm.
+    -   Most days experience no precipitation, but there are occasional instances of heavy rainfall, with a maximum of 168.6 mm.
 
 2.  **Temperature**: This is a measure of the warmth or coldness of the atmosphere as determined by a thermometer. It is typically reported in degrees Celsius (°C).
 
@@ -233,7 +234,7 @@ write.table(df, "merge.txt", row.names = FALSE, quote = FALSE, sep = "\t")
 
     -   Maximum: 100.00%
 
-    -    Relative humidity values show a wide range of humidity levels, from very dry to highly moist air.
+    -   Relative humidity values show a wide range of humidity levels, from very dry to highly moist air.
 
 5.  **Cloudiness**: This refers to the extent of cloud cover in the skyor in descriptive terms such as clear, partly cloudy, mostly cloudy, or overcast.
 
@@ -696,6 +697,29 @@ varImpPlot(rf.precipitation)
 The results indicate that across all of the trees considered in the random forest, the air pressure (mb) and the maximum relative humidity (%) are by far the two most important variables.
 
 ### Boosting
+
+Here we use the gbm package, and within it the gbm() function, to fit boosted regression trees to the our data set. We run gbm() with the option distribution=“gaussian” since this is a regression problem, shrinkage parameter/learning rate is taken as 0.03. The argument n.trees=5000 indicates that we want 5000 trees, and the option interaction.depth=6 limits the depth of each tree.
+
+```{r}
+set.seed(1)
+boost.precipitation = gbm(Precipitation ~.,
+                data = df_tree[train,],
+                distribution = "gaussian",
+                shrinkage = .03,
+                interaction.depth=6,
+                n.trees = 5000)
+ 
+summary(boost.precipitation)[2]
+```
+
+We see that average relative humidity and air pressure variables are the most important variables. Now we can use the boosted model to predict daily precipitation on the test data.
+
+```{r}
+yhat.boost <- predict(boost.precipitation,newdata=df_tree[-train,],n.trees=5000,interaction.depth=6)
+round(mean((yhat.boost - df_tree.test)^2),2)
+```
+
+The test MSE of boosted model obtained is 54.74 and it is superior to the test MSE for random forests and bagging.
 
 # Evaluation Metrics
 
