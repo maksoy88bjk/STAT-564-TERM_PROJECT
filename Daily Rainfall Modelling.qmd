@@ -371,6 +371,8 @@ ggplot(df_plot, aes(x= Date, y=value, fill=name, group=year(Date))) +
         strip.background = element_rect(fill="white")) 
 ```
 
+In the case of the evapotranspiration dataset, it is imperative to acknowledge the presence of missing values. The temporal variability associated with seasonal patterns, such as temperature fluctuations, precipitation trends, and solar radiation changes, necessitates careful consideration during data analysis and interpretation.
+
 MISSING DATA & EXTRACTION
 
 ## EDA of the Precipitation
