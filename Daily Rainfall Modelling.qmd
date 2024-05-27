@@ -308,7 +308,7 @@ df |>
 
 ## Ridge & Lasso Regularization
 
-Hydrometeorologists measure time differently than the standard January to December calendar year. For those of us that model and track the movement of water through the landscape, the year begins on October 1st and ends on September 30th. This is known as a water year.
+Hydrologists use a different time measurement compared to the traditional January-to-December calendar year. For those who model and monitor water movement in the environment, the year starts on October 1st and concludes on September 30th. This period is referred to as a water year.  To better understand the numbering system, each month is assigned a numerical value starting from the beginning of the water year. The water year commences in October, thus October is designated as month 1. Consequently, subsequent months follow this sequence, with January being represented as month 4..
 
 ```{r}
 #| warning: false
@@ -337,7 +337,7 @@ ridge.mod <- glmnet(x[train,], y[train], alpha=0)
 plot_glmnet(ridge.mod,label=8)
 
 ridge.pred <- predict(ridge.mod, s=4, newx = x[-train,])
-mean( (ridge.pred - y[-train])^2 )
+mean( (ridge.pred - y[-train])^2 ) # mse
 
 # ten-fold cross-validation
 set.seed(1)
@@ -352,7 +352,7 @@ out<- glmnet(x[train,], y[train],alpha=0)
 predict(out,type="coefficients",s=bestlambda)
 
 pp<- predict(out, newx = x[-train,], type = "response", s=bestlambda)
-pp2<- ifelse(pp < 0, 0, pp )
+pp2<- ifelse(pp < 0, 0, pp ) ## eksi tahminleri sıfıra eşitledik
 
 plot(y[-train], pp2)
 
@@ -380,7 +380,6 @@ pp2_2<- ifelse(pp_2 < 0, 0, pp_2 )
 
 plot(y[-train], pp2_2)
 
-### deseasonalized <- seasadj(result_stl) ????
 ```
 
 -   Ridge Regression
