@@ -34,11 +34,67 @@ bibliography: references.bib
 
 Precipitation is one of the most important meteorological factors that have large impacts on human life and ecosystems worldwide in many ways such as freshwater, irrigation, hydropower production etc. As many authors have indicated that the nature of precipitation shows high variability in terms of both spatial and temporal scales [@domroes1998a; @f.2002a; @mitchell2005a]. Therefore, studies on precipitation are very considerable particularly taking into account of climate change effects.
 
-#regularization
+While the ARIMA model is effective for many time series analyses, incorporating seasonality and exogenous variables can significantly enhance its predictive power. However, since ARIMA assumes the time series is stationary, it is necessary to employ a different model for non-stationary data with seasonal patterns.
 
-#sarima
+This is where the SARIMA (Seasonal ARIMA) model comes into play. Similar to the ARIMA model, SARIMA includes additional seasonal autoregressive and moving average components. These seasonal lags correspond to the periodicity of the data (e.g., 12 for monthly data, 24 for hourly data).
+
+SARIMA models facilitate differencing by both seasonal and non-seasonal frequencies[@kim2010]. Identifying the optimal parameters can be streamlined using automated parameter search frameworks such as pmdarima.
 
 Tree decision models are one of the most natural and popular method to model categorical response variables, even these methods can also be used to model continuous responses. In the literature there are many studies that are used tree-based models to predict precipitation amounts, fill the missing data and categorize precipitation types [@choubin2018; @kim2010; @englehart2009; @wei2019].
+
+Regularization is a technique used to prevent overfitting in statistical models by adding a penalty to the model complexity. In the context of regression models, shrinkage methods are a form of regularization that reduce the size of the coefficients towards zero, effectively shrinking them. This can enhance the model\'s generalization to new data by avoiding overfitting.
+
+Two common shrinkage methods are:
+
+1.  **Ridge Regression (L2 regularization)**: Adds a penalty equal to the sum of the squared coefficients.
+
+2.  **Lasso Regression (L1 regularization)**: Adds a penalty equal to the sum of the absolute values of the coefficients.
+
+The SARIMA (Seasonal Autoregressive Integrated Moving Average) model is a powerful tool for time series forecasting that accounts for both non-seasonal and seasonal components. While SARIMA itself does not directly incorporate regularization methods like those used in regression, regularization can be applied in the context of model selection and parameter estimation to enhance the model\'s performance.
+
+**Regularization in SARIMA**:
+
+-   **Parameter Selection**: Automated frameworks such as **`pmdarima`** use regularization principles to optimize the selection of SARIMA parameters (p, d, q, P, D, Q, and s). These frameworks often employ criteria like the Akaike Information Criterion (AIC) or Bayesian Information Criterion (BIC), which inherently penalize model complexity to prevent overfitting.
+
+-   **Ensemble Methods**: Combining multiple SARIMA models with regularization techniques can help in stabilizing the predictions and improving the robustness of the model.
+
+### **Tree Models and Regularization**
+
+Tree-based models, including Decision Trees, Random Forests, and Gradient Boosting Machines (GBMs), can benefit from regularization techniques to improve their performance and prevent overfitting.
+
+**Regularization in Tree Models**:
+
+1.  **Pruning (for Decision Trees)**:
+
+    -   Reduces the size of the tree by removing sections that provide little power in predicting target variables.
+
+    -   Can be achieved through cost-complexity pruning which penalizes the tree for having too many branches.
+
+2.  **Hyperparameter Tuning**:
+
+    -   **Max Depth**: Limiting the depth of the tree to prevent it from growing too complex.
+
+    -   **Min Samples Split**: The minimum number of samples required to split an internal node.
+
+    -   **Min Samples Leaf**: The minimum number of samples required to be at a leaf node.
+
+3.  **Ensemble Methods**:
+
+    -   **Random Forests**: Aggregate the predictions of multiple decision trees, reducing overfitting through averaging.
+
+    -   **Gradient Boosting**: Sequentially builds trees, where each new tree tries to correct the errors of the previous ones. Regularization in GBM can include:
+
+        -   **Learning Rate**: Controls the contribution of each tree.
+
+        -   **Subsampling**: Uses a subset of data for training each tree.
+
+        -   **L1 and L2 Regularization**: Adds penalties for the complexity of the model.
+
+4.  **Regularization Parameters in Gradient Boosting**:
+
+    -   **Shrinkage**: Similar to the learning rate, it scales the contribution of each tree added to the model.
+
+    -   **Column Subsampling**: Reduces overfitting by randomly selecting a subset of features for each tree.
 
 This study is focused on daily rainfall modelling for Muğla Province by using meteorological observations.
 
@@ -71,7 +127,11 @@ library(randomForest)
 
 ## Study Location & Data
 
-In this study, Muğla Province is selected as study area where is located south western part of Turkey near the Mediterranean Sea. The meteorological station 17292 has been operated for providing climatic observations by Turkish State Meteorological Service. The figure below is shown for location of this station.
+In this study, Muğla Province is selected as the study area. This province is located in the southwestern part of Turkey, adjacent to the Mediterranean Sea, and is characterized by a Mediterranean climate with hot, dry summers and mild, wet winters. Muğla's diverse topography, ranging from coastal areas to mountainous regions, makes it an ideal location for climatic and hydrological studies.
+
+The meteorological station 17292, situated within Muğla Province, is operated by the Turkish State Meteorological Service (TSMS). This station has been consistently providing reliable climatic observations, including temperature, precipitation, humidity, and wind speed data, which are essential for understanding the local climate patterns and trends. The data collected from this station play a crucial role in various research studies, particularly those related to water resources management, agricultural planning, and climate change impact assessments in the region.
+
+The figure below illustrates the precise location of meteorological station 17292 within Muğla Province. This visual representation aids in contextualizing the spatial distribution of climatic data collected and emphasizes the station's strategic position for capturing representative climatic information for the entire province.
 
 ```{r, fig.width=9,fig.height=6}
 #| warning: false
