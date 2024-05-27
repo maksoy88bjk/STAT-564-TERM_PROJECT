@@ -62,6 +62,7 @@ library(ISLR)
 library(plotmo)
 library(MASS)
 library(tree)
+library(randomForest)
 ```
 
 ## Study Location & Data
@@ -90,7 +91,7 @@ ggplot()  + geom_sf(fill = "white") +
 
 ### Data Handling
 
-Data period is between 01.01.2009 and 31.12.2023 for Mugla Station (17292). Elevation of the station is 646 meter. Daily precipitation data is used as response variable in modelling. Distinct daily observation variables are used as predictors such as temperature (°C), dew point temperature (°C), sea-level air pressure (mb), cloud coverage (0-8), relative humidity (%), solar exposure (hour), solar radiation (W/m2) direction of wind (°) and speed (m/sec).
+Data period is between 01.01.2009 and 31.12.2023 for Mugla Station (17292). Elevation of the station is 646 meter. Daily precipitation data is used as response variable in modelling. Distinct daily observation variables are used as predictors such as temperature (°C), dew point temperature (°C), sea-level air pressure (mb), cloud coverage (0-8), relative humidity (%), solar exposure (hour), solar radiation (W/m^2^) direction of wind (°) and speed (m/sec).
 
 ```{r}
 
@@ -106,7 +107,7 @@ for(i in 1:length(files)) {
   listem[[i]]<-
     listem[[i]] |>
     mutate(DATE= as.Date(with(listem[[i]], paste(YEAR,MONTH,DAY,sep="-")),"%Y-%m-%d")) |>
-    complete(DATE = seq(as.Date("2009-01-01"),
+    tidyr::complete(DATE = seq(as.Date("2009-01-01"),
                          as.Date("2023-12-31"), by = "day"))
   listem[[i]] <- listem[[i]] [,-c(2:4)]
   missdates[[i]]<- listem[[i]][which(is.na(listem[[i]] [,2] )),]
@@ -122,6 +123,8 @@ write.table(df, "merge.txt", row.names = FALSE, quote = FALSE, sep = "\t")
 
 ### Descriptive Statistics
 
+VARIABLE EXPLANATION + STATISTICS
+
 ```{r}
 #| warning: false
 
@@ -130,6 +133,8 @@ summary(df)
 ```
 
 ### Visualization of the Data
+
+As stated above, relative humidity and cloud cloud coverage should be used as predictors while response is precipitation since the relationship is higher than other variables. However, predictor’s correlation between each other is also high whether positively or negatively. For example, correlation coefficient between cloud coverage and relative humidity is 0.67 or between maximum relative humidity and solar radiation is 0.72. This situation will most likely result in not needing to use many variables.
 
 ```{r, fig.width=9,fig.height=9}
 #| warning: false
@@ -180,6 +185,8 @@ ggplot(df_plot, aes(x= Date, y=value, fill=name, group=year(Date))) +
   theme(legend.position = "none",
         strip.background = element_rect(fill="white")) 
 ```
+
+MISSING DATA & EXTRACTION
 
 ## EDA of the Precipitation
 
@@ -380,7 +387,9 @@ We get similar results when we compare with the results of Ridge regression. Unl
 
 Do we need to scale both regreesion and revise the process?
 
-## Fitting Regression Trees
+## Tree-Based Methods
+
+### Fitting Regression
 
 ```{r}
 #| warning: false
@@ -448,6 +457,57 @@ yhat_prune <-predict(prune.precipitation,newdata=df_tree[-train,])
 The MSE and RMSE for pruned tree are estimated as `r round(mean((yhat_prune - df_tree.test)^2),2)` and `r round(sqrt(mean((yhat_prune - df_tree.test)^2)),2)`, respectively. Due to the nature of regression trees the predictions equal to averages of response variables in training data based on embranchment of the tree. In our example, predictions are available for five and 4 variables for unpruned and pruned cases, respectively.
 
 ### Bagging and Random Forests
+
+Here we apply bagging and random forests to the our data, using the randomForest package in R. Recall that bagging is simply a special case of a random forest with m = p. Therefore, the randomForest() function can be used to perform both random forests and bagging. The argument mtry=16 indicates that all 16 predictors should be considered for each split of the tree.
+
+```{r}
+set.seed(1)
+bag.precipitation <- randomForest(Precipitation ~., data=df_tree, subset=train, mtry=16,importance=TRUE)
+bag.precipitation
+
+```
+
+The Random Forest model consists of 500 decision trees. MSE on training data for the last tree is estimated as 71.12541. Percentage of variance in the target variable value of 30.66% indicates that the model explains about 30.66% of the variance in precipitation. The explained variance of 30.66% suggests that the model captures about a third of the variability in precipitation based on the provided predictors. This is a moderate level of explanatory power, indicating that while the model is capturing some of the relationships, there is still a significant portion of variability that it doesn't explain.
+
+```{r, fig.width=9,fig.height=5}
+#| warning: false
+
+yhat.bag = predict(bag.precipitation, newdata=df_tree[-train,])
+
+data.frame(yhat.bag, df_tree.test) |> 
+ggplot(aes(x= yhat, y=df_tree.test)) + 
+theme_bw() +
+geom_point(size=2, alpha=0.5, color="dodgerblue") + 
+geom_abline() + 
+labs(x="Predicted Response",y="True Response") + 
+annotate("text", x=60, y=20, label= 
+           paste("MSE is",
+           round(mean((yhat.bag - df_tree.test)^2),2)))
+```
+
+The test set MSE associated with the bagged regression tree is 60.15, this is almost 20% lower than that achived using an optimally-pruned single tree.
+
+Growing a random forest proceeds in exactly the same way, except that we use a smaller value of the mtry argument. By default, randomForest() uses p/3 variables when building a random forest of regression trees, and p^1/2^ variables when building a random forest of classification trees. Here we use mtry = 7
+
+```{r}
+set.seed(1)
+rf.precipitation <- randomForest(Precipitation ~., data=df_tree, subset=train, mtry=7,importance=TRUE)
+yhat.rf = predict(rf.precipitation, newdata=df_tree[-train,])
+round(mean((yhat.rf - df_tree.test)^2),2)
+
+importance(rf.precipitation)
+```
+
+The test set MSE is 55.59; this indicates that random forests yielded an improvement over bagging in this case. Using the importance() function, we can view the importance of each variable. Two measures of variable importance are reported. The former is based upon the mean decrease of accuracy in predictions on the out of bag samples when a given variable is excluded from the model. The latter is a measure of the total decrease in node impurity that results from splits over that variable, averaged over all trees. In the case of regression trees, the node impurity is measured by the training RSS. Plots of these importance measures can be produced using the varImpPlot() function.
+
+```{r, fig.width=9,fig.height=7}
+#| warning: false
+varImpPlot(rf.precipitation)
+```
+
+The results indicate that across all of the trees considered in the random forest, the air pressure (mb) and the maximum relative humidity (%) are by far the two most important variables.
+
+### Boosting
 
 # Conclusion
 
