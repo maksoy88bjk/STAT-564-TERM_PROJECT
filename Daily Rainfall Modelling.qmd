@@ -164,7 +164,7 @@ ggplot()  + geom_sf(fill = "white") +
 
 ### Data Handling
 
-Data period is between 01.01.2009 and 31.12.2023 for Mugla Station (17292). Elevation of the station is 646 meter. Daily precipitation data is used as response variable in modelling. Distinct daily observation variables are used as predictors such as temperature (℃), dew point temperature (℃), sea-level air pressure (mb), cloud coverage (0-8), relative humidity (%), solar exposure (hour), solar radiation (W/m^2^) direction of wind (B0) and speed (m/sec).
+Data period is between 01.01.2009 and 31.12.2023 for Mugla Station (17292). Elevation of the station is 646 meter. Daily precipitation data is used as response variable in modelling. Distinct daily observation variables are used as predictors such as temperature (b), dew point temperature (b), sea-level air pressure (mb), cloud coverage (0-8), relative humidity (%), solar exposure (hour), solar radiation (W/m^2^) direction of wind (B0) and speed (m/sec).
 
 ```{r}
 
@@ -200,13 +200,13 @@ write.table(df, "merge.txt", row.names = FALSE, quote = FALSE, sep = "\t")
 
     -   Most days experience less precipitation, but there are occasional instances of heavy rainfall, with a maximum of 168.6 mm.
 
-2.  **Temperature**: This is a measure of the warmth or coldness of the atmosphere as determined by a thermometer. It is typically reported in degrees Celsius (℃).
+2.  **Temperature**: This is a measure of the warmth or coldness of the atmosphere as determined by a thermometer. It is typically reported in degrees Celsius (b).
 
-    -   The temperature ranges from cold to hot conditions, with mean temperatures around 10-15℃ and maximum temperatures reaching as high as 41.7℃
+    -   The temperature ranges from cold to hot conditions, with mean temperatures around 10-15b and maximum temperatures reaching as high as 41.7b
 
-3.  **Dew Point Temperature**: This is the temperature at which air becomes saturated with moisture and dew can form. It is an indicator of the moisture content in the air and is measured in degrees Celsius (℃).
+3.  **Dew Point Temperature**: This is the temperature at which air becomes saturated with moisture and dew can form. It is an indicator of the moisture content in the air and is measured in degrees Celsius (b).
 
-    -   Dewpoint temperatures indicate varying levels of atmospheric moisture, ranging from dry to humid conditions with maximum 19.9 ℃.
+    -   Dewpoint temperatures indicate varying levels of atmospheric moisture, ranging from dry to humid conditions with maximum 19.9 b.
 
 4.  **Relative Humidity**: This is the amount of moisture in the air compared to what the air can hold at that temperature. It is expressed as a percentage (%).
 
@@ -391,6 +391,10 @@ df |>
 
 # Methodology
 
+## MICE Imputation
+
+Although various of imputation techniques have been utilized, there was no significant difference compared to dropping null values. The possible reason for that the response variable (precipitation) usually contains the value of 0 or has seasonality in all predictor variables. After multiple tries, MICE imputation with 5 imputed datasets and 50 iterations gets the highest difference then adapted in the imputation part.
+
 ## Ridge & Lasso Regularization
 
 Ridge regression is implemented in the glmnet R package. glmnet() function fits a generalized linear model via penalized maximum likelihood. In addition to this, the alpha argument is known as a mixing parameter, with the range of 0 and 1.
@@ -414,7 +418,7 @@ df_n<-
 invisible(capture.output({
   suppressMessages({
     suppressWarnings({
-      imputed_data <- mice(df_n, m = 5, maxit = 50, method = 'pmm', seed = 500)
+      imputed_data=  mice(df_n, m =5, maxit =50, method ='pmm', seed =500)
       df_n <- complete(imputed_data)
     })
   })
@@ -496,13 +500,11 @@ plot(y[-train], pp2_2)
 
 -   Ridge Regression
 
-MSE score is found??77.69??with chosen best lambda??which??is 0.433. According to the plot of the relationship between lambda and coefficients, Average wind speed took the highest coefficient??which??means there is a strong relationship between precipitation. Also, we??penalized??each variable and average wind speed most to avoid bias and overfitting.??Anyway,??we get poor performance on Ridge regression by looking at the plot of actual and predicted values.??Since our precipitation exhibits non-linearity and??it??recognises??rainy days as??spikes??we should think about non-linear solutions like random forest, neural network??etc.
+MSE score is found 77.69 with chosen best lambda which is 0.433. According to the plot of the relationship between lambda and coefficients, Average wind speed took the highest coefficient which means there is a strong relationship between precipitation. Also, we penalized each variable and average wind speed most to avoid bias and overfitting. Anyway, we get moderately poor performance on Ridge regression by looking at the plot of actual and predicted values.Since our precipitation exhibits non-linearity and it recognises rainy days as spikes we should think about non-linear solutions like random forest, neural network etc.
 
 -   Lasso Regression
 
-We get similar results when we compare with the results of Ridge regression. Unlike the usual, no variables shrunk towards zero.??This??means each variable is highly correlated and affects the predictor variable with the chosen??of??the optimal??lambda value. Because of??that??can't we use Lasso regression as a feature selection phase?
-
-Do we need to scale both regreesion and revise the process?
+We get similar results when we compare with the results of Ridge regression. Unlike the usual, no variables shrunk towards zero. This means each variable is highly correlated and affects the predictor variable with the chosen of the optimal lambda value. As a result, non of the predictor variables shrunk towards to 0.
 
 ## SARIMA
 
