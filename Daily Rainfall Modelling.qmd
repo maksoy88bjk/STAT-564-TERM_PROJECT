@@ -32,7 +32,7 @@ bibliography: references.bib
 
 # Introduction
 
-Precipitation is one of the most important meteorological factors Sthat have large impacts on human life and ecosystems worldwide in many ways such as freshwater, irrigation, hydropower production etc. As many authors have indicated that the nature of precipitation shows high variability in terms of both spatial and temporal scales [@domroes1998a; @f.2002a; @mitchell2005a]. Therefore, studies on precipitation are very considerable particularly taking into account of climate change effects.
+Precipitation is one of the most important meteorological factors that have large impacts on human life and ecosystems worldwide in many ways such as freshwater, irrigation, hydropower production etc. As many authors have indicated that the nature of precipitation shows high variability in terms of both spatial and temporal scales [@domroes1998a; @f.2002a; @mitchell2005a]. Therefore, studies on precipitation are very considerable particularly taking into account of climate change effects.
 
 While the ARIMA model is effective for many time series analyses, incorporating seasonality and exogenous variables can significantly enhance its predictive power. However, since ARIMA assumes the time series is stationary, it is necessary to employ a different model for non-stationary data with seasonal patterns.
 
@@ -54,7 +54,7 @@ The SARIMA (Seasonal Autoregressive Integrated Moving Average) model is a powerf
 
 **Regularization in SARIMA**:
 
--   **Parameter Selection**: Automated frameworks such as **`pmdarima`** use regularization principles to optimize the selection of SARIMA parameters (p, d, q, P, D, Q, and s). These frameworks often employ criteria like the Akaike Information Criterion (AIC) or Bayesian Information Criterion (BIC), which inherently penalize model complexity to prevent overfitting.
+-   **Parameter Selection**: Automated frameworks such as pmdarima use regularization principles to optimize the selection of SARIMA parameters (p, d, q, P, D, Q, and s). These frameworks often employ criteria like the Akaike Information Criterion (AIC) or Bayesian Information Criterion (BIC), which inherently penalize model complexity to prevent over fitting.
 
 -   **Ensemble Methods**: Combining multiple SARIMA models with regularization techniques can help in stabilizing the predictions and improving the robustness of the model.
 
@@ -369,7 +369,7 @@ Hydrologists use a different time measurement compared to the traditional Januar
 
 This period is referred to as a water year. To better understand the numbering system, each month is assigned a numerical value starting from the beginning of the water year. The water year commences in October, thus October is designated as month 1. Consequently, subsequent months follow this sequence, with January being represented as month 4.
 
-```{r, fig.width=9,fig.height=6}
+```{r, fig.width=9,fig.height=5}
 #| warning: false
 
 df |> 
@@ -661,7 +661,7 @@ plot(tree.precipitation)
 text(tree.precipitation,pretty=0)
 ```
 
-Now we use the cv.tree() function to see whether pruning the tree will improve performance. K-fold cross validation technique is preformed to prune the regression tree. The minimum deviance with less complexity is available where number of terminal nodes is 4. Thus, we can prune the regression tree from 14 to 4 terminal nodes.
+Now we use the cv.tree() function to see whether pruning the tree will improve performance. K-fold cross validation technique is preformed to prune the regression tree.
 
 ```{r, fig.width=9,fig.height=5}
 #| warning: false
@@ -672,7 +672,7 @@ plot(cv.precipitation$size, cv.precipitation$dev,
 abline(v = which.min(rev(cv.precipitation$dev)), col="firebrick", lwd=2, lty=2)
 ```
 
-In this case, the four-node tree is selected by cross-validation. Thus, we can prune the tree, we could do so as follows, using the prune.tree() function:
+The minimum deviance with less complexity is available where number of terminal nodes is 4. Thus, we can prune the regression tree from 14 to 4 terminal nodes. In this case, the four-node tree is selected by cross-validation. Thus, we can prune the tree, we could do so as follows, using the prune.tree() function:
 
 ```{r, fig.width=9,fig.height=6}
 #| warning: false
@@ -755,7 +755,7 @@ smape_bag_tree= smape(yhat.bag, df_tree.test)
 r2_bag_tree= rsq(yhat.bag, df_tree.test)
 ```
 
-The test set MSE associated with the bagged regression tree is `r round(mean((yhat.bag - df_tree.test)^2),2)`, this is almost 20% lower than that achived using an optimally-pruned single tree.
+The test set MSE associated with the bagged regression tree is `r round(mean((yhat.bag - df_tree.test)^2),2)`, this is almost 20% lower than that achieved using an optimally-pruned single tree.
 
 Growing a random forest proceeds in exactly the same way, except that we use a smaller value of the mtry argument. By default, randomForest() uses p/3 variables when building a random forest of regression trees, and p^1/2^ variables when building a random forest of classification trees. Here we use mtry = 7
 
@@ -780,7 +780,7 @@ The test set MSE is `r round(mean((yhat.rf - df_tree.test)^2),2)`; this indicate
 varImpPlot(rf.precipitation)
 ```
 
-The graphs which are variable importance metrics by looking the Percentage Increase in Mean Square Error and Increase in Node Purity explain that how much the model MSE or Node Purity is changed when the spesific variable is excluded. In both scenerios increasing these paramaters is directly related to importance of the variable which is excluded. The results indicate that across all of the trees considered in the random forest, the air pressure (mb) and the maximum relative humidity (%) are by far the two most important variables.
+The graphs which are variable importance metrics by looking the Percentage Increase in Mean Square Error and Increase in Node Purity explain that how much the model MSE or Node Purity is changed when the specific variable is excluded. In both scenarios increasing these parameters is directly related to importance of the variable which is excluded. The results indicate that across all of the trees considered in the random forest, the air pressure (mb) and the maximum relative humidity (%) are by far the two most important variables.
 
 ### Boosting
 
@@ -811,7 +811,26 @@ smape_boost_tree= smape(yhat.boost, df_tree.test)
 r2_boost_tree= rsq(yhat.boost, df_tree.test)
 ```
 
-The test MSE of boosted model obtained is `r round(mean((yhat.boost - df_tree.test)^2),2)` and it is superior to the test MSE for random forests and bagging.
+The test MSE of boosted model obtained is `r round(mean((yhat.boost - df_tree.test)^2),2)` and it is superior to the test MSE for random forests and bagging. Visual comparison of actual and predicted (test) precipitation values are shown in the figure below.
+
+```{r, fig.width=9,fig.height=5}
+#| warning: false
+
+data.frame(Date = c(df_n$Date, df_n$Date),
+                      Precipitation = c(df_n$Precipitation, 
+                                append(rep(NA,length(train)), yhat.boost)),
+                      Type = rep(c("Actual", "Predicted"), 
+                                 each = length(df_n$Date))) |> 
+ggplot(aes(x = Date, y = Precipitation, color = Type)) + 
+  geom_line() +
+theme_bw() +
+scale_color_manual(name=" ",values = c("Actual" = "dodgerblue",
+                              "Predicted" = "firebrick"),
+                   labels = c("Actual", "Predicted")) +
+labs(x="Date",y="Precipitation (mm)") + 
+  theme(legend.position = c(.9,.8))
+
+```
 
 # Evaluation Metrics
 
@@ -838,6 +857,18 @@ colnames(t_error_table) <- error_table[,1]
 t_error_table |>  gt(rownames_to_stub = TRUE)
 ```
 
+In the provided table, Boosting has the lowest MSE (51.88), indicating that it has the best performance in terms of minimizing the squared differences between predictions and actual values. Random Forest also performs well with a low MSE (54.59). SMAPE is a percentage-based error metric that measures the accuracy of predictions relative to the actual values. It considers the relative difference between predicted and actual values. In the table, Bagging has the lowest SMAPE (1.75), indicating that it has the smallest relative error compared to actual values. Random Forest and Boosting also have low SMAPE values, indicating good accuracy relative to the actual values. R2 ranges from 0 to 1, with higher values indicating better model fit. In the table, Boosting has the highest R2 (0.48), indicating that it explains a significant proportion of the variance in the target variable and has the best overall fit among the models considered. Random Forest also performs well with a high R2 (0.47).
+
 # Results and Conclusion
 
 Eshel and Farrell [@eshel2000] investigated rainfall variability over Eastern Mediterranean and they showed that rainfall is mostly depend on pressure anomalies. Lower air pressure is mostly related with precipitation since mostly frontal systems brings rainfall over Eastern Mediterranean. These frontal systems also means windy storms which comes from over Mediterranean Sea. Similarly, relative humidity is highly related with precipitation since rainfall formation is much easier in saturated air conditions. As everyone might guess cloud is necessary for rainfall production. By the way, dew point temperature means that how much air should be cooled to be saturated without any moisture addition. Thus, closer dew point temperature and air temperature means highly saturated and vice versa. As stated above, relative humidity, cloud coverage, air pressure, dew point temperature, wind direction, wind speed and temperature should be used as predictors while response is precipitation. However, mostly relative humidity and air pressure parameters become our main predictors on modelling precipitation. This situation most probably caused because of predictor's correlation between each other as showed on cor matrix.
+
+We have applied several methodology for modelling daily precipitation in Mugla Station by using multiple predictors. However, some parameters were not used well in some regressions as our expectation such as cloud coverage. Nevertheless, shrinkage methods are used in regression methods for variable selection. SARIMA is applied to eliminate seasonal effects. Eventually, tree-based methods are used for precipitation modelling.
+
+In summary, based on the provided metrics:
+
+-   Boosting appears to be the best-performing model overall, with the lowest MSE, RMSE, and high SMAPE and R2 values.
+
+-   Random Forest also performs well across all metrics, indicating its effectiveness in capturing patterns in the data and making accurate predictions.
+
+-   Other models such as Bagging and Prune.Tree also show competitive performance but are slightly outperformed by Boosting and Random Forest.
