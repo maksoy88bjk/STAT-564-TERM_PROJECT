@@ -32,7 +32,7 @@ bibliography: references.bib
 
 # Introduction
 
-Precipitation is one of the most important meteorological factors that have large impacts on human life and ecosystems worldwide in many ways such as freshwater, irrigation, hydropower production etc. As many authors have indicated that the nature of precipitation shows high variability in terms of both spatial and temporal scales [@domroes1998a; @f.2002a; @mitchell2005a]. Therefore, studies on precipitation are very considerable particularly taking into account of climate change effects.
+Precipitation is one of the most important meteorological factors Sthat have large impacts on human life and ecosystems worldwide in many ways such as freshwater, irrigation, hydropower production etc. As many authors have indicated that the nature of precipitation shows high variability in terms of both spatial and temporal scales [@domroes1998a; @f.2002a; @mitchell2005a]. Therefore, studies on precipitation are very considerable particularly taking into account of climate change effects.
 
 While the ARIMA model is effective for many time series analyses, incorporating seasonality and exogenous variables can significantly enhance its predictive power. However, since ARIMA assumes the time series is stationary, it is necessary to employ a different model for non-stationary data with seasonal patterns.
 
