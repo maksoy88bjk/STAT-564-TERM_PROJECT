@@ -1,5 +1,5 @@
 ---
-title: "Daily Rainfall Modelling in one of the automated-weather observation station in Mugla Province of Turkiye"
+title: "Daily Rainfall Modelling in Mugla "
 author: 
   - name: Mehmet AKSOY *(aksoy.mehmet@metu.edu.tr)*
     affiliations:
@@ -164,9 +164,7 @@ ggplot()  + geom_sf(fill = "white") +
 
 ### Data Handling
 
-Data period is between 01.01.2009 and 31.12.2023 for Mugla Station (17292). Elevation of the station is 646 meter. Daily precipitation data is used as response variable in modelling. Distinct daily observation variables are used as predictors such as temperature (B0C), dew point temperature (B0C), sea-level air pressure (mb), cloud coverage (0-8), relative humidity (%), solar exposure (hour), solar radiation (W/m^2^) direction of wind (B0) and speed (m/sec).
-
-#complete eksik verileri tamamlama; date kolunu olusturduk vb.
+Data period is between 01.01.2009 and 31.12.2023 for Mugla Station (17292). Elevation of the station is 646 meter. Daily precipitation data is used as response variable in modelling. Distinct daily observation variables are used as predictors such as temperature (℃), dew point temperature (℃), sea-level air pressure (mb), cloud coverage (0-8), relative humidity (%), solar exposure (hour), solar radiation (W/m^2^) direction of wind (B0) and speed (m/sec).
 
 ```{r}
 
@@ -200,79 +198,29 @@ write.table(df, "merge.txt", row.names = FALSE, quote = FALSE, sep = "\t")
 
 1.  **Precipitation**: This is any form of water - liquid or solid - that falls from the atmosphere and reaches the ground. It includes rain, snow, sleet, and hail. It is usually measured in millimeters (mm).
 
-    -   Median: 0.000 mm
+    -   Most days experience less precipitation, but there are occasional instances of heavy rainfall, with a maximum of 168.6 mm.
 
-    -   Mean: 3.192 mm
+2.  **Temperature**: This is a measure of the warmth or coldness of the atmosphere as determined by a thermometer. It is typically reported in degrees Celsius (℃).
 
-    -   Maximum: 168.600 mm
+    -   The temperature ranges from cold to hot conditions, with mean temperatures around 10-15℃ and maximum temperatures reaching as high as 41.7℃
 
-    -   Most days experience no precipitation, but there are occasional instances of heavy rainfall, with a maximum of 168.6 mm.
+3.  **Dew Point Temperature**: This is the temperature at which air becomes saturated with moisture and dew can form. It is an indicator of the moisture content in the air and is measured in degrees Celsius (℃).
 
-2.  **Temperature**: This is a measure of the warmth or coldness of the atmosphere as determined by a thermometer. It is typically reported in degrees Celsius (B0C).
-
-    -   Median (Minimum Temperature): 9.50B0C
-
-    -   Mean (Minimum Temperature): 10.22B0C
-
-    -   Maximum (Minimum Temperature): 27.90B0C
-
-    -   Median (Maximum Temperature): 22.10B0C
-
-    -   Mean (Maximum Temperature): 22.59B0C
-
-    -   Maximum (Maximum Temperature): 41.70B0C
-
-    -   The temperature ranges from cold to hot conditions, with mean temperatures around 10-15B0C and maximum temperatures reaching as high as 41.7B0C.
-
-3.  **Dew Point Temperature**: This is the temperature at which air becomes saturated with moisture and dew can form. It is an indicator of the moisture content in the air and is measured in degrees Celsius (B0C).
-
-    -   Median: 4.50B0C
-
-    -   Mean: 7.312B0C
-
-    -   Maximum: 19.90B0C
-
-    -   Dewpoint temperatures indicate varying levels of atmospheric moisture, ranging from dry to humid conditions.
+    -   Dewpoint temperatures indicate varying levels of atmospheric moisture, ranging from dry to humid conditions with maximum 19.9 ℃.
 
 4.  **Relative Humidity**: This is the amount of moisture in the air compared to what the air can hold at that temperature. It is expressed as a percentage (%).
 
-    -   Median: 32.00%
-
-    -   Mean: 37.65%
-
-    -   Maximum: 100.00%
-
     -   Relative humidity values show a wide range of humidity levels, from very dry to highly moist air.
 
-5.  **Cloudiness**: This refers to the extent of cloud cover in the skyor in descriptive terms such as clear, partly cloudy, mostly cloudy, or overcast.
-
-    -   Median: 2.000
-
-    -   Mean: 2.511
-
-    -   Maximum: 7.600
+5.  **Cloudiness**: This refers to the extent of cloud cover in the sky or in descriptive terms such as clear, partly cloudy, mostly cloudy, or overcast.
 
     -   Cloudiness varies from clear to cloudy days, with a mean cloudiness value suggesting moderate cloud cover.
 
 6.  **Wind Speed**: This measures how fast the air is moving. It is typically reported in meters per second (m/s), kilometers per hour (km/h).
 
-    -   Median: 1.400 m/s
+    -   Wind speeds are generally low, with occasional higher speeds recorded with 4.70 m/s.
 
-    -   Mean: 1.418 m/s
-
-    -   Maximum: 4.700 m/s
-
-    -   Wind speeds are generally low, with occasional higher speeds recorded.
-
-7.  **Wind Direction**: This indicates the direction from which the wind is blowing. It is usually expressed in degrees (B0) from true north or using compass directions (e.g., N, NE, E).
-
-    -   **Mean**: 209.3 degrees
-
-    -   **Median**: 176.0 degrees
-
-    -   **Minimum**: 1.0 degrees
-
-    -   **Maximum**: 360.0 degrees
+7.  **Wind Direction**: This indicates the direction from which the wind is blowing. It is usually expressed in degrees from true north or using compass directions (e.g., N, NE, E).
 
     -   **NA's (Missing Values)**: 111
 
@@ -280,33 +228,15 @@ write.table(df, "merge.txt", row.names = FALSE, quote = FALSE, sep = "\t")
 
 8.  **Evapotranspiration**: This is the sum of evaporation from the land surface plus transpiration from plants. It represents the amount of water transferred from the land to the atmosphere. It is usually measured in millimeters (mm).
 
-    -   Median: 2.500 mm
-
-    -   Mean: 3.591 mm
-
-    -   Maximum: 17.700 mm
-
     -   Evapotranspiration rates vary, reflecting differences in water loss from soil and plants.
 
-9.  **Solar Radiation**: This is the energy from the sun received at the Earth's surface. It is typically measured in watts per square meter (W/mB2).
-
-    -   Median: 4.000 MJ/mB2
-
-    -   Mean: 4.124 MJ/mB2
-
-    -   Maximum: 8.600 MJ/mB2
+9.  **Solar Radiation**: This is the energy from the sun received at the Earth's surface. It is typically measured in watts per square meter (W/m).
 
     -   Solar radiation fluctuates, affecting temperature and other weather parameters.
 
 10. **Sun Exposure**: This refers to the duration and intensity of sunlight reaching a particular area. It is often measured in hours per day.
 
-    -   Median: 4.700 hours
-
-    -   Mean: 5.138 hours
-
-    -   Maximum: 12.200 hours
-
-    -   Sun exposure varies, reflecting differences in daylight duration.
+    -   Sun exposure varies, reflecting differences in daylight duration with 12.2 hours maximum duration.
 
 11. **Pressure**: This is the force exerted by the atmosphere at a given point. It is usually measured in hectopascals (hPa) or millibars (mb).
 
@@ -314,21 +244,22 @@ Sea level pressure typically ranges around 1013.25 hectopascals (hPa) or milliba
 
 -   **High Pressure Systems**: These are usually associated with calm and fair weather. Sea level pressures in high-pressure systems typically range from about 1015 hPa to over 1040 hPa.
 -   **Low Pressure Systems**: These are associated with stormy and unsettled weather. Sea level pressures in low-pressure systems can drop below 1000 hPa, and in severe storms like hurricanes or typhoons, pressures can drop significantly lower, sometimes reaching around 950 hPa or even lower.
-    -   Median: 1012.9 hPa
-    -   Mean: 1013.3 hPa
     -   Maximum: 1033.5 hPa
     -   Air pressure values fall within typical sea-level pressure ranges, indicating relatively stable atmospheric conditions.
 
 ```{r}
 #| warning: false
-
+print((nrow(df)))
+print(ncol(df))
 head(df)
 summary(df)
 ```
 
 ### Visualization of the Data
 
-As stated above, relative humidity and cloud cloud coverage should be used as predictors while response is precipitation since the relationship is higher than other variables. However, predictor's correlation between each other is also high whether positively or negatively. For example, correlation coefficient between cloud coverage and relative humidity is 0.67 or between maximum relative humidity and solar radiation is 0.72. This situation will most likely result in not needing to use many variables.
+As stated above, relative humidity and cloud coverage should be used as predictors while response is precipitation since the relationship is higher than other variables. However, predictor's correlation between each other is also high whether positively or negatively. For example, correlation coefficient between cloud coverage and relative humidity is 0.67 or between maximum relative humidity and solar radiation is 0.72. This situation will most likely result in not needing to use many variables.
+
+In the second part, it can be seen data deficient especially for evapotranspiration. Missing data imputation has been evaluated. However, in terms of technical approach this has been ignored. The other aspect is seasonality the data experiences regular and predictable changes recur. The temporal variability associated with seasonal patterns, such as temperature fluctuations, precipitation trends, and solar radiation changes, necessitates careful consideration during data analysis and interpretation. This can be explained climatic conditions of the station.
 
 ```{r, fig.width=9,fig.height=9}
 #| warning: false
@@ -379,10 +310,6 @@ ggplot(df_plot, aes(x= Date, y=value, fill=name, group=year(Date))) +
   theme(legend.position = "none",
         strip.background = element_rect(fill="white")) 
 ```
-
-In the case of the evapotranspiration dataset, it is imperative to acknowledge the presence of missing values. The temporal variability associated with seasonal patterns, such as temperature fluctuations, precipitation trends, and solar radiation changes, necessitates careful consideration during data analysis and interpretation.
-
-MISSING DATA & EXTRACTION
 
 ## EDA of the Precipitation
 
@@ -438,6 +365,10 @@ According to the time series plot of the precipitation, there is no specific lon
 
 ### Monthly Total Means
 
+Hydrologists use a different time measurement compared to the traditional January-to-December calendar year. For those who model and monitor water movement in the environment, the year starts on October 1st and concludes on September 30th.
+
+This period is referred to as a water year. To better understand the numbering system, each month is assigned a numerical value starting from the beginning of the water year. The water year commences in October, thus October is designated as month 1. Consequently, subsequent months follow this sequence, with January being represented as month 4.
+
 ```{r, fig.width=9,fig.height=6}
 #| warning: false
 
@@ -462,7 +393,15 @@ df |>
 
 ## Ridge & Lasso Regularization
 
-Hydrologists use a different time measurement compared to the traditional January-to-December calendar year. For those who model and monitor water movement in the environment, the year starts on October 1st and concludes on September 30th. This period is referred to as a water year. B To better understand the numbering system, each month is assigned a numerical value starting from the beginning of the water year. The water year commences in October, thus October is designated as month 1. Consequently, subsequent months follow this sequence, with January being represented as month 4.
+Ridge regression is implemented in the glmnet R package. glmnet() function fits a generalized linear model via penalized maximum likelihood. In addition to this, the alpha argument is known as a mixing parameter, with the range of 0 and 1.
+
+If alpha value equal to 0 the penalty term corresponds to the ridge regularized regression.
+
+MSE score is found 77.69 with chosen best lambda which is 0.433. According to the plot of the relationship between lambda and coefficients, Average wind speed took the highest coefficient which means there is a strong relationship between precipitation.
+
+Also, we penalized each variable and average wind speed most to avoid bias and overfitting. Poor performance on Ridge regression by looking at the plot of actual and predicted values. Since our precipitation exhibits non-linearity and it recognises rainy days as spikes we should think about non-linear solutions like random forest, neural network etc.
+
+In lasso regression We get similar results when we compare with the results of Ridge regression. Unlike the usual, no variables shrunk towards zero. This means each variable is highly correlated and affects the predictor variable with the chosen of the optimal lambda value. Because of that we cannot use Lasso regression as a feature selection phase
 
 ```{r, message=FALSE}
 #| warning: false
@@ -569,6 +508,14 @@ Do we need to scale both regreesion and revise the process?
 
 ### Seasonality Analyze
 
+-   Ho: No auto correlation for lags=365
+
+-   H1: Some auto correlation for lags=365
+
+Since the p-value is less than 0.05 we suggest that there is some autocorrelation for lags=365 in Precipitation data which is a strong indication of seasonality. Also, we can clearly observe seasonality in the Seasonality Component plot.
+
+On the other hand, when we examine the decomposition plot, there is still noise in the remainder part due to the possibility of recipient or weather variations. Also, there is a steady trend with some clear fluctuations as expected.
+
 ```{r}
 #| warning: false
 
@@ -581,21 +528,7 @@ ljung_box_result= Box.test(df_n$Precipitation, lag= 365, type= "Ljung-Box")
 print(ljung_box_result)
 ```
 
--   Ho: No auto correlation for lags=365
-
--   H1: Some auto correlation for lags=365
-
-Since the p-value is less than 0.05 we suggest that there is some autocorrelation for lags=365 in Precipitation data which is a strong indication of seasonality. Also, we can clearly observe seasonality in the Seasonality Component plot.
-
-On the other hand, when we examine the decomposition plot, there is still noise in the remainder part due to the possibility of recipient or weather variations. Also, there is a steady trend with some clear fluctuations as expected.
-
 ### Stationarity Analyze
-
-```{r}
-#| warning: false
-adf_test= adf.test(df_n$Precipitation, alternative = "stationary")
-print(adf_test)
-```
 
 -   Ho: The time series is non-stationary
 
@@ -603,7 +536,15 @@ print(adf_test)
 
 Since our p-value is less than 0.05, it can be concluded that the time series is stationary. That means that the mean, variance and autocorrelation of the series do not change over the years. Since we satisfied the assumption of stationary we can perform Statistical Models as well as Machine Learning Approaches.
 
+```{r}
+#| warning: false
+adf_test= adf.test(df_n$Precipitation, alternative = "stationary")
+print(adf_test)
+```
+
 ### ACF & PACF Plots
+
+Both of the ACF and PACF plots demonstrate significant spikes at lag 1. It can be observed that there is a repeated pattern in the ACF plot which is an indication of the seasonality. As a result, we should take seasonal differencing and there is no need for first-order differencing since our data is already in the stationary form.
 
 ```{r}
 par(mfrow = c(1, 2))
@@ -611,7 +552,7 @@ acf(df_n$Precipitation, main="ACF of Precipitation")
 pacf(df_n$Precipitation, main="PACF of Precipitation")
 ```
 
-Both??of??the ACF and PACF plots demonstrate significant spikes at lag 1. It can??be observed??that there is a repeated pattern in the ACF plot??which??is an indication of the seasonality. As a result, we should take seasonal differencing??and??there is no need for first-order differencing since our data is already in the stationary form.
+After utilizing seasonal differencing we seem to have solved seasonality problem since all of the repeated lags remain in the white noise band. Therefore we can build SARIMA model with (1,0,1), (1,1,1,365).
 
 ```{r}
 df_n_diff= diff(df_n$Precipitation, lag=365)
@@ -620,8 +561,6 @@ par(mfrow = c(1, 2))
 acf(df_n_diff, main="ACF of Precipitation")
 pacf(df_n_diff, main="PACF of Precipitation")
 ```
-
-After utilizing seasonal differencing we seem to have solved seasonality problem since all of the repeated lags remain in the white noise band. Therefore we can build SARIMA model with (1,0,1), (1,1,1,365).
 
 ```{r}
 df_n_res= ts(df_n$Precipitation, frequency = 365)
