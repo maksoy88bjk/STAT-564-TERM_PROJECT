@@ -1,5 +1,5 @@
 ---
-title: "Daily Rainfall Modelling in one of the automated-weather observation station in Mugla Province of Türkiye"
+title: "Daily Rainfall Modelling in one of the automated-weather observation station in Mugla Province of TC<rkiye"
 author: 
   - name: Mehmet AKSOY *(aksoy.mehmet@metu.edu.tr)*
     affiliations:
@@ -9,13 +9,13 @@ author:
     affiliations:
     - ref: metu
     - ref: ggit
-  - name: Deniz Güvenç TEK  *(deniz.tek@metu.edu.tr)*
+  - name: Deniz GUVENC TEK  *(deniz.tek@metu.edu.tr)*
     affiliations:
     - ref: metu
     - ref: stat
 affiliations:
   - id: metu
-    name: Middle East Technical University, Ankara, Türkiye
+    name: Middle East Technical University, Ankara, Turkiye
   - id: civil
     name: Department of Civil Engineering
   - id: ggit
@@ -96,7 +96,7 @@ Tree-based models, including Decision Trees, Random Forests, and Gradient Boosti
 
     -   **Column Subsampling**: Reduces overfitting by randomly selecting a subset of features for each tree.
 
-This study is focused on daily rainfall modelling for Muğla Province by using meteorological observations.
+This study is focused on daily rainfall modelling for MuDla Province by using meteorological observations.
 
 # Preliminary Preparations
 
@@ -124,15 +124,23 @@ library(MASS)
 library(tree)
 library(randomForest)
 library(gbm)
+library(VIM)
+library(dplyr)
+library(mice)
+library(forecast)
+library(Metrics)
+library(caret)
+library(e1071)
+library(kernlab)
 ```
 
 ## Study Location & Data
 
-In this study, Muğla Province is selected as the study area. This province is located in the southwestern part of Turkey, adjacent to the Mediterranean Sea, and is characterized by a Mediterranean climate with hot, dry summers and mild, wet winters. Muğla's diverse topography, ranging from coastal areas to mountainous regions, makes it an ideal location for climatic and hydrological studies.
+In this study, MuDla Province is selected as the study area. This province is located in the southwestern part of Turkey, adjacent to the Mediterranean Sea, and is characterized by a Mediterranean climate with hot, dry summers and mild, wet winters. MuDla's diverse topography, ranging from coastal areas to mountainous regions, makes it an ideal location for climatic and hydrological studies.
 
-The meteorological station 17292, situated within Muğla Province, is operated by the Turkish State Meteorological Service (TSMS). This station has been consistently providing reliable climatic observations, including temperature, precipitation, humidity, and wind speed data, which are essential for understanding the local climate patterns and trends. The data collected from this station play a crucial role in various research studies, particularly those related to water resources management, agricultural planning, and climate change impact assessments in the region.
+The meteorological station 17292, situated within MuDla Province, is operated by the Turkish State Meteorological Service (TSMS). This station has been consistently providing reliable climatic observations, including temperature, precipitation, humidity, and wind speed data, which are essential for understanding the local climate patterns and trends. The data collected from this station play a crucial role in various research studies, particularly those related to water resources management, agricultural planning, and climate change impact assessments in the region.
 
-The figure below illustrates the precise location of meteorological station 17292 within Muğla Province. This visual representation aids in contextualizing the spatial distribution of climatic data collected and emphasizes the station's strategic position for capturing representative climatic information for the entire province.
+The figure below illustrates the precise location of meteorological station 17292 within MuDla Province. This visual representation aids in contextualizing the spatial distribution of climatic data collected and emphasizes the station's strategic position for capturing representative climatic information for the entire province.
 
 ```{r, fig.width=9,fig.height=6}
 #| warning: false
@@ -156,7 +164,7 @@ ggplot()  + geom_sf(fill = "white") +
 
 ### Data Handling
 
-Data period is between 01.01.2009 and 31.12.2023 for Mugla Station (17292). Elevation of the station is 646 meter. Daily precipitation data is used as response variable in modelling. Distinct daily observation variables are used as predictors such as temperature (°C), dew point temperature (°C), sea-level air pressure (mb), cloud coverage (0-8), relative humidity (%), solar exposure (hour), solar radiation (W/m^2^) direction of wind (°) and speed (m/sec).
+Data period is between 01.01.2009 and 31.12.2023 for Mugla Station (17292). Elevation of the station is 646 meter. Daily precipitation data is used as response variable in modelling. Distinct daily observation variables are used as predictors such as temperature (B0C), dew point temperature (B0C), sea-level air pressure (mb), cloud coverage (0-8), relative humidity (%), solar exposure (hour), solar radiation (W/m^2^) direction of wind (B0) and speed (m/sec).
 
 #complete eksik verileri tamamlama; date kolunu olusturduk vb.
 
@@ -200,29 +208,29 @@ write.table(df, "merge.txt", row.names = FALSE, quote = FALSE, sep = "\t")
 
     -   Most days experience no precipitation, but there are occasional instances of heavy rainfall, with a maximum of 168.6 mm.
 
-2.  **Temperature**: This is a measure of the warmth or coldness of the atmosphere as determined by a thermometer. It is typically reported in degrees Celsius (°C).
+2.  **Temperature**: This is a measure of the warmth or coldness of the atmosphere as determined by a thermometer. It is typically reported in degrees Celsius (B0C).
 
-    -   Median (Minimum Temperature): 9.50°C
+    -   Median (Minimum Temperature): 9.50B0C
 
-    -   Mean (Minimum Temperature): 10.22°C
+    -   Mean (Minimum Temperature): 10.22B0C
 
-    -   Maximum (Minimum Temperature): 27.90°C
+    -   Maximum (Minimum Temperature): 27.90B0C
 
-    -   Median (Maximum Temperature): 22.10°C
+    -   Median (Maximum Temperature): 22.10B0C
 
-    -   Mean (Maximum Temperature): 22.59°C
+    -   Mean (Maximum Temperature): 22.59B0C
 
-    -   Maximum (Maximum Temperature): 41.70°C
+    -   Maximum (Maximum Temperature): 41.70B0C
 
-    -   The temperature ranges from cold to hot conditions, with mean temperatures around 10-15°C and maximum temperatures reaching as high as 41.7°C.
+    -   The temperature ranges from cold to hot conditions, with mean temperatures around 10-15B0C and maximum temperatures reaching as high as 41.7B0C.
 
-3.  **Dew Point Temperature**: This is the temperature at which air becomes saturated with moisture and dew can form. It is an indicator of the moisture content in the air and is measured in degrees Celsius (°C).
+3.  **Dew Point Temperature**: This is the temperature at which air becomes saturated with moisture and dew can form. It is an indicator of the moisture content in the air and is measured in degrees Celsius (B0C).
 
-    -   Median: 4.50°C
+    -   Median: 4.50B0C
 
-    -   Mean: 7.312°C
+    -   Mean: 7.312B0C
 
-    -   Maximum: 19.90°C
+    -   Maximum: 19.90B0C
 
     -   Dewpoint temperatures indicate varying levels of atmospheric moisture, ranging from dry to humid conditions.
 
@@ -256,7 +264,7 @@ write.table(df, "merge.txt", row.names = FALSE, quote = FALSE, sep = "\t")
 
     -   Wind speeds are generally low, with occasional higher speeds recorded.
 
-7.  **Wind Direction**: This indicates the direction from which the wind is blowing. It is usually expressed in degrees (°) from true north or using compass directions (e.g., N, NE, E).
+7.  **Wind Direction**: This indicates the direction from which the wind is blowing. It is usually expressed in degrees (B0) from true north or using compass directions (e.g., N, NE, E).
 
     -   **Mean**: 209.3 degrees
 
@@ -280,13 +288,13 @@ write.table(df, "merge.txt", row.names = FALSE, quote = FALSE, sep = "\t")
 
     -   Evapotranspiration rates vary, reflecting differences in water loss from soil and plants.
 
-9.  **Solar Radiation**: This is the energy from the sun received at the Earth's surface. It is typically measured in watts per square meter (W/m²).
+9.  **Solar Radiation**: This is the energy from the sun received at the Earth's surface. It is typically measured in watts per square meter (W/mB2).
 
-    -   Median: 4.000 MJ/m²
+    -   Median: 4.000 MJ/mB2
 
-    -   Mean: 4.124 MJ/m²
+    -   Mean: 4.124 MJ/mB2
 
-    -   Maximum: 8.600 MJ/m²
+    -   Maximum: 8.600 MJ/mB2
 
     -   Solar radiation fluctuates, affecting temperature and other weather parameters.
 
@@ -398,7 +406,7 @@ print(paste("Number of Null Values in Precipitation Column:",pre_null_values))
 missing_date= df_pre$Date[is.na(df_pre$Precipitation)]
 missing_date
 
-#Time Series Plot of Precipitation (with Missing Data Highlighted (2009-2024)
+#Time Series Plot of Precipitation (with Missing Data Highlighted (2009-2024))
 ggplot(df_pre, aes(x = Date, y = Precipitation)) +
   geom_line(color = "red", size = 0.5,alpha=0.5) +  # Continuous line plot
   geom_smooth(method = "loess", se = FALSE, color = "orange", size = 1.5) +  #Trend line
@@ -412,10 +420,8 @@ ggplot(df_pre, aes(x = Date, y = Precipitation)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         plot.title = element_text(hjust = 0.5)) #Centering the title
 
-#Time Series Plot of Precipitation (with Missing Data Highlighted (2021-2024)
-
+#Time Series Plot of Precipitation (with Trend Line Highlighted (2021-2024))
 df_pre_p1= filter(df_pre, Date>= as.Date("2021-01-01"))
-
 
 ggplot(df_pre_p1, aes(x = Date, y = Precipitation)) +
   geom_line(color = "red", size = 1) +  # Plotting the precipitation data
@@ -429,42 +435,6 @@ ggplot(df_pre_p1, aes(x = Date, y = Precipitation)) +
 ```
 
 According to the time series plot of the precipitation, there is no specific long-term trend (orange line) over the years. 4 of the 5 null values are found sequentially and one of them is located in "2012-11-09". The plot exhibits high volatility and also might be observed some seasonality (clearly observed in plot 2).
-
-### Seasonality Analyze
-
-```{r}
-#| warning: false
-#Seasonal Decomposition
-#Mean Imputation for NA values
-df_pre1=df_pre
-mean_imput=mean(df_pre1$Precipitation,na.rm=TRUE)
-df_pre1$Precipitation[is.na(df_pre1$Precipitation)]=mean_imput
-df_pre_ts= ts(df_pre1$Precipitation, frequency = 365)
-result_stl <- stl(df_pre_ts, s.window = "periodic")
-plot(result_stl)
-ljung_box_result= Box.test(df_pre1$Precipitation, lag= 365, type= "Ljung-Box")
-print(ljung_box_result)
-```
-
--   Ho: No auto correlation for lags=365
-
--   H1: Some auto correlation for lags=365
-
-Since the p-value is less than 0.05 we suggest that there is some autocorrelation for lags=365 in Precipitation data which is a strong indication of seasonality. Also, we can clearly observe seasonality in the Seasonality Component plot.
-
-### Stationarity Analyze
-
-```{r}
-#| warning: false
-adf_test= adf.test(df_pre1$Precipitation, alternative = "stationary")
-print(adf_test)
-```
-
--   Ho: The time series is non-stationary
-
--   H1: The time series is stationary
-
-Since our p-value is less than 0.05, it can be concluded that the time series is stationary. That means that the mean, variance and autocorrelation of the series do not change over the years. Since we satisfied the assumption of stationary we can perform Statistical Models as well as Machine Learning Approaches.
 
 ### Monthly Total Means
 
@@ -492,15 +462,33 @@ df |>
 
 ## Ridge & Lasso Regularization
 
-Hydrologists use a different time measurement compared to the traditional January-to-December calendar year. For those who model and monitor water movement in the environment, the year starts on October 1st and concludes on September 30th. This period is referred to as a water year.  To better understand the numbering system, each month is assigned a numerical value starting from the beginning of the water year. The water year commences in October, thus October is designated as month 1. Consequently, subsequent months follow this sequence, with January being represented as month 4.
+Hydrologists use a different time measurement compared to the traditional January-to-December calendar year. For those who model and monitor water movement in the environment, the year starts on October 1st and concludes on September 30th. This period is referred to as a water year. B To better understand the numbering system, each month is assigned a numerical value starting from the beginning of the water year. The water year commences in October, thus October is designated as month 1. Consequently, subsequent months follow this sequence, with January being represented as month 4.
 
-```{r}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 #| warning: false
+#df_n<- 
+# df |> 
+#  dplyr::select(!Evapotranspiration) |> 
+#  drop_na()  |> 
+#  filter(Date < "2023-01-01" ) 
+
 df_n<- 
  df |> 
   dplyr::select(!Evapotranspiration) |> 
-  drop_na()  |> 
   filter(Date < "2023-01-01" ) 
+
+#df_n <- kNN(df_n, k = 5)
+#imputed_data <- mice(df_n, m = 5, maxit = 50, method = 'pmm', seed = 500)
+#df_n <- complete(imputed_data)
+
+invisible(capture.output({
+  suppressMessages({
+    suppressWarnings({
+      imputed_data <- mice(df_n, m = 5, maxit = 50, method = 'pmm', seed = 500)
+      df_n <- complete(imputed_data)
+    })
+  })
+}))
 
 df_n$Month<-ifelse(month(df_n$Date)>=10, 
                         month(df_n$Date)-9,
@@ -536,7 +524,7 @@ out<- glmnet(x[train,], y[train],alpha=0)
 predict(out,type="coefficients",s=bestlambda)
 
 pp<- predict(out, newx = x[-train,], type = "response", s=bestlambda)
-pp2<- ifelse(pp < 0, 0, pp ) ## eksi tahminleri sıfıra eşitledik
+pp2<- ifelse(pp < 0, 0, pp ) ## eksi tahminleri sD1fD1ra eEitledik
 
 plot(y[-train], pp2)
 
@@ -575,6 +563,138 @@ MSE score is found??77.69??with chosen best lambda??which??is 0.433. According t
 We get similar results when we compare with the results of Ridge regression. Unlike the usual, no variables shrunk towards zero.??This??means each variable is highly correlated and affects the predictor variable with the chosen??of??the optimal??lambda value. Because of??that??can't we use Lasso regression as a feature selection phase?
 
 Do we need to scale both regreesion and revise the process?
+
+## SARIMA
+
+### Seasonality Analyze
+
+```{r}
+#| warning: false
+
+#Seasonal Decomposition
+#Mean Imputation for NA values
+df_pre_ts= ts(df_n$Precipitation, frequency = 365)
+result_stl <- stl(df_pre_ts, s.window = "periodic")
+plot(result_stl)
+ljung_box_result= Box.test(df_n$Precipitation, lag= 365, type= "Ljung-Box")
+print(ljung_box_result)
+
+
+```
+
+-   Ho: No auto correlation for lags=365
+
+-   H1: Some auto correlation for lags=365
+
+Since the p-value is less than 0.05 we suggest that there is some autocorrelation for lags=365 in Precipitation data which is a strong indication of seasonality. Also, we can clearly observe seasonality in the Seasonality Component plot.
+
+On the other hand, when we examine the decomposition plot, there is still noise in the remainder part due to the possibility of recipient or weather variations. Also, there is a steady trend with some clear fluctuations as expected.
+
+### Stationarity Analyze
+
+```{r}
+#| warning: false
+adf_test= adf.test(df_n$Precipitation, alternative = "stationary")
+print(adf_test)
+```
+
+-   Ho: The time series is non-stationary
+
+-   H1: The time series is stationary
+
+Since our p-value is less than 0.05, it can be concluded that the time series is stationary. That means that the mean, variance and autocorrelation of the series do not change over the years. Since we satisfied the assumption of stationary we can perform Statistical Models as well as Machine Learning Approaches.
+
+### ACF & PACF Plots
+
+```{r}
+par(mfrow = c(1, 2))
+acf(df_n$Precipitation, main="ACF of Precipitation")
+pacf(df_n$Precipitation, main="PACF of Precipitation")
+
+```
+
+Both??of??the ACF and PACF plots demonstrate significant spikes at lag 1. It can??be observed??that there is a repeated pattern in the ACF plot??which??is an indication of the seasonality. As a result, we should take seasonal differencing??and??there is no need for first-order differencing since our data is already in the stationary form.
+
+```{r}
+df_n_diff= diff(df_n$Precipitation, lag=365)
+
+par(mfrow = c(1, 2))
+acf(df_n_diff, main="ACF of Precipitation")
+pacf(df_n_diff, main="PACF of Precipitation")
+```
+
+After utilizing seasonal differencing we seem to have solved seasonality problem since all of the repeated lags remain in the white noise band. Therefore we can build SARIMA model with (1,0,1), (1,1,1,365).
+
+```{r}
+df_n_res= ts(df_n$Precipitation, frequency = 365)
+
+sarima_model= Arima(y[train], 
+                       order= c(1, 0, 1), 
+                       seasonal= c(1, 1, 1, 365))
+
+#summary(sarima_model)
+
+sarima_forecast= forecast(sarima_model, h= length(y[-train]))
+plot(sarima_forecast)
+
+#Since precipitation cannot be non negative value, replaces those value with 0.
+y_hat_sarima= sarima_forecast$mean
+y_hat_sarima1=ifelse(y_hat_sarima<0,1e-6,y_hat_sarima)
+y_act= y[-train]
+
+rmse_sarima= rmse(y_act, y_hat_sarima)
+smape_sarima= smape(y_act, y_hat_sarima1)
+
+print(paste("RMSE of the SARIMA Model: ", round(rmse_sarima,2)))
+print(paste("SMAPE of the SARIMA Model: ", round(smape_sarima,)))
+```
+
+```{r}
+sarimax_model= Arima(y[train], 
+                       order= c(1, 0, 1), 
+                       seasonal= c(1, 1, 1, 365), 
+                       xreg= x[train,])
+
+summary(sarimax_model)
+
+sarimax_forecast= forecast(sarimax_model, h= length(y[-train]), xreg = x[-train,])
+plot(sarimax_forecast)
+
+#Since precipitation cannot be non negative value, replaces those value with 0.
+y_hat_sarimax= sarimax_forecast$mean
+y_hat_sarimax1=ifelse(y_hat_sarimax<0,1e-6,y_hat_sarimax)
+y_act= y[-train]
+
+rmse_sarimax= rmse(y_act, y_hat_sarimax)
+smape_sarimax= smape(y_act, y_hat_sarimax1)
+
+print(paste("RMSE of the SARIMAX Model: ", round(rmse_sarimax,2)))
+print(paste("SMAPE of the SARIMAX Model: ", round(smape_sarimax,2)))
+```
+
+### Support Vector Regression
+
+```{r}
+df_n_lag= data.frame(Date = df_n$Date, y = y) %>% mutate(Lag1 = lag(y, 1), Lag7 = lag(y, 7)) %>% na.omit()
+x_lag=x[-(1:7), ]
+df_n_lag_c= cbind(df_n_lag, x_lag)
+df_n_lag_c1= df_n_lag_c[!names(df) %in% c("Date")]
+# Fit the SVR model
+svr_model <- train(y ~ ., data = df_n_lag_c1[train,], method = "svmRadial", 
+                   trControl = trainControl(method = "cv", number = 5),
+                   preProcess = c("center", "scale"))
+
+
+svr_forecasts <- predict(svr_model, newdata = df_n_lag_c1[-train,])
+
+# Evaluate the model performance
+rmse_svr= rmse(svr_forecasts, df_n_lag_c1$y[-train])
+smape_svr= smape(svr_forecasts, df_n_lag_c1$y[-train])
+
+print(paste("RMSE of the SVR Model: ", round(rmse_sarimax,2)))
+print(paste("SMAPE of the SVR Model: ", round(smape_sarimax,2)))
+
+```
 
 ## Tree-Based Methods
 
@@ -694,11 +814,11 @@ The test set MSE is 55.59; this indicates that random forests yielded an improve
 varImpPlot(rf.precipitation)
 ```
 
-The results indicate that across all of the trees considered in the random forest, the air pressure (mb) and the maximum relative humidity (%) are by far the two most important variables.
+The graphs which are variable importance metrics by looking the Percentage Increase in Mean Square Error and Increase in Node Purity explain that how much the model MSE or Node Purity is changed when the spesific variable is excluded. In both scenerios increasing these paramaters is directly related to importance of the variable which is excluded. The results indicate that across all of the trees considered in the random forest, the air pressure (mb) and the maximum relative humidity (%) are by far the two most important variables.
 
 ### Boosting
 
-Here we use the gbm package, and within it the gbm() function, to fit boosted regression trees to the our data set. We run gbm() with the option distribution=“gaussian” since this is a regression problem, shrinkage parameter/learning rate is taken as 0.03. The argument n.trees=5000 indicates that we want 5000 trees, and the option interaction.depth=6 limits the depth of each tree.
+Here we use the gbm package, and within it the gbm() function, to fit boosted regression trees to the our data set. We run gbm() with the option distribution=???gaussian??? since this is a regression problem, shrinkage parameter/learning rate is taken as 0.03. The argument n.trees=5000 indicates that we want 5000 trees, and the option interaction.depth=6 limits the depth of each tree.
 
 ```{r}
 set.seed(1)
