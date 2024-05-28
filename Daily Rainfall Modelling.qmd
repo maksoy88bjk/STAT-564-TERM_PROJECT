@@ -1,5 +1,5 @@
 ---
-title: "Daily Rainfall Modelling in Mugla "
+title: "Daily Rainfall Modelling in Mugla"
 author: 
   - name: Mehmet AKSOY *(aksoy.mehmet@metu.edu.tr)*
     affiliations:
@@ -167,7 +167,7 @@ ggplot()  + geom_sf(fill = "white") +
 Data period is between 01.01.2009 and 31.12.2023 for Mugla Station (17292). Elevation of the station is 646 meter. Daily precipitation data is used as response variable in modelling. Distinct daily observation variables are used as predictors such as temperature (b), dew point temperature (b), sea-level air pressure (mb), cloud coverage (0-8), relative humidity (%), solar exposure (hour), solar radiation (W/m^2^) direction of wind (B0) and speed (m/sec).
 
 ```{r}
-
+#| warning: false
 files<- list.files(paste0(here::here(),"/DATA"), pattern = "xlsx")
 listem<- list()
 missdates<- list()
@@ -194,7 +194,7 @@ for(i in 1:(length(files)-1)) {
 write.table(df, "merge.txt", row.names = FALSE, quote = FALSE, sep = "\t")
 ```
 
-### Descriptive Statistics
+# Descriptive Statistics
 
 1.  **Precipitation**: This is any form of water - liquid or solid - that falls from the atmosphere and reaches the ground. It includes rain, snow, sleet, and hail. It is usually measured in millimeters (mm).
 
@@ -249,8 +249,8 @@ Sea level pressure typically ranges around 1013.25 hectopascals (hPa) or milliba
 
 ```{r}
 #| warning: false
-print((nrow(df)))
-print(ncol(df))
+print(paste("Number of Rows: ", nrow(df)))
+print(paste("Number of Columns: ", ncol(df)))
 head(df)
 summary(df)
 ```
@@ -311,7 +311,33 @@ ggplot(df_plot, aes(x= Date, y=value, fill=name, group=year(Date))) +
         strip.background = element_rect(fill="white")) 
 ```
 
-## EDA of the Precipitation
+### Monthly Total Means
+
+Hydrologists use a different time measurement compared to the traditional January-to-December calendar year. For those who model and monitor water movement in the environment, the year starts on October 1st and concludes on September 30th.
+
+This period is referred to as a water year. To better understand the numbering system, each month is assigned a numerical value starting from the beginning of the water year. The water year commences in October, thus October is designated as month 1. Consequently, subsequent months follow this sequence, with January being represented as month 4.
+
+```{r, fig.width=9,fig.height=5}
+#| warning: false
+
+df |> 
+  mutate(Month = month(Date), Year = year(Date)) |> 
+  group_by(Month, Year) |> 
+  summarize(TotalPrecipitation = sum(Precipitation, na.rm = TRUE), 
+            .groups = 'drop') |> 
+  group_by(Month) |> 
+  summarize(MeanPrecipitation = mean(TotalPrecipitation, na.rm = TRUE), 
+            .groups = 'drop') |> 
+  ggplot(aes(x=factor(month.name, levels=month.name), 
+             y=MeanPrecipitation, group = 1)) + 
+  geom_bar(stat = "identity", fill = "skyblue", color="navyblue") + 
+  labs(x = "Month", y = "Precipitation (mm)") + 
+  geom_line(color = "navyblue", size = 1) + 
+  geom_point(color = "navyblue", size = 2) + 
+  theme_bw() + theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+## Exploratory Data Analysis (EDA) of the Precipitation
 
 ### Missing Value
 
@@ -363,37 +389,18 @@ ggplot(df_pre_p1, aes(x = Date, y = Precipitation)) +
 
 According to the time series plot of the precipitation, there is no specific long-term trend (orange line) over the years. 4 of the 5 null values are found sequentially and one of them is located in "2012-11-09". The plot exhibits high volatility and also might be observed some seasonality (clearly observed in plot 2).
 
-### Monthly Total Means
-
-Hydrologists use a different time measurement compared to the traditional January-to-December calendar year. For those who model and monitor water movement in the environment, the year starts on October 1st and concludes on September 30th.
-
-This period is referred to as a water year. To better understand the numbering system, each month is assigned a numerical value starting from the beginning of the water year. The water year commences in October, thus October is designated as month 1. Consequently, subsequent months follow this sequence, with January being represented as month 4.
-
-```{r, fig.width=9,fig.height=5}
-#| warning: false
-
-df |> 
-  mutate(Month = month(Date), Year = year(Date)) |> 
-  group_by(Month, Year) |> 
-  summarize(TotalPrecipitation = sum(Precipitation, na.rm = TRUE), 
-            .groups = 'drop') |> 
-  group_by(Month) |> 
-  summarize(MeanPrecipitation = mean(TotalPrecipitation, na.rm = TRUE), 
-            .groups = 'drop') |> 
-  ggplot(aes(x=factor(month.name, levels=month.name), 
-             y=MeanPrecipitation, group = 1)) + 
-  geom_bar(stat = "identity", fill = "skyblue", color="navyblue") + 
-  labs(x = "Month", y = "Precipitation (mm)") + 
-  geom_line(color = "navyblue", size = 1) + 
-  geom_point(color = "navyblue", size = 2) + 
-  theme_bw() + theme(axis.text.x = element_text(angle = 45, hjust = 1))
-```
-
 # Methodology
 
 ## MICE Imputation
 
-Although various of imputation techniques have been utilized, there was no significant difference compared to dropping null values. The possible reason for that the response variable (precipitation) usually contains the value of 0 or has seasonality in all predictor variables. After multiple tries, MICE imputation with 5 imputed datasets and 50 iterations gets the highest difference then adapted in the imputation part.
+In the precipitation time series data, there is some null values in various of precipitation and other predictor variables. Since majority of the input values in Evapotranspiration consist of null values, we remove that variable. After that, there is approximately 8% of null values left in the data. Although various of imputation techniques have been utilized, there was no significant difference compared to dropping null values. The possible reason for that the response variable (precipitation) usually contains the value of 0 or has seasonality in all predictor variables. After multiple tries, MICE imputation with 5 imputed datasets and 50 iterations gets the highest difference then adapted in the imputation part.
+
+```{r}
+#| warning: false
+df_null=df %>% filter(Date < "2023-01-01" ) 
+df_null1=apply(df_null,2,function(x) sum(is.na(x)))
+df_null1
+```
 
 ## Ridge & Lasso Regularization
 
@@ -506,7 +513,7 @@ MSE score is found 77.69 with chosen best lambda which is 0.433. According to th
 
 We get similar results when we compare with the results of Ridge regression. Unlike the usual, no variables shrunk towards zero. This means each variable is highly correlated and affects the predictor variable with the chosen of the optimal lambda value. As a result, non of the predictor variables shrunk towards to 0.
 
-## SARIMA
+## SARIMA & SARIMAX
 
 ### Seasonality Analyze
 
@@ -546,17 +553,17 @@ print(adf_test)
 
 ### ACF & PACF Plots
 
-Both of the ACF and PACF plots demonstrate significant spikes at lag 1. It can be observed that there is a repeated pattern in the ACF plot which is an indication of the seasonality. As a result, we should take seasonal differencing and there is no need for first-order differencing since our data is already in the stationary form.
-
 ```{r}
+#| warning: false
 par(mfrow = c(1, 2))
 acf(df_n$Precipitation, main="ACF of Precipitation")
 pacf(df_n$Precipitation, main="PACF of Precipitation")
 ```
 
-After utilizing seasonal differencing we seem to have solved seasonality problem since all of the repeated lags remain in the white noise band. Therefore we can build SARIMA model with (1,0,1), (1,1,1,365).
+Both of the ACF and PACF plots demonstrate significant spikes at lag 1. It can be observed that there is a repeated pattern in the ACF plot which is an indication of the seasonality. As a result, we should take seasonal differencing and there is no need for first-order differencing since our data is already in the stationary form.
 
 ```{r}
+#| warning: false
 df_n_diff= diff(df_n$Precipitation, lag=365)
 
 par(mfrow = c(1, 2))
@@ -564,7 +571,11 @@ acf(df_n_diff, main="ACF of Precipitation")
 pacf(df_n_diff, main="PACF of Precipitation")
 ```
 
+After utilizing seasonal differencing we seem to have solved seasonality problem since all of the repeated lags remain in the white noise band. Therefore we can build SARIMA model with (1,0,1), (1,1,1,365).
+
 ```{r}
+#| warning: false
+#SARIMA MODEL
 df_n_res= ts(df_n$Precipitation, frequency = 365)
 
 sarima_model= Arima(y[train], 
@@ -586,11 +597,15 @@ rmse_sarima= rmse(y_act, y_hat_sarima)
 smape_sarima= smape(y_act, y_hat_sarima1)
 r2_sarima= rsq(y_act, y_hat_sarima)
 
+print(paste("MSE of the SARIMAX Model: ", round(mse_sarima,2)))
 print(paste("RMSE of the SARIMA Model: ", round(rmse_sarima,2)))
-print(paste("SMAPE of the SARIMA Model: ", round(smape_sarima,)))
+print(paste("SMAPE of the SARIMA Model: ", round(smape_sarima,2)))
+
 ```
 
 ```{r}
+#| warning: false
+#SARIMAX Model
 sarimax_model= Arima(y[train], 
                        order= c(1, 0, 1), 
                        seasonal= c(1, 1, 1, 365), 
@@ -611,13 +626,49 @@ rmse_sarimax= rmse(y_act, y_hat_sarimax)
 smape_sarimax= smape(y_act, y_hat_sarimax1)
 r2_sarimax= rsq(y_act, y_hat_sarimax)
 
+print(paste("MSE of the SARIMAX Model: ", round(mse_sarimax,2)))
 print(paste("RMSE of the SARIMAX Model: ", round(rmse_sarimax,2)))
 print(paste("SMAPE of the SARIMAX Model: ", round(smape_sarimax,2)))
+
+data.frame(Date = c(df_n$Date, df_n$Date),
+                      Precipitation = c(y, 
+                                append(rep(NA,length(train)), y_hat_sarimax1)),
+                      Type = rep(c("Actual", "Predicted"), 
+                                 each = length(df_n$Date))) |> 
+ggplot(aes(x = Date, y = Precipitation, color = Type)) + 
+  geom_line() +
+theme_bw() +
+scale_color_manual(name=" ",values = c("Actual" = "dodgerblue",
+                              "Predicted" = "firebrick"),
+                   labels = c("Actual", "Forecasts")) +
+labs(x="Date",y="Precipitation (mm)") + 
+  theme(legend.position = c(.9,.8)) +ggtitle("Forecasts of Precipitation by using SARIMAX Model")
+
 ```
 
-### Support Vector Regression
+According to the results, SARIMAX (with predictor variables) demonstrates fine results by looking at their MSE, RMSE and MAPE. On the other hand, SARIMA exhibits poor performance and their R\^2 is near 0. This can be understandable in the context of precipitation, where factors like wind speed, temperature and humidity directly affect the response variable. This strong relationship can be also analyzed by looking at the results of Lasso. Ignoring these factors, precipitation tends to consist of lots of zero values and other values appear as spikes. This makes it insufficient to understand by looking solely at the response variable. According to the forecast plot, SARIMAX generally captures the actual values except for values with higher precipitations.
 
 ```{r}
+#| warning: false
+residuals_sarimax <- residuals(sarimax_model)
+
+# Plot of Residuals
+ggplot(data = data.frame(Date= df_n$Date[train], Residuals= residuals_sarimax), aes(x= Date, y= Residuals)) +
+  geom_line()+
+  theme_bw()+
+  labs(title ="Residuals of SARIMAX Model", x ="Date", y ="Residuals")
+
+# Q-Q grafi??i
+qqnorm(residuals_sarimax)
+qqline(residuals_sarimax)
+```
+
+Before completing the SARIMAX modelling, the assumption of residuals of heteroscedasticity and normality. According to the plots, there is no sign of increasing variance. Although residuals are distributed a little bit heavier, it is acceptable because of the nature of the precipitation values.
+
+## Support Vector Regression
+
+```{r}
+#| warning: false
 df_n_lag= data.frame(Date = df_n$Date, y = y) %>% mutate(Lag1 = lag(y, 1), Lag7 = lag(y, 7)) %>% na.omit()
 x_lag=x[-(1:7), ]
 df_n_lag_c= cbind(df_n_lag, x_lag)
@@ -636,10 +687,27 @@ rmse_svr= rmse(svr_forecasts, df_n_lag_c1$y[-train])
 smape_svr= smape(svr_forecasts, df_n_lag_c1$y[-train])
 r2_svr= rsq(svr_forecasts, df_n_lag_c1$y[-train])
 
-print(paste("RMSE of the SVR Model: ", round(rmse_sarimax,2)))
-print(paste("SMAPE of the SVR Model: ", round(smape_sarimax,2)))
+print(paste("MSE of the SVR Model: ", round(mse_svr,2)))
+print(paste("RMSE of the SVR Model: ", round(rmse_svr,2)))
+print(paste("SMAPE of the SVR Model: ", round(smape_svr,2)))
+
+data.frame(Date = c(df_n_lag $Date, df_n_lag $Date),
+                      Precipitation = c(df_n_lag$y, 
+                                append(rep(NA,length(train)), svr_forecasts)),
+                      Type = rep(c("Actual", "Predicted"), 
+                                 each = length(df_n_lag$Date))) |> 
+ggplot(aes(x = Date, y = Precipitation, color = Type)) + 
+  geom_line() +
+theme_bw() +
+scale_color_manual(name=" ",values = c("Actual" = "dodgerblue",
+                              "Predicted" = "firebrick"),
+                   labels = c("Actual", "Forecasts")) +
+labs(x="Date",y="Precipitation (mm)") + 
+  theme(legend.position = c(.9,.8)) +ggtitle("Forecasts of Precipitation by using SVR Model")
 
 ```
+
+SVR is also implemented in the dataset. The model is constructed with a 5-fold cross-validation and radial method by using scaled and centered data. Also, 1 day and 7 days lagged are added as a factor to get better results. According to the results we get similar results compared to SARIMAX. SVR also generally captures the trend and seasonal variation but not wells in the values with the higher magnitudes.
 
 ## Tree-Based Methods
 
@@ -711,6 +779,7 @@ r2_tree= rsq(yhat, df_tree.test)
 In other words, the test set MSE associated with the regression tree is `r round(mean((yhat - df_tree.test)^2),2)`. The square root of the MSE is therefore around `r round(sqrt(mean((yhat - df_tree.test)^2)),2)`, indicating that this model leads to test predictions that are within around `r round(sqrt(mean((yhat - df_tree.test)^2)),2)` mm of the true median precipitation value for the Mugla Station.
 
 ```{r}
+#| warning: false
 yhat_prune <-predict(prune.precipitation,newdata=df_tree[-train,])
 
 mse_prune_tree= mse(yhat_prune, df_tree.test)
@@ -760,6 +829,7 @@ The test set MSE associated with the bagged regression tree is `r round(mean((yh
 Growing a random forest proceeds in exactly the same way, except that we use a smaller value of the mtry argument. By default, randomForest() uses p/3 variables when building a random forest of regression trees, and p^1/2^ variables when building a random forest of classification trees. Here we use mtry = 7
 
 ```{r}
+#| warning: false
 set.seed(1)
 rf.precipitation <- randomForest(Precipitation ~., data=df_tree, subset=train, mtry=7,importance=TRUE)
 yhat.rf = predict(rf.precipitation, newdata=df_tree[-train,])
@@ -787,6 +857,7 @@ The graphs which are variable importance metrics by looking the Percentage Incre
 Here we use the gbm package, and within it the gbm() function, to fit boosted regression trees to the our data set. We run gbm() with the option distribution=gaussian since this is a regression problem, shrinkage parameter/learning rate is taken as 0.03. The argument n.trees=5000 indicates that we want 5000 trees, and the option interaction.depth=6 limits the depth of each tree.
 
 ```{r}
+#| warning: false
 set.seed(1)
 boost.precipitation = gbm(Precipitation ~.,
                 data = df_tree[train,],
@@ -802,6 +873,7 @@ summary(boost.precipitation)[2]
 We see that average relative humidity and air pressure variables are the most important variables. Now we can use the boosted model to predict daily precipitation on the test data.
 
 ```{r}
+#| warning: false
 yhat.boost <- predict(boost.precipitation,newdata=df_tree[-train,],n.trees=500)
 round(mean((yhat.boost - df_tree.test)^2),2)
 
@@ -826,15 +898,16 @@ ggplot(aes(x = Date, y = Precipitation, color = Type)) +
 theme_bw() +
 scale_color_manual(name=" ",values = c("Actual" = "dodgerblue",
                               "Predicted" = "firebrick"),
-                   labels = c("Actual", "Predicted")) +
+                   labels = c("Actual", "Forecasts")) +
 labs(x="Date",y="Precipitation (mm)") + 
-  theme(legend.position = c(.9,.8))
+  theme(legend.position = c(.9,.8))+ggtitle("Forecasts of Precipitation by using GBM")
 
 ```
 
 # Evaluation Metrics
 
 ```{r}
+#| warning: false
 error_table<- data.frame (
  Statistics = c("MSE","RMSE","SMAPE","R2"), 
  Ridge = c(mse_ridge, rmse_ridge, smape_ridge, r2_ridge), 
@@ -863,7 +936,7 @@ In the provided table, Boosting has the lowest MSE (51.88), indicating that it h
 
 Eshel and Farrell [@eshel2000] investigated rainfall variability over Eastern Mediterranean and they showed that rainfall is mostly depend on pressure anomalies. Lower air pressure is mostly related with precipitation since mostly frontal systems brings rainfall over Eastern Mediterranean. These frontal systems also means windy storms which comes from over Mediterranean Sea. Similarly, relative humidity is highly related with precipitation since rainfall formation is much easier in saturated air conditions. As everyone might guess cloud is necessary for rainfall production. By the way, dew point temperature means that how much air should be cooled to be saturated without any moisture addition. Thus, closer dew point temperature and air temperature means highly saturated and vice versa. As stated above, relative humidity, cloud coverage, air pressure, dew point temperature, wind direction, wind speed and temperature should be used as predictors while response is precipitation. However, mostly relative humidity and air pressure parameters become our main predictors on modelling precipitation. This situation most probably caused because of predictor's correlation between each other as showed on cor matrix.
 
-We have applied several methodology for modelling daily precipitation in Mugla Station by using multiple predictors. However, some parameters were not used well in some regressions as our expectation such as cloud coverage. Nevertheless, shrinkage methods are used in regression methods for variable selection. SARIMA is applied to eliminate seasonal effects. Eventually, tree-based methods are used for precipitation modelling.
+We have applied several methodology for modelling daily precipitation in Mugla Station by using multiple predictors. However, some parameters were not used well in some regressions as our expectation such as cloud coverage. Nevertheless, shrinkage methods are used in regression methods for variable selection. SARIMA which is widely used in forecasting time series data, on the other hand, gives us valuable technical information about the data like stationarity, ACF, PACF, seasonality and so forth. Eventually, tree-based methods are used for precipitation modelling.
 
 In summary, based on the provided metrics:
 
