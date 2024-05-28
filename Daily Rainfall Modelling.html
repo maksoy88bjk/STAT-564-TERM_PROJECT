@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.553">
+<meta name="generator" content="quarto-1.3.450">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -10,7 +10,7 @@
 <meta name="author" content="Sercan AKIL (sercan.akil@metu.edu.tr)">
 <meta name="author" content="Deniz GUVENC TEK (deniz.tek@metu.edu.tr)">
 
-<title>Daily Rainfall Modelling in one of the automated-weather observation station in Mugla Province of TC&lt;rkiye</title>
+<title>Daily Rainfall Modelling in one of the automated-weather observation station in Mugla Province of Turkiye</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -25,7 +25,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -61,7 +61,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
-  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -102,10 +101,7 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a>
-  <ul class="collapse">
-  <li><a href="#tree-models-and-regularization" id="toc-tree-models-and-regularization" class="nav-link" data-scroll-target="#tree-models-and-regularization"><span class="header-section-number">1.0.1</span> <strong>Tree Models and Regularization</strong></a></li>
-  </ul></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a></li>
   <li><a href="#preliminary-preparations" id="toc-preliminary-preparations" class="nav-link" data-scroll-target="#preliminary-preparations"><span class="header-section-number">2</span> Preliminary Preparations</a>
   <ul class="collapse">
   <li><a href="#uploading-necessary-packages" id="toc-uploading-necessary-packages" class="nav-link" data-scroll-target="#uploading-necessary-packages"><span class="header-section-number">2.0.1</span> Uploading Necessary Packages</a></li>
@@ -148,7 +144,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Daily Rainfall Modelling in one of the automated-weather observation station in Mugla Province of TC&lt;rkiye</h1>
+<h1 class="title">Daily Rainfall Modelling in one of the automated-weather observation station in Mugla Province of Turkiye</h1>
 </div>
 
 
@@ -159,7 +155,7 @@ div.csl-indent {
     <div class="quarto-title-meta-contents">
     <p class="author">Mehmet AKSOY <em>(aksoy.mehmet@metu.edu.tr)</em> </p>
   </div>
-  <div class="quarto-title-meta-contents">
+    <div class="quarto-title-meta-contents">
         <p class="affiliation">
             Middle East Technical University, Ankara, Turkiye
           </p>
@@ -167,10 +163,10 @@ div.csl-indent {
             Department of Civil Engineering
           </p>
       </div>
-    <div class="quarto-title-meta-contents">
+      <div class="quarto-title-meta-contents">
     <p class="author">Sercan AKIL <em>(sercan.akil@metu.edu.tr)</em> </p>
   </div>
-  <div class="quarto-title-meta-contents">
+    <div class="quarto-title-meta-contents">
         <p class="affiliation">
             Middle East Technical University, Ankara, Turkiye
           </p>
@@ -178,10 +174,10 @@ div.csl-indent {
             Geodetic and Geographic Information Technologies
           </p>
       </div>
-    <div class="quarto-title-meta-contents">
+      <div class="quarto-title-meta-contents">
     <p class="author">Deniz GUVENC TEK <em>(deniz.tek@metu.edu.tr)</em> </p>
   </div>
-  <div class="quarto-title-meta-contents">
+    <div class="quarto-title-meta-contents">
         <p class="affiliation">
             Middle East Technical University, Ankara, Turkiye
           </p>
@@ -189,7 +185,7 @@ div.csl-indent {
             Department of Statistics
           </p>
       </div>
-  </div>
+    </div>
 
 <div class="quarto-title-meta">
 
@@ -199,9 +195,7 @@ div.csl-indent {
   </div>
   
 
-
 </header>
-
 
 <section id="introduction" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
@@ -222,8 +216,7 @@ div.csl-indent {
 <li><p><strong>Parameter Selection</strong>: Automated frameworks such as <strong><code>pmdarima</code></strong> use regularization principles to optimize the selection of SARIMA parameters (p, d, q, P, D, Q, and s). These frameworks often employ criteria like the Akaike Information Criterion (AIC) or Bayesian Information Criterion (BIC), which inherently penalize model complexity to prevent overfitting.</p></li>
 <li><p><strong>Ensemble Methods</strong>: Combining multiple SARIMA models with regularization techniques can help in stabilizing the predictions and improving the robustness of the model.</p></li>
 </ul>
-<section id="tree-models-and-regularization" class="level3" data-number="1.0.1">
-<h3 data-number="1.0.1" class="anchored" data-anchor-id="tree-models-and-regularization"><span class="header-section-number">1.0.1</span> <strong>Tree Models and Regularization</strong></h3>
+<p><strong>Tree Models and Regularization</strong></p>
 <p>Tree-based models, including Decision Trees, Random Forests, and Gradient Boosting Machines (GBMs), can benefit from regularization techniques to improve their performance and prevent overfitting.</p>
 <p><strong>Regularization in Tree Models</strong>:</p>
 <ol type="1">
@@ -254,8 +247,7 @@ div.csl-indent {
 <li><p><strong>Column Subsampling</strong>: Reduces overfitting by randomly selecting a subset of features for each tree.</p></li>
 </ul></li>
 </ol>
-<p>This study is focused on daily rainfall modelling for MuDla Province by using meteorological observations.</p>
-</section>
+<p>This study is focused on daily rainfall modelling for Mugla Province by using meteorological observations.</p>
 </section>
 <section id="preliminary-preparations" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Preliminary Preparations</h1>
@@ -267,36 +259,36 @@ div.csl-indent {
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(corrplot)</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rnaturalearth)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tseries)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(seasonal)</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stats)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(grid)</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ISLR)</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotmo)</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tree)</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForest)</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gbm)</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(VIM)</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rnaturalearthdata)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tseries)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(seasonal)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stats)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(grid)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ISLR)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotmo)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tree)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(randomForest)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gbm)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(VIM)</span>
 <span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mice)</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Metrics)</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(e1071)</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kernlab)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Metrics)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(e1071)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kernlab)</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="study-location-data" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="study-location-data"><span class="header-section-number">2.1</span> Study Location &amp; Data</h2>
-<p>In this study, MuDla Province is selected as the study area. This province is located in the southwestern part of Turkey, adjacent to the Mediterranean Sea, and is characterized by a Mediterranean climate with hot, dry summers and mild, wet winters. MuDla’s diverse topography, ranging from coastal areas to mountainous regions, makes it an ideal location for climatic and hydrological studies.</p>
-<p>The meteorological station 17292, situated within MuDla Province, is operated by the Turkish State Meteorological Service (TSMS). This station has been consistently providing reliable climatic observations, including temperature, precipitation, humidity, and wind speed data, which are essential for understanding the local climate patterns and trends. The data collected from this station play a crucial role in various research studies, particularly those related to water resources management, agricultural planning, and climate change impact assessments in the region.</p>
-<p>The figure below illustrates the precise location of meteorological station 17292 within MuDla Province. This visual representation aids in contextualizing the spatial distribution of climatic data collected and emphasizes the station’s strategic position for capturing representative climatic information for the entire province.</p>
+<p>In this study, Mugla Province is selected as the study area. This province is located in the southwestern part of Turkey, adjacent to the Mediterranean Sea, and is characterized by a Mediterranean climate with hot, dry summers and mild, wet winters. Mugla’s diverse topography, ranging from coastal areas to mountainous regions, makes it an ideal location for climatic and hydrologic studies.</p>
+<p>The meteorological station 17292, situated within Mugla Province, is operated by the Turkish State Meteorological Service (TSMS). This station has been consistently providing reliable climatic observations, including temperature, precipitation, humidity, and wind speed data, which are essential for understanding the local climate patterns and trends. The data collected from this station play a crucial role in various research studies, particularly those related to water resources management, agricultural planning, and climate change impact assessments in the region.</p>
+<p>The figure below illustrates the precise location of meteorological station 17292 within Mugla Province. This visual representation aids in contextualizing the spatial distribution of climatic data collected and emphasizes the station’s strategic position for capturing representative climatic information for the entire province.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>rnaturalearth<span class="sc">::</span><span class="fu">ne_countries</span>(<span class="at">scale=</span><span class="st">'medium'</span>,<span class="at">returnclass =</span> <span class="st">'sf'</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()  <span class="sc">+</span> <span class="fu">geom_sf</span>(<span class="at">fill =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
@@ -314,11 +306,7 @@ div.csl-indent {
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="at">geom=</span><span class="st">"text"</span>, <span class="at">x=</span><span class="fl">28.7</span>, <span class="at">y=</span><span class="fl">37.3</span>, <span class="at">label=</span><span class="st">"Mugla Station </span><span class="sc">\n</span><span class="st"> 17292"</span>, </span>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">color=</span><span class="st">"black"</span>, <span class="at">fontface =</span> <span class="st">"bold.italic"</span>, <span class="at">size=</span><span class="dv">4</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="864"></p>
-</figure>
-</div>
+<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="864"></p>
 </div>
 </div>
 <section id="data-handling" class="level3" data-number="2.1.1">
@@ -519,11 +507,7 @@ div.csl-indent {
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">tl.col=</span><span class="st">"black"</span>,  <span class="at">insig =</span> <span class="st">"blank"</span>, </span>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">diag=</span><span class="cn">FALSE</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="864"></p>
-</figure>
-</div>
+<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="864"></p>
 </div>
 </div>
 <div class="cell">
@@ -550,11 +534,7 @@ div.csl-indent {
 <span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>,</span>
 <span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.background =</span> <span class="fu">element_rect</span>(<span class="at">fill=</span><span class="st">"white"</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="864"></p>
-</figure>
-</div>
+<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="864"></p>
 </div>
 </div>
 <div class="cell">
@@ -564,11 +544,7 @@ div.csl-indent {
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>,</span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.background =</span> <span class="fu">element_rect</span>(<span class="at">fill=</span><span class="st">"white"</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="864"></p>
-</figure>
-</div>
+<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="864"></p>
 </div>
 </div>
 <p>In the case of the evapotranspiration dataset, it is imperative to acknowledge the presence of missing values. The temporal variability associated with seasonal patterns, such as temperature fluctuations, precipitation trends, and solar radiation changes, necessitates careful consideration during data analysis and interpretation.</p>
@@ -622,11 +598,7 @@ div.csl-indent {
 <span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>),</span>
 <span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>)) <span class="co">#Centering the title</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Time Series Plot of Precipitation (with Trend Line Highlighted (2021-2024))</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>df_pre_p1<span class="ot">=</span> <span class="fu">filter</span>(df_pre, Date<span class="sc">&gt;=</span> <span class="fu">as.Date</span>(<span class="st">"2021-01-01"</span>))</span>
@@ -641,11 +613,7 @@ div.csl-indent {
 <span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
 <span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))  <span class="co"># Improve readability of x-axis labels</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-9-2.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-9-2.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>According to the time series plot of the precipitation, there is no specific long-term trend (orange line) over the years. 4 of the 5 null values are found sequentially and one of them is located in “2012-11-09”. The plot exhibits high volatility and also might be observed some seasonality (clearly observed in plot 2).</p>
@@ -669,11 +637,7 @@ div.csl-indent {
 <span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"navyblue"</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span> </span>
 <span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="864"></p>
-</figure>
-</div>
+<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="864"></p>
 </div>
 </div>
 </section>
@@ -685,29 +649,66 @@ div.csl-indent {
 <h2 data-number="3.1" class="anchored" data-anchor-id="ridge-lasso-regularization"><span class="header-section-number">3.1</span> Ridge &amp; Lasso Regularization</h2>
 <p>Hydrologists use a different time measurement compared to the traditional January-to-December calendar year. For those who model and monitor water movement in the environment, the year starts on October 1st and concludes on September 30th. This period is referred to as a water year. B To better understand the numbering system, each month is assigned a numerical value starting from the beginning of the water year. The water year commences in October, thus October is designated as month 1. Consequently, subsequent months follow this sequence, with January being represented as month 4.</p>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>df_n<span class="ot">&lt;-</span> </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a> df <span class="sc">|&gt;</span> </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">!</span>Evapotranspiration) <span class="sc">|&gt;</span> </span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Date <span class="sc">&lt;</span> <span class="st">"2023-01-01"</span> ) </span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="fu">invisible</span>(<span class="fu">capture.output</span>({</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">suppressMessages</span>({</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">suppressWarnings</span>({</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>      imputed_data <span class="ot">&lt;-</span> <span class="fu">mice</span>(df_n, <span class="at">m =</span> <span class="dv">5</span>, <span class="at">maxit =</span> <span class="dv">50</span>, <span class="at">method =</span> <span class="st">'pmm'</span>, <span class="at">seed =</span> <span class="dv">500</span>)</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>      df_n <span class="ot">&lt;-</span> <span class="fu">complete</span>(imputed_data)</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>}))</span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>df_n<span class="sc">$</span>Month<span class="ot">&lt;-</span><span class="fu">ifelse</span>(<span class="fu">month</span>(df_n<span class="sc">$</span>Date)<span class="sc">&gt;=</span><span class="dv">10</span>, </span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">month</span>(df_n<span class="sc">$</span>Date)<span class="sc">-</span><span class="dv">9</span>,</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">month</span>(df_n<span class="sc">$</span>Date)<span class="sc">+</span><span class="dv">3</span>) </span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>x<span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(Precipitation <span class="sc">~</span>. , df_n )[,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)]</span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>y<span class="ot">&lt;-</span> df_n<span class="sc">$</span>Precipitation</span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span>  <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span> <span class="fu">nrow</span>(df_n <span class="sc">|&gt;</span>  <span class="fu">filter</span>(Date <span class="sc">&lt;</span> <span class="st">"2021-01-01"</span> ) ) ) </span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a><span class="co"># rsquare</span></span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>rsq <span class="ot">&lt;-</span> <span class="cf">function</span> (x, y) <span class="fu">round</span>(<span class="fu">cor</span>(x, y) <span class="sc">^</span> <span class="dv">2</span>, <span class="dv">2</span>)</span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a><span class="co">#  RIDGE</span></span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="dv">10</span><span class="sc">^</span><span class="fu">seq</span>(<span class="dv">10</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="at">length=</span><span class="dv">100</span>)</span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>ridge.mod <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(x[train,], y[train], <span class="at">alpha=</span><span class="dv">0</span>)</span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_glmnet</span>(ridge.mod,<span class="at">label=</span><span class="dv">8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
+<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
 </div>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 73.88266</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>ridge.pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(ridge.mod, <span class="at">s=</span><span class="dv">4</span>, <span class="at">newx =</span> x[<span class="sc">-</span>train,])</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>mse_ridge<span class="ot">=</span> <span class="fu">mse</span>(ridge.pred, y[<span class="sc">-</span>train])</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>rmse_ridge<span class="ot">=</span> <span class="fu">rmse</span>(ridge.pred, y[<span class="sc">-</span>train])</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>smape_ridge<span class="ot">=</span> <span class="fu">smape</span>(ridge.pred, y[<span class="sc">-</span>train])</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>r2_ridge<span class="ot">=</span> <span class="fu">rsq</span>(<span class="fu">as.numeric</span>(ridge.pred), <span class="fu">as.numeric</span>(y[<span class="sc">-</span>train]))</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co"># ten-fold cross-validation</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>cv.out <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(x[train,], y[train], <span class="at">alpha=</span><span class="dv">0</span>)</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(cv.out)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-11-2.png" class="img-fluid figure-img" width="672"></p>
-</figure>
+<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-11-2.png" class="img-fluid" width="672"></p>
 </div>
-</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>bestlambda <span class="ot">&lt;-</span> cv.out<span class="sc">$</span>lambda.min ; bestlambda</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.4553769</code></pre>
 </div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 69.95682</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>ridge.pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(ridge.mod, <span class="at">s=</span>bestlambda, <span class="at">newx =</span> x[<span class="sc">-</span>train,])</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>mse_cv.ridge<span class="ot">=</span> <span class="fu">mse</span>(ridge.pred, y[<span class="sc">-</span>train])</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>rmse_cv.ridge<span class="ot">=</span> <span class="fu">rmse</span>(ridge.pred, y[<span class="sc">-</span>train])</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>smape_cv.ridge<span class="ot">=</span> <span class="fu">smape</span>(ridge.pred, y[<span class="sc">-</span>train])</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>r2_cv.ridge<span class="ot">=</span> <span class="fu">rsq</span>(<span class="fu">as.numeric</span>(ridge.pred), <span class="fu">as.numeric</span>(y[<span class="sc">-</span>train]))</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>out<span class="ot">&lt;-</span> <span class="fu">glmnet</span>(x[train,], y[train],<span class="at">alpha=</span><span class="dv">0</span>)</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(out,<span class="at">type=</span><span class="st">"coefficients"</span>,<span class="at">s=</span>bestlambda)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>17 x 1 sparse Matrix of class "dgCMatrix"
                                         s1
@@ -729,36 +730,44 @@ Solar_Radiation               -0.035459733
 Sun_Exposure                   0.078648243
 Month                         -0.150701892</code></pre>
 </div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>pp<span class="ot">&lt;-</span> <span class="fu">predict</span>(out, <span class="at">newx =</span> x[<span class="sc">-</span>train,], <span class="at">type =</span> <span class="st">"response"</span>, <span class="at">s=</span>bestlambda)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>pp2<span class="ot">&lt;-</span> <span class="fu">ifelse</span>(pp <span class="sc">&lt;</span> <span class="dv">0</span>, <span class="dv">0</span>, pp ) <span class="do">## eksi tahminleri sifira esitledik</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y[<span class="sc">-</span>train], pp2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-11-3.png" class="img-fluid figure-img" width="672"></p>
-</figure>
+<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-11-3.png" class="img-fluid" width="672"></p>
 </div>
-</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># LASSO </span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>lasso.mod <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(x[train,],y[train], <span class="at">alpha=</span><span class="dv">1</span>)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_glmnet</span>(lasso.mod,<span class="at">label=</span><span class="dv">8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-11-4.png" class="img-fluid figure-img" width="672"></p>
-</figure>
+<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-11-4.png" class="img-fluid" width="672"></p>
 </div>
-</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>cv.out<span class="ot">=</span><span class="fu">cv.glmnet</span>(x[train ,],y[train],<span class="at">alpha=</span><span class="dv">1</span>)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(cv.out)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-11-5.png" class="img-fluid figure-img" width="672"></p>
-</figure>
+<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-11-5.png" class="img-fluid" width="672"></p>
 </div>
-</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>bestlam<span class="ot">=</span>cv.out<span class="sc">$</span>lambda.min ; bestlam</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.004660924</code></pre>
 </div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 94.19687</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 69.37597</code></pre>
-</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>lasso.pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(lasso.mod, <span class="at">s=</span><span class="dv">4</span>, <span class="at">newx =</span> x[<span class="sc">-</span>train,])</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>mse_lasso<span class="ot">=</span> <span class="fu">mse</span>(lasso.pred, y[<span class="sc">-</span>train])</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>rmse_lasso<span class="ot">=</span> <span class="fu">rmse</span>(lasso.pred, y[<span class="sc">-</span>train])</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>smape_lasso<span class="ot">=</span> <span class="fu">smape</span>(lasso.pred, y[<span class="sc">-</span>train])</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>r2_lasso<span class="ot">=</span> <span class="fu">rsq</span>(<span class="fu">as.numeric</span>(lasso.pred), <span class="fu">as.numeric</span>(y[<span class="sc">-</span>train]))</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>lasso.pred<span class="ot">=</span><span class="fu">predict</span>(lasso.mod,<span class="at">s=</span>bestlam ,<span class="at">newx=</span>x[<span class="sc">-</span>train,])</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>mse_cv.lasso<span class="ot">=</span> <span class="fu">mse</span>(lasso.pred, y[<span class="sc">-</span>train])</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>rmse_cv.lasso<span class="ot">=</span> <span class="fu">rmse</span>(lasso.pred, y[<span class="sc">-</span>train])</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>smape_cv.lasso<span class="ot">=</span> <span class="fu">smape</span>(lasso.pred, y[<span class="sc">-</span>train])</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>r2_cv.lasso<span class="ot">=</span> <span class="fu">rsq</span>(<span class="fu">as.numeric</span>(lasso.pred), <span class="fu">as.numeric</span>(y[<span class="sc">-</span>train]))</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>out<span class="ot">&lt;-</span> <span class="fu">glmnet</span>(x[train,], y[train],<span class="at">alpha=</span><span class="dv">1</span>)</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(out,<span class="at">type=</span><span class="st">"coefficients"</span>,<span class="at">s=</span>bestlam)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>17 x 1 sparse Matrix of class "dgCMatrix"
                                         s1
@@ -780,12 +789,12 @@ Solar_Radiation                .
 Sun_Exposure                   0.057754213
 Month                         -0.160921265</code></pre>
 </div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>pp_2<span class="ot">&lt;-</span> <span class="fu">predict</span>(out, <span class="at">newx =</span> x[<span class="sc">-</span>train,], <span class="at">type =</span> <span class="st">"response"</span>, <span class="at">s=</span>bestlam)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>pp2_2<span class="ot">&lt;-</span> <span class="fu">ifelse</span>(pp_2 <span class="sc">&lt;</span> <span class="dv">0</span>, <span class="dv">0</span>, pp_2 )</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(y[<span class="sc">-</span>train], pp2_2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-11-6.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-11-6.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <ul>
@@ -803,20 +812,16 @@ Month                         -0.160921265</code></pre>
 <section id="seasonality-analyze" class="level3" data-number="3.2.1">
 <h3 data-number="3.2.1" class="anchored" data-anchor-id="seasonality-analyze"><span class="header-section-number">3.2.1</span> Seasonality Analyze</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Seasonal Decomposition</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="co">#Mean Imputation for NA values</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>df_pre_ts<span class="ot">=</span> <span class="fu">ts</span>(df_n<span class="sc">$</span>Precipitation, <span class="at">frequency =</span> <span class="dv">365</span>)</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>result_stl <span class="ot">&lt;-</span> <span class="fu">stl</span>(df_pre_ts, <span class="at">s.window =</span> <span class="st">"periodic"</span>)</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(result_stl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Seasonal Decomposition</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="co">#Mean Imputation for NA values</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>df_pre_ts<span class="ot">=</span> <span class="fu">ts</span>(df_n<span class="sc">$</span>Precipitation, <span class="at">frequency =</span> <span class="dv">365</span>)</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>result_stl <span class="ot">&lt;-</span> <span class="fu">stl</span>(df_pre_ts, <span class="at">s.window =</span> <span class="st">"periodic"</span>)</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(result_stl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
+<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
 </div>
-</div>
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>ljung_box_result<span class="ot">=</span> <span class="fu">Box.test</span>(df_n<span class="sc">$</span>Precipitation, <span class="at">lag=</span> <span class="dv">365</span>, <span class="at">type=</span> <span class="st">"Ljung-Box"</span>)</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(ljung_box_result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>ljung_box_result<span class="ot">=</span> <span class="fu">Box.test</span>(df_n<span class="sc">$</span>Precipitation, <span class="at">lag=</span> <span class="dv">365</span>, <span class="at">type=</span> <span class="st">"Ljung-Box"</span>)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(ljung_box_result)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Box-Ljung test
@@ -835,8 +840,8 @@ X-squared = 4081.6, df = 365, p-value &lt; 2.2e-16</code></pre>
 <section id="stationarity-analyze" class="level3" data-number="3.2.2">
 <h3 data-number="3.2.2" class="anchored" data-anchor-id="stationarity-analyze"><span class="header-section-number">3.2.2</span> Stationarity Analyze</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>adf_test<span class="ot">=</span> <span class="fu">adf.test</span>(df_n<span class="sc">$</span>Precipitation, <span class="at">alternative =</span> <span class="st">"stationary"</span>)</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(adf_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>adf_test<span class="ot">=</span> <span class="fu">adf.test</span>(df_n<span class="sc">$</span>Precipitation, <span class="at">alternative =</span> <span class="st">"stationary"</span>)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(adf_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Augmented Dickey-Fuller Test
@@ -855,75 +860,65 @@ alternative hypothesis: stationary</code></pre>
 <section id="acf-pacf-plots" class="level3" data-number="3.2.3">
 <h3 data-number="3.2.3" class="anchored" data-anchor-id="acf-pacf-plots"><span class="header-section-number">3.2.3</span> ACF &amp; PACF Plots</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(df_n<span class="sc">$</span>Precipitation, <span class="at">main=</span><span class="st">"ACF of Precipitation"</span>)</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pacf</span>(df_n<span class="sc">$</span>Precipitation, <span class="at">main=</span><span class="st">"PACF of Precipitation"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(df_n<span class="sc">$</span>Precipitation, <span class="at">main=</span><span class="st">"ACF of Precipitation"</span>)</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pacf</span>(df_n<span class="sc">$</span>Precipitation, <span class="at">main=</span><span class="st">"PACF of Precipitation"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Both??of??the ACF and PACF plots demonstrate significant spikes at lag 1. It can??be observed??that there is a repeated pattern in the ACF plot??which??is an indication of the seasonality. As a result, we should take seasonal differencing??and??there is no need for first-order differencing since our data is already in the stationary form.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>df_n_diff<span class="ot">=</span> <span class="fu">diff</span>(df_n<span class="sc">$</span>Precipitation, <span class="at">lag=</span><span class="dv">365</span>)</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(df_n_diff, <span class="at">main=</span><span class="st">"ACF of Precipitation"</span>)</span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="fu">pacf</span>(df_n_diff, <span class="at">main=</span><span class="st">"PACF of Precipitation"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>df_n_diff<span class="ot">=</span> <span class="fu">diff</span>(df_n<span class="sc">$</span>Precipitation, <span class="at">lag=</span><span class="dv">365</span>)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="fu">acf</span>(df_n_diff, <span class="at">main=</span><span class="st">"ACF of Precipitation"</span>)</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="fu">pacf</span>(df_n_diff, <span class="at">main=</span><span class="st">"PACF of Precipitation"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>After utilizing seasonal differencing we seem to have solved seasonality problem since all of the repeated lags remain in the white noise band. Therefore we can build SARIMA model with (1,0,1), (1,1,1,365).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>df_n_res<span class="ot">=</span> <span class="fu">ts</span>(df_n<span class="sc">$</span>Precipitation, <span class="at">frequency =</span> <span class="dv">365</span>)</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>sarima_model<span class="ot">=</span> <span class="fu">Arima</span>(y[train], </span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">order=</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>), </span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">seasonal=</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">365</span>))</span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="co">#summary(sarima_model)</span></span>
-<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>sarima_forecast<span class="ot">=</span> <span class="fu">forecast</span>(sarima_model, <span class="at">h=</span> <span class="fu">length</span>(y[<span class="sc">-</span>train]))</span>
-<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sarima_forecast)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>df_n_res<span class="ot">=</span> <span class="fu">ts</span>(df_n<span class="sc">$</span>Precipitation, <span class="at">frequency =</span> <span class="dv">365</span>)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>sarima_model<span class="ot">=</span> <span class="fu">Arima</span>(y[train], </span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">order=</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>), </span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">seasonal=</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">365</span>))</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a><span class="co">#summary(sarima_model)</span></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>sarima_forecast<span class="ot">=</span> <span class="fu">forecast</span>(sarima_model, <span class="at">h=</span> <span class="fu">length</span>(y[<span class="sc">-</span>train]))</span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sarima_forecast)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
+<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
 </div>
-</div>
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Since precipitation cannot be non negative value, replaces those value with 0.</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>y_hat_sarima<span class="ot">=</span> sarima_forecast<span class="sc">$</span>mean</span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>y_hat_sarima1<span class="ot">=</span><span class="fu">ifelse</span>(y_hat_sarima<span class="sc">&lt;</span><span class="dv">0</span>,<span class="fl">1e-6</span>,y_hat_sarima)</span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>y_act<span class="ot">=</span> y[<span class="sc">-</span>train]</span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>rmse_sarima<span class="ot">=</span> <span class="fu">rmse</span>(y_act, y_hat_sarima)</span>
-<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>smape_sarima<span class="ot">=</span> <span class="fu">smape</span>(y_act, y_hat_sarima1)</span>
-<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"RMSE of the SARIMA Model: "</span>, <span class="fu">round</span>(rmse_sarima,<span class="dv">2</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Since precipitation cannot be non negative value, replaces those value with 0.</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>y_hat_sarima<span class="ot">=</span> sarima_forecast<span class="sc">$</span>mean</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>y_hat_sarima1<span class="ot">=</span><span class="fu">ifelse</span>(y_hat_sarima<span class="sc">&lt;</span><span class="dv">0</span>,<span class="fl">1e-6</span>,y_hat_sarima)</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>y_act<span class="ot">=</span> y[<span class="sc">-</span>train]</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>mse_sarima<span class="ot">=</span> <span class="fu">mse</span>(y_act, y_hat_sarima)</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>rmse_sarima<span class="ot">=</span> <span class="fu">rmse</span>(y_act, y_hat_sarima)</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>smape_sarima<span class="ot">=</span> <span class="fu">smape</span>(y_act, y_hat_sarima1)</span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>r2_sarima<span class="ot">=</span> <span class="fu">rsq</span>(y_act, y_hat_sarima)</span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-11"><a href="#cb42-11" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"RMSE of the SARIMA Model: "</span>, <span class="fu">round</span>(rmse_sarima,<span class="dv">2</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "RMSE of the SARIMA Model:  9.97"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"SMAPE of the SARIMA Model: "</span>, <span class="fu">round</span>(smape_sarima,)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"SMAPE of the SARIMA Model: "</span>, <span class="fu">round</span>(smape_sarima,)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "SMAPE of the SARIMA Model:  2"</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>sarimax_model<span class="ot">=</span> <span class="fu">Arima</span>(y[train], </span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">order=</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>), </span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">seasonal=</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">365</span>), </span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">xreg=</span> x[train,])</span>
-<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sarimax_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>sarimax_model<span class="ot">=</span> <span class="fu">Arima</span>(y[train], </span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">order=</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">1</span>), </span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">seasonal=</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">365</span>), </span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">xreg=</span> x[train,])</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(sarimax_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Series: y[train] 
 Regression with ARIMA(1,0,1) errors 
@@ -956,30 +951,28 @@ AIC=31453.6   AICc=31453.79   BIC=31581.31
 
 Training set error measures:
                       ME     RMSE      MAE MPE MAPE      MASE          ACF1
-Training set 0.001393693 8.711407 4.574475 NaN  Inf 0.9989509 -8.912963e-05</code></pre>
+Training set 0.001393693 8.711407 4.574475 NaN  Inf 0.9989509 -8.912957e-05</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>sarimax_forecast<span class="ot">=</span> <span class="fu">forecast</span>(sarimax_model, <span class="at">h=</span> <span class="fu">length</span>(y[<span class="sc">-</span>train]), <span class="at">xreg =</span> x[<span class="sc">-</span>train,])</span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sarimax_forecast)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>sarimax_forecast<span class="ot">=</span> <span class="fu">forecast</span>(sarimax_model, <span class="at">h=</span> <span class="fu">length</span>(y[<span class="sc">-</span>train]), <span class="at">xreg =</span> x[<span class="sc">-</span>train,])</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(sarimax_forecast)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
+<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
 </div>
-</div>
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Since precipitation cannot be non negative value, replaces those value with 0.</span></span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>y_hat_sarimax<span class="ot">=</span> sarimax_forecast<span class="sc">$</span>mean</span>
-<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>y_hat_sarimax1<span class="ot">=</span><span class="fu">ifelse</span>(y_hat_sarimax<span class="sc">&lt;</span><span class="dv">0</span>,<span class="fl">1e-6</span>,y_hat_sarimax)</span>
-<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>y_act<span class="ot">=</span> y[<span class="sc">-</span>train]</span>
-<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>rmse_sarimax<span class="ot">=</span> <span class="fu">rmse</span>(y_act, y_hat_sarimax)</span>
-<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>smape_sarimax<span class="ot">=</span> <span class="fu">smape</span>(y_act, y_hat_sarimax1)</span>
-<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"RMSE of the SARIMAX Model: "</span>, <span class="fu">round</span>(rmse_sarimax,<span class="dv">2</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Since precipitation cannot be non negative value, replaces those value with 0.</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>y_hat_sarimax<span class="ot">=</span> sarimax_forecast<span class="sc">$</span>mean</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>y_hat_sarimax1<span class="ot">=</span><span class="fu">ifelse</span>(y_hat_sarimax<span class="sc">&lt;</span><span class="dv">0</span>,<span class="fl">1e-6</span>,y_hat_sarimax)</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>y_act<span class="ot">=</span> y[<span class="sc">-</span>train]</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>mse_sarimax<span class="ot">=</span> <span class="fu">mse</span>(y_act, y_hat_sarimax)</span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>rmse_sarimax<span class="ot">=</span> <span class="fu">rmse</span>(y_act, y_hat_sarimax)</span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>smape_sarimax<span class="ot">=</span> <span class="fu">smape</span>(y_act, y_hat_sarimax1)</span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a>r2_sarimax<span class="ot">=</span> <span class="fu">rsq</span>(y_act, y_hat_sarimax)</span>
+<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"RMSE of the SARIMAX Model: "</span>, <span class="fu">round</span>(rmse_sarimax,<span class="dv">2</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "RMSE of the SARIMAX Model:  8.33"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"SMAPE of the SARIMAX Model: "</span>, <span class="fu">round</span>(smape_sarimax,<span class="dv">2</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"SMAPE of the SARIMAX Model: "</span>, <span class="fu">round</span>(smape_sarimax,<span class="dv">2</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "SMAPE of the SARIMAX Model:  1.78"</code></pre>
 </div>
@@ -988,27 +981,29 @@ Training set 0.001393693 8.711407 4.574475 NaN  Inf 0.9989509 -8.912963e-05</cod
 <section id="support-vector-regression" class="level3" data-number="3.2.4">
 <h3 data-number="3.2.4" class="anchored" data-anchor-id="support-vector-regression"><span class="header-section-number">3.2.4</span> Support Vector Regression</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>df_n_lag<span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">Date =</span> df_n<span class="sc">$</span>Date, <span class="at">y =</span> y) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Lag1 =</span> <span class="fu">lag</span>(y, <span class="dv">1</span>), <span class="at">Lag7 =</span> <span class="fu">lag</span>(y, <span class="dv">7</span>)) <span class="sc">%&gt;%</span> <span class="fu">na.omit</span>()</span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>x_lag<span class="ot">=</span>x[<span class="sc">-</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>), ]</span>
-<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>df_n_lag_c<span class="ot">=</span> <span class="fu">cbind</span>(df_n_lag, x_lag)</span>
-<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>df_n_lag_c1<span class="ot">=</span> df_n_lag_c[<span class="sc">!</span><span class="fu">names</span>(df) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Date"</span>)]</span>
-<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the SVR model</span></span>
-<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>svr_model <span class="ot">&lt;-</span> <span class="fu">train</span>(y <span class="sc">~</span> ., <span class="at">data =</span> df_n_lag_c1[train,], <span class="at">method =</span> <span class="st">"svmRadial"</span>, </span>
-<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>                   <span class="at">trControl =</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">"cv"</span>, <span class="at">number =</span> <span class="dv">5</span>),</span>
-<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>                   <span class="at">preProcess =</span> <span class="fu">c</span>(<span class="st">"center"</span>, <span class="st">"scale"</span>))</span>
-<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>svr_forecasts <span class="ot">&lt;-</span> <span class="fu">predict</span>(svr_model, <span class="at">newdata =</span> df_n_lag_c1[<span class="sc">-</span>train,])</span>
-<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluate the model performance</span></span>
-<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a>rmse_svr<span class="ot">=</span> <span class="fu">rmse</span>(svr_forecasts, df_n_lag_c1<span class="sc">$</span>y[<span class="sc">-</span>train])</span>
-<span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a>smape_svr<span class="ot">=</span> <span class="fu">smape</span>(svr_forecasts, df_n_lag_c1<span class="sc">$</span>y[<span class="sc">-</span>train])</span>
-<span id="cb47-16"><a href="#cb47-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb47-17"><a href="#cb47-17" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"RMSE of the SVR Model: "</span>, <span class="fu">round</span>(rmse_sarimax,<span class="dv">2</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>df_n_lag<span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">Date =</span> df_n<span class="sc">$</span>Date, <span class="at">y =</span> y) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Lag1 =</span> <span class="fu">lag</span>(y, <span class="dv">1</span>), <span class="at">Lag7 =</span> <span class="fu">lag</span>(y, <span class="dv">7</span>)) <span class="sc">%&gt;%</span> <span class="fu">na.omit</span>()</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>x_lag<span class="ot">=</span>x[<span class="sc">-</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">7</span>), ]</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>df_n_lag_c<span class="ot">=</span> <span class="fu">cbind</span>(df_n_lag, x_lag)</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>df_n_lag_c1<span class="ot">=</span> df_n_lag_c[<span class="sc">!</span><span class="fu">names</span>(df) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Date"</span>)]</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the SVR model</span></span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>svr_model <span class="ot">&lt;-</span> <span class="fu">train</span>(y <span class="sc">~</span> ., <span class="at">data =</span> df_n_lag_c1[train,], <span class="at">method =</span> <span class="st">"svmRadial"</span>, </span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a>                   <span class="at">trControl =</span> <span class="fu">trainControl</span>(<span class="at">method =</span> <span class="st">"cv"</span>, <span class="at">number =</span> <span class="dv">5</span>),</span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a>                   <span class="at">preProcess =</span> <span class="fu">c</span>(<span class="st">"center"</span>, <span class="st">"scale"</span>))</span>
+<span id="cb53-9"><a href="#cb53-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-10"><a href="#cb53-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-11"><a href="#cb53-11" aria-hidden="true" tabindex="-1"></a>svr_forecasts <span class="ot">&lt;-</span> <span class="fu">predict</span>(svr_model, <span class="at">newdata =</span> df_n_lag_c1[<span class="sc">-</span>train,])</span>
+<span id="cb53-12"><a href="#cb53-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-13"><a href="#cb53-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluate the model performance</span></span>
+<span id="cb53-14"><a href="#cb53-14" aria-hidden="true" tabindex="-1"></a>mse_svr<span class="ot">=</span> <span class="fu">mse</span>(svr_forecasts, df_n_lag_c1<span class="sc">$</span>y[<span class="sc">-</span>train])</span>
+<span id="cb53-15"><a href="#cb53-15" aria-hidden="true" tabindex="-1"></a>rmse_svr<span class="ot">=</span> <span class="fu">rmse</span>(svr_forecasts, df_n_lag_c1<span class="sc">$</span>y[<span class="sc">-</span>train])</span>
+<span id="cb53-16"><a href="#cb53-16" aria-hidden="true" tabindex="-1"></a>smape_svr<span class="ot">=</span> <span class="fu">smape</span>(svr_forecasts, df_n_lag_c1<span class="sc">$</span>y[<span class="sc">-</span>train])</span>
+<span id="cb53-17"><a href="#cb53-17" aria-hidden="true" tabindex="-1"></a>r2_svr<span class="ot">=</span> <span class="fu">rsq</span>(svr_forecasts, df_n_lag_c1<span class="sc">$</span>y[<span class="sc">-</span>train])</span>
+<span id="cb53-18"><a href="#cb53-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-19"><a href="#cb53-19" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"RMSE of the SVR Model: "</span>, <span class="fu">round</span>(rmse_sarimax,<span class="dv">2</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "RMSE of the SVR Model:  8.33"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"SMAPE of the SVR Model: "</span>, <span class="fu">round</span>(smape_sarimax,<span class="dv">2</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"SMAPE of the SVR Model: "</span>, <span class="fu">round</span>(smape_sarimax,<span class="dv">2</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "SMAPE of the SVR Model:  1.78"</code></pre>
 </div>
@@ -1020,9 +1015,10 @@ Training set 0.001393693 8.711407 4.574475 NaN  Inf 0.9989509 -8.912963e-05</cod
 <section id="fitting-regression" class="level3" data-number="3.3.1">
 <h3 data-number="3.3.1" class="anchored" data-anchor-id="fitting-regression"><span class="header-section-number">3.3.1</span> Fitting Regression</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>df_tree<span class="ot">&lt;-</span> df_n[,<span class="sc">-</span><span class="dv">1</span>]</span>
-<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>tree.precipitation <span class="ot">&lt;-</span> <span class="fu">tree</span>(Precipitation<span class="sc">~</span>.,df_tree, <span class="at">subset=</span>train)</span>
-<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(tree.precipitation)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>df_tree<span class="ot">&lt;-</span> df_n[,<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>tree.precipitation <span class="ot">&lt;-</span> <span class="fu">tree</span>(Precipitation<span class="sc">~</span>.,df_tree, <span class="at">subset=</span>train)</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(tree.precipitation)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Regression tree:
@@ -1039,22 +1035,18 @@ Distribution of residuals:
 -58.0500  -0.6411  -0.6411   0.0000  -0.6411  99.3500 </code></pre>
 </div>
 </div>
-<p>Notice that the output of summary() indicates that only five of the variables have been used in constructing the tree. Relative humidity, air pressure and month variables become the most important ones, as we expected except cloudiness. In the context of a regression tree, the deviance is simply the sum of squared errors for the tree. We now plot the tree.</p>
+<p>Notice that the output of summary() indicates that only seven of the variables have been used in constructing the tree. Relative humidity, air pressure, wind speed and cloudiness variables become the most important ones, as we expected. In the context of a regression tree, the deviance is simply the sum of squared errors for the tree. We now plot the tree.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(tree.precipitation)</span>
-<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(tree.precipitation,<span class="at">pretty=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(tree.precipitation)</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(tree.precipitation,<span class="at">pretty=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="864"></p>
-</figure>
+<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="1152"></p>
 </div>
 </div>
-</div>
-<p>Now we use the cv.tree() function to see whether pruning the tree will improve performance. K-fold cross validation technique is preformed to prune the regression tree. The minimum deviance is available where number of terminal nodes is 4. Thus, we can prune the regression tree from 10 to 4 terminal nodes.</p>
+<p>Now we use the cv.tree() function to see whether pruning the tree will improve performance. K-fold cross validation technique is preformed to prune the regression tree. The minimum deviance with less complexity is available where number of terminal nodes is 4. Thus, we can prune the regression tree from 14 to 4 terminal nodes.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>cv.precipitation <span class="ot">&lt;-</span> <span class="fu">cv.tree</span>(tree.precipitation);cv.precipitation</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>cv.precipitation <span class="ot">&lt;-</span> <span class="fu">cv.tree</span>(tree.precipitation);cv.precipitation</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$size
  [1] 14 13 12 11  9  7  5  4  3  2  1
@@ -1073,58 +1065,55 @@ $method
 attr(,"class")
 [1] "prune"         "tree.sequence"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(cv.precipitation<span class="sc">$</span>size, cv.precipitation<span class="sc">$</span>dev,</span>
-<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">type=</span><span class="st">'b'</span>, <span class="at">col=</span><span class="st">"dodgerblue"</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span>
-<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">which.min</span>(<span class="fu">rev</span>(cv.precipitation<span class="sc">$</span>dev)), <span class="at">col=</span><span class="st">"firebrick"</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">lty=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(cv.precipitation<span class="sc">$</span>size, cv.precipitation<span class="sc">$</span>dev,</span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">type=</span><span class="st">'b'</span>, <span class="at">col=</span><span class="st">"dodgerblue"</span>, <span class="at">lwd=</span><span class="dv">2</span>)</span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">which.min</span>(<span class="fu">rev</span>(cv.precipitation<span class="sc">$</span>dev)), <span class="at">col=</span><span class="st">"firebrick"</span>, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">lty=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="864"></p>
-</figure>
-</div>
+<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="864"></p>
 </div>
 </div>
 <p>In this case, the four-node tree is selected by cross-validation. Thus, we can prune the tree, we could do so as follows, using the prune.tree() function:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>prune.precipitation <span class="ot">&lt;-</span> <span class="fu">prune.tree</span>(tree.precipitation,<span class="at">best=</span><span class="dv">4</span>)</span>
-<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(prune.precipitation)</span>
-<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(prune.precipitation,<span class="at">pretty=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>prune.precipitation <span class="ot">&lt;-</span> <span class="fu">prune.tree</span>(tree.precipitation,<span class="at">best=</span><span class="dv">4</span>)</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(prune.precipitation)</span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(prune.precipitation,<span class="at">pretty=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="864"></p>
-</figure>
-</div>
+<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="864"></p>
 </div>
 </div>
 <p>In keeping with the cross-validation results, we use the unpruned tree to make predictions on the test set.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>yhat <span class="ot">&lt;-</span> <span class="fu">predict</span>(tree.precipitation,<span class="at">newdata=</span>df_tree[<span class="sc">-</span>train,])</span>
-<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>df_tree.test <span class="ot">&lt;-</span> df_tree[<span class="sc">-</span>train,<span class="st">"Precipitation"</span>]</span>
-<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>plot_test<span class="ot">&lt;-</span></span>
-<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(yhat, df_tree.test) <span class="sc">|&gt;</span> </span>
-<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span> yhat, <span class="at">y=</span>df_tree.test)) <span class="sc">+</span> </span>
-<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">2</span>, <span class="at">alpha=</span><span class="fl">0.5</span>, <span class="at">color=</span><span class="st">"dodgerblue"</span>) <span class="sc">+</span> </span>
-<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>() <span class="sc">+</span> </span>
-<span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Predicted Response"</span>,<span class="at">y=</span><span class="st">"True Response"</span>) <span class="sc">+</span> </span>
-<span id="cb58-11"><a href="#cb58-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x=</span><span class="dv">60</span>, <span class="at">y=</span><span class="dv">20</span>, <span class="at">label=</span> </span>
-<span id="cb58-12"><a href="#cb58-12" aria-hidden="true" tabindex="-1"></a>             <span class="fu">paste</span>(<span class="st">"MSE is"</span>,</span>
-<span id="cb58-13"><a href="#cb58-13" aria-hidden="true" tabindex="-1"></a>             <span class="fu">round</span>(<span class="fu">mean</span>((yhat <span class="sc">-</span> df_tree.test)<span class="sc">^</span><span class="dv">2</span>),<span class="dv">2</span>)))</span>
-<span id="cb58-14"><a href="#cb58-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb58-15"><a href="#cb58-15" aria-hidden="true" tabindex="-1"></a>plot_test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>yhat <span class="ot">&lt;-</span> <span class="fu">predict</span>(tree.precipitation,<span class="at">newdata=</span>df_tree[<span class="sc">-</span>train,])</span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>df_tree.test <span class="ot">&lt;-</span> df_tree[<span class="sc">-</span>train,<span class="st">"Precipitation"</span>]</span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a>plot_test<span class="ot">&lt;-</span></span>
+<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(yhat, df_tree.test) <span class="sc">|&gt;</span> </span>
+<span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span> yhat, <span class="at">y=</span>df_tree.test)) <span class="sc">+</span> </span>
+<span id="cb64-7"><a href="#cb64-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb64-8"><a href="#cb64-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">2</span>, <span class="at">alpha=</span><span class="fl">0.5</span>, <span class="at">color=</span><span class="st">"dodgerblue"</span>) <span class="sc">+</span> </span>
+<span id="cb64-9"><a href="#cb64-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>() <span class="sc">+</span> </span>
+<span id="cb64-10"><a href="#cb64-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Predicted Response"</span>,<span class="at">y=</span><span class="st">"True Response"</span>) <span class="sc">+</span> </span>
+<span id="cb64-11"><a href="#cb64-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x=</span><span class="dv">30</span>, <span class="at">y=</span><span class="dv">60</span>, <span class="at">label=</span> </span>
+<span id="cb64-12"><a href="#cb64-12" aria-hidden="true" tabindex="-1"></a>             <span class="fu">paste</span>(<span class="st">"MSE is"</span>,</span>
+<span id="cb64-13"><a href="#cb64-13" aria-hidden="true" tabindex="-1"></a>             <span class="fu">round</span>(<span class="fu">mean</span>((yhat <span class="sc">-</span> df_tree.test)<span class="sc">^</span><span class="dv">2</span>),<span class="dv">2</span>)))</span>
+<span id="cb64-14"><a href="#cb64-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-15"><a href="#cb64-15" aria-hidden="true" tabindex="-1"></a>plot_test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="864"></p>
-</figure>
+<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid" width="864"></p>
 </div>
-</div>
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>mse_tree<span class="ot">=</span> <span class="fu">mse</span>(yhat, df_tree.test)</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>rmse_tree<span class="ot">=</span> <span class="fu">rmse</span>(yhat, df_tree.test)</span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>smape_tree<span class="ot">=</span> <span class="fu">smape</span>(yhat, df_tree.test)</span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>r2_tree<span class="ot">=</span> <span class="fu">rsq</span>(yhat, df_tree.test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In other words, the test set MSE associated with the regression tree is 69.25. The square root of the MSE is therefore around 8.32, indicating that this model leads to test predictions that are within around 8.32 mm of the true median precipitation value for the Mugla Station.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>yhat_prune <span class="ot">&lt;-</span><span class="fu">predict</span>(prune.precipitation,<span class="at">newdata=</span>df_tree[<span class="sc">-</span>train,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>yhat_prune <span class="ot">&lt;-</span><span class="fu">predict</span>(prune.precipitation,<span class="at">newdata=</span>df_tree[<span class="sc">-</span>train,])</span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>mse_prune_tree<span class="ot">=</span> <span class="fu">mse</span>(yhat_prune, df_tree.test)</span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a>rmse_prune_tree<span class="ot">=</span> <span class="fu">rmse</span>(yhat_prune, df_tree.test)</span>
+<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a>smape_prune_tree<span class="ot">=</span> <span class="fu">smape</span>(yhat_prune, df_tree.test)</span>
+<span id="cb66-6"><a href="#cb66-6" aria-hidden="true" tabindex="-1"></a>r2_prune_tree<span class="ot">=</span> <span class="fu">rsq</span>(yhat_prune, df_tree.test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The MSE and RMSE for pruned tree are estimated as 66.49 and 8.15, respectively. Due to the nature of regression trees the predictions equal to averages of response variables in training data based on embranchment of the tree. In our example, predictions are available for five and 4 variables for unpruned and pruned cases, respectively.</p>
 </section>
@@ -1132,9 +1121,9 @@ attr(,"class")
 <h3 data-number="3.3.2" class="anchored" data-anchor-id="bagging-and-random-forests"><span class="header-section-number">3.3.2</span> Bagging and Random Forests</h3>
 <p>Here we apply bagging and random forests to the our data, using the randomForest package in R. Recall that bagging is simply a special case of a random forest with m = p.&nbsp;Therefore, the randomForest() function can be used to perform both random forests and bagging. The argument mtry=16 indicates that all 16 predictors should be considered for each split of the tree.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>bag.precipitation <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(Precipitation <span class="sc">~</span>., <span class="at">data=</span>df_tree, <span class="at">subset=</span>train, <span class="at">mtry=</span><span class="dv">16</span>,<span class="at">importance=</span><span class="cn">TRUE</span>)</span>
-<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>bag.precipitation</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>bag.precipitation <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(Precipitation <span class="sc">~</span>., <span class="at">data=</span>df_tree, <span class="at">subset=</span>train, <span class="at">mtry=</span><span class="dv">16</span>,<span class="at">importance=</span><span class="cn">TRUE</span>)</span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>bag.precipitation</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -1147,38 +1136,38 @@ No. of variables tried at each split: 16
                     % Var explained: 33.56</code></pre>
 </div>
 </div>
-<p>The Random Forest model consists of 500 decision trees. MSE on training data for the last tree is estimated as 71.12541. Percentage of variance in the target variable value of 30.66% indicates that the model explains about 30.66% of the variance in precipitation. The explained variance of 30.66% suggests that the model captures about a third of the variability in precipitation based on the provided predictors. This is a moderate level of explanatory power, indicating that while the model is capturing some of the relationships, there is still a significant portion of variability that it doesn’t explain.</p>
+<p>The Random Forest model consists of 500 decision trees. MSE on training data for the last tree is estimated as 71.45367. Percentage of variance in the target variable value of 33.56% indicates that the model explains about 33.56% of the variance in precipitation. The explained variance of 33.56% suggests that the model captures about a third of the variability in precipitation based on the provided predictors. This is a moderate level of explanatory power, indicating that while the model is capturing some of the relationships, there is still a significant portion of variability that it doesn’t explain.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>yhat.bag <span class="ot">=</span> <span class="fu">predict</span>(bag.precipitation, <span class="at">newdata=</span>df_tree[<span class="sc">-</span>train,])</span>
-<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(yhat.bag, df_tree.test) <span class="sc">|&gt;</span> </span>
-<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span> yhat, <span class="at">y=</span>df_tree.test)) <span class="sc">+</span> </span>
-<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">2</span>, <span class="at">alpha=</span><span class="fl">0.5</span>, <span class="at">color=</span><span class="st">"dodgerblue"</span>) <span class="sc">+</span> </span>
-<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_abline</span>() <span class="sc">+</span> </span>
-<span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Predicted Response"</span>,<span class="at">y=</span><span class="st">"True Response"</span>) <span class="sc">+</span> </span>
-<span id="cb62-9"><a href="#cb62-9" aria-hidden="true" tabindex="-1"></a><span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x=</span><span class="dv">60</span>, <span class="at">y=</span><span class="dv">20</span>, <span class="at">label=</span> </span>
-<span id="cb62-10"><a href="#cb62-10" aria-hidden="true" tabindex="-1"></a>           <span class="fu">paste</span>(<span class="st">"MSE is"</span>,</span>
-<span id="cb62-11"><a href="#cb62-11" aria-hidden="true" tabindex="-1"></a>           <span class="fu">round</span>(<span class="fu">mean</span>((yhat.bag <span class="sc">-</span> df_tree.test)<span class="sc">^</span><span class="dv">2</span>),<span class="dv">2</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>yhat.bag <span class="ot">=</span> <span class="fu">predict</span>(bag.precipitation, <span class="at">newdata=</span>df_tree[<span class="sc">-</span>train,])</span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(yhat.bag, df_tree.test) <span class="sc">|&gt;</span> </span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span> yhat, <span class="at">y=</span>df_tree.test)) <span class="sc">+</span> </span>
+<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_point</span>(<span class="at">size=</span><span class="dv">2</span>, <span class="at">alpha=</span><span class="fl">0.5</span>, <span class="at">color=</span><span class="st">"dodgerblue"</span>) <span class="sc">+</span> </span>
+<span id="cb69-7"><a href="#cb69-7" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_abline</span>() <span class="sc">+</span> </span>
+<span id="cb69-8"><a href="#cb69-8" aria-hidden="true" tabindex="-1"></a><span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Predicted Response"</span>,<span class="at">y=</span><span class="st">"True Response"</span>) <span class="sc">+</span> </span>
+<span id="cb69-9"><a href="#cb69-9" aria-hidden="true" tabindex="-1"></a><span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x=</span><span class="dv">40</span>, <span class="at">y=</span><span class="dv">70</span>, <span class="at">label=</span> </span>
+<span id="cb69-10"><a href="#cb69-10" aria-hidden="true" tabindex="-1"></a>           <span class="fu">paste</span>(<span class="st">"MSE is"</span>,</span>
+<span id="cb69-11"><a href="#cb69-11" aria-hidden="true" tabindex="-1"></a>           <span class="fu">round</span>(<span class="fu">mean</span>((yhat.bag <span class="sc">-</span> df_tree.test)<span class="sc">^</span><span class="dv">2</span>),<span class="dv">2</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" width="864"></p>
-</figure>
+<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="864"></p>
 </div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>mse_bag_tree<span class="ot">=</span> <span class="fu">mse</span>(yhat.bag, df_tree.test)</span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>rmse_bag_tree<span class="ot">=</span> <span class="fu">rmse</span>(yhat.bag, df_tree.test)</span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>smape_bag_tree<span class="ot">=</span> <span class="fu">smape</span>(yhat.bag, df_tree.test)</span>
+<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a>r2_bag_tree<span class="ot">=</span> <span class="fu">rsq</span>(yhat.bag, df_tree.test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div>
-<p>The test set MSE associated with the bagged regression tree is 60.15, this is almost 20% lower than that achived using an optimally-pruned single tree.</p>
+<p>The test set MSE associated with the bagged regression tree is 58.92, this is almost 20% lower than that achived using an optimally-pruned single tree.</p>
 <p>Growing a random forest proceeds in exactly the same way, except that we use a smaller value of the mtry argument. By default, randomForest() uses p/3 variables when building a random forest of regression trees, and p<sup>1/2</sup> variables when building a random forest of classification trees. Here we use mtry = 7</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>rf.precipitation <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(Precipitation <span class="sc">~</span>., <span class="at">data=</span>df_tree, <span class="at">subset=</span>train, <span class="at">mtry=</span><span class="dv">7</span>,<span class="at">importance=</span><span class="cn">TRUE</span>)</span>
-<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>yhat.rf <span class="ot">=</span> <span class="fu">predict</span>(rf.precipitation, <span class="at">newdata=</span>df_tree[<span class="sc">-</span>train,])</span>
-<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">mean</span>((yhat.rf <span class="sc">-</span> df_tree.test)<span class="sc">^</span><span class="dv">2</span>),<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>rf.precipitation <span class="ot">&lt;-</span> <span class="fu">randomForest</span>(Precipitation <span class="sc">~</span>., <span class="at">data=</span>df_tree, <span class="at">subset=</span>train, <span class="at">mtry=</span><span class="dv">7</span>,<span class="at">importance=</span><span class="cn">TRUE</span>)</span>
+<span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a>yhat.rf <span class="ot">=</span> <span class="fu">predict</span>(rf.precipitation, <span class="at">newdata=</span>df_tree[<span class="sc">-</span>train,])</span>
+<span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">mean</span>((yhat.rf <span class="sc">-</span> df_tree.test)<span class="sc">^</span><span class="dv">2</span>),<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 54.59</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">importance</span>(rf.precipitation)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="fu">importance</span>(rf.precipitation)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                               %IncMSE IncNodePurity
 Minimum_Temperature          15.046019      17638.47
@@ -1198,82 +1187,624 @@ Solar_Radiation              11.008710      16687.33
 Sun_Exposure                 10.076435      11773.46
 Month                         6.645776      10334.90</code></pre>
 </div>
+<div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" aria-hidden="true" tabindex="-1"></a>mse_rf_tree<span class="ot">=</span> <span class="fu">mse</span>(yhat.rf, df_tree.test)</span>
+<span id="cb75-2"><a href="#cb75-2" aria-hidden="true" tabindex="-1"></a>rmse_rf_tree<span class="ot">=</span> <span class="fu">rmse</span>(yhat.rf, df_tree.test)</span>
+<span id="cb75-3"><a href="#cb75-3" aria-hidden="true" tabindex="-1"></a>smape_rf_tree<span class="ot">=</span> <span class="fu">smape</span>(yhat.rf, df_tree.test)</span>
+<span id="cb75-4"><a href="#cb75-4" aria-hidden="true" tabindex="-1"></a>r2_rf_tree<span class="ot">=</span> <span class="fu">rsq</span>(yhat.rf, df_tree.test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The test set MSE is 55.59; this indicates that random forests yielded an improvement over bagging in this case. Using the importance() function, we can view the importance of each variable. Two measures of variable importance are reported. The former is based upon the mean decrease of accuracy in predictions on the out of bag samples when a given variable is excluded from the model. The latter is a measure of the total decrease in node impurity that results from splits over that variable, averaged over all trees. In the case of regression trees, the node impurity is measured by the training RSS. Plots of these importance measures can be produced using the varImpPlot() function.</p>
+<p>The test set MSE is 54.59; this indicates that random forests yielded an improvement over bagging in this case. Using the importance() function, we can view the importance of each variable. Two measures of variable importance are reported. The former is based upon the mean decrease of accuracy in predictions on the out of bag samples when a given variable is excluded from the model. The latter is a measure of the total decrease in node impurity that results from splits over that variable, averaged over all trees. In the case of regression trees, the node impurity is measured by the training RSS. Plots of these importance measures can be produced using the varImpPlot() function.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">varImpPlot</span>(rf.precipitation)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">varImpPlot</span>(rf.precipitation)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="864"></p>
-</figure>
-</div>
+<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid" width="864"></p>
 </div>
 </div>
 <p>The graphs which are variable importance metrics by looking the Percentage Increase in Mean Square Error and Increase in Node Purity explain that how much the model MSE or Node Purity is changed when the spesific variable is excluded. In both scenerios increasing these paramaters is directly related to importance of the variable which is excluded. The results indicate that across all of the trees considered in the random forest, the air pressure (mb) and the maximum relative humidity (%) are by far the two most important variables.</p>
 </section>
 <section id="boosting" class="level3" data-number="3.3.3">
 <h3 data-number="3.3.3" class="anchored" data-anchor-id="boosting"><span class="header-section-number">3.3.3</span> Boosting</h3>
-<p>Here we use the gbm package, and within it the gbm() function, to fit boosted regression trees to the our data set. We run gbm() with the option distribution=???gaussian??? since this is a regression problem, shrinkage parameter/learning rate is taken as 0.03. The argument n.trees=5000 indicates that we want 5000 trees, and the option interaction.depth=6 limits the depth of each tree.</p>
+<p>Here we use the gbm package, and within it the gbm() function, to fit boosted regression trees to the our data set. We run gbm() with the option distribution=gaussian since this is a regression problem, shrinkage parameter/learning rate is taken as 0.03. The argument n.trees=5000 indicates that we want 5000 trees, and the option interaction.depth=6 limits the depth of each tree.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>boost.precipitation <span class="ot">=</span> <span class="fu">gbm</span>(Precipitation <span class="sc">~</span>.,</span>
-<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> df_tree[train,],</span>
-<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">distribution =</span> <span class="st">"gaussian"</span>,</span>
-<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">shrinkage =</span> .<span class="dv">03</span>,</span>
-<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">interaction.depth=</span><span class="dv">6</span>,</span>
-<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">n.trees =</span> <span class="dv">5000</span>)</span>
-<span id="cb68-8"><a href="#cb68-8" aria-hidden="true" tabindex="-1"></a> </span>
-<span id="cb68-9"><a href="#cb68-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(boost.precipitation)[<span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a>boost.precipitation <span class="ot">=</span> <span class="fu">gbm</span>(Precipitation <span class="sc">~</span>.,</span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> df_tree[train,],</span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">distribution =</span> <span class="st">"gaussian"</span>,</span>
+<span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">shrinkage =</span> .<span class="dv">01</span>,</span>
+<span id="cb77-6"><a href="#cb77-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">interaction.depth=</span><span class="dv">3</span>,</span>
+<span id="cb77-7"><a href="#cb77-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">n.trees =</span> <span class="dv">500</span>,<span class="at">verbose=</span>F)</span>
+<span id="cb77-8"><a href="#cb77-8" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb77-9"><a href="#cb77-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(boost.precipitation)[<span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
+<p><img src="Daily-Rainfall-Modelling_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                               rel.inf
-Average_Relative_Humidity    23.793829
-Air_Pressure                 14.723295
-Minimum_Relative_Humidity     7.027226
-Average_Wind_Speed            6.280022
-Average_Wind_Direction        5.616782
-Minimum_Temperature           5.386865
-Maximum_Temperature           5.277131
-Cloudiness                    5.241630
-Solar_Radiation               3.988519
-Maximum_Dewpoint_Temperature  3.575791
-Maximum_Relative_Humidity     3.425677
-Average_Dewpoint_Temperature  3.359806
-Minimum_Dewpoint_Temperature  3.344378
-Average_Temperature           3.279846
-Month                         2.843369
-Sun_Exposure                  2.835833</code></pre>
+Average_Relative_Humidity    47.461913
+Air_Pressure                 21.974509
+Average_Wind_Speed            5.339492
+Minimum_Relative_Humidity     4.518628
+Month                         3.226396
+Maximum_Temperature           2.378764
+Maximum_Relative_Humidity     2.248744
+Average_Dewpoint_Temperature  2.198716
+Cloudiness                    1.833552
+Minimum_Temperature           1.738437
+Average_Wind_Direction        1.660812
+Minimum_Dewpoint_Temperature  1.541642
+Solar_Radiation               1.282362
+Maximum_Dewpoint_Temperature  1.174095
+Average_Temperature           1.145334
+Sun_Exposure                  0.276604</code></pre>
 </div>
 </div>
 <p>We see that average relative humidity and air pressure variables are the most important variables. Now we can use the boosted model to predict daily precipitation on the test data.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>yhat.boost <span class="ot">&lt;-</span> <span class="fu">predict</span>(boost.precipitation,<span class="at">newdata=</span>df_tree[<span class="sc">-</span>train,],<span class="at">n.trees=</span><span class="dv">5000</span>,<span class="at">interaction.depth=</span><span class="dv">6</span>)</span>
-<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">mean</span>((yhat.boost <span class="sc">-</span> df_tree.test)<span class="sc">^</span><span class="dv">2</span>),<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>yhat.boost <span class="ot">&lt;-</span> <span class="fu">predict</span>(boost.precipitation,<span class="at">newdata=</span>df_tree[<span class="sc">-</span>train,],<span class="at">n.trees=</span><span class="dv">500</span>)</span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">mean</span>((yhat.boost <span class="sc">-</span> df_tree.test)<span class="sc">^</span><span class="dv">2</span>),<span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 58.06</code></pre>
+<pre><code>[1] 51.88</code></pre>
 </div>
+<div class="sourceCode cell-code" id="cb81"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>mse_boost_tree<span class="ot">=</span> <span class="fu">mse</span>(yhat.boost, df_tree.test)</span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a>rmse_boost_tree<span class="ot">=</span> <span class="fu">rmse</span>(yhat.boost, df_tree.test)</span>
+<span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a>smape_boost_tree<span class="ot">=</span> <span class="fu">smape</span>(yhat.boost, df_tree.test)</span>
+<span id="cb81-4"><a href="#cb81-4" aria-hidden="true" tabindex="-1"></a>r2_boost_tree<span class="ot">=</span> <span class="fu">rsq</span>(yhat.boost, df_tree.test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The test MSE of boosted model obtained is 54.74 and it is superior to the test MSE for random forests and bagging.</p>
+<p>The test MSE of boosted model obtained is 51.88 and it is superior to the test MSE for random forests and bagging.</p>
 </section>
 </section>
 </section>
 <section id="evaluation-metrics" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> Evaluation Metrics</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>error_table<span class="ot">&lt;-</span> <span class="fu">data.frame</span> (</span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a> <span class="at">Statistics =</span> <span class="fu">c</span>(<span class="st">"MSE"</span>,<span class="st">"RMSE"</span>,<span class="st">"SMAPE"</span>,<span class="st">"R2"</span>), </span>
+<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a> <span class="at">Ridge =</span> <span class="fu">c</span>(mse_ridge, rmse_ridge, smape_ridge, r2_ridge), </span>
+<span id="cb82-4"><a href="#cb82-4" aria-hidden="true" tabindex="-1"></a> <span class="at">Ridge.cv =</span> <span class="fu">c</span>(mse_cv.ridge, rmse_cv.ridge, smape_cv.ridge, r2_cv.ridge), </span>
+<span id="cb82-5"><a href="#cb82-5" aria-hidden="true" tabindex="-1"></a> <span class="at">Lasso =</span> <span class="fu">c</span>(mse_lasso, rmse_lasso, smape_lasso, r2_lasso), </span>
+<span id="cb82-6"><a href="#cb82-6" aria-hidden="true" tabindex="-1"></a> <span class="at">Lasso.cv =</span> <span class="fu">c</span>(mse_cv.lasso, rmse_cv.lasso, smape_cv.lasso, r2_cv.lasso), </span>
+<span id="cb82-7"><a href="#cb82-7" aria-hidden="true" tabindex="-1"></a> <span class="at">Sarima =</span> <span class="fu">c</span>(mse_sarima, rmse_sarima, smape_sarima, r2_sarima), </span>
+<span id="cb82-8"><a href="#cb82-8" aria-hidden="true" tabindex="-1"></a> <span class="at">Sarimax =</span> <span class="fu">c</span>(mse_sarimax, rmse_sarimax, smape_sarimax, r2_sarimax), </span>
+<span id="cb82-9"><a href="#cb82-9" aria-hidden="true" tabindex="-1"></a> <span class="at">SVR =</span> <span class="fu">c</span>(mse_svr, rmse_svr, smape_svr, r2_svr), </span>
+<span id="cb82-10"><a href="#cb82-10" aria-hidden="true" tabindex="-1"></a> <span class="at">Tree =</span> <span class="fu">c</span>(mse_tree, rmse_tree, smape_tree, r2_tree), </span>
+<span id="cb82-11"><a href="#cb82-11" aria-hidden="true" tabindex="-1"></a> <span class="at">Prune.Tree =</span> <span class="fu">c</span>(mse_prune_tree, rmse_prune_tree, smape_prune_tree, r2_prune_tree), </span>
+<span id="cb82-12"><a href="#cb82-12" aria-hidden="true" tabindex="-1"></a> <span class="at">Bagging =</span> <span class="fu">c</span>(mse_bag_tree, rmse_bag_tree, smape_bag_tree, r2_bag_tree),</span>
+<span id="cb82-13"><a href="#cb82-13" aria-hidden="true" tabindex="-1"></a> <span class="at">Random.Forest =</span> <span class="fu">c</span>(mse_rf_tree, rmse_rf_tree, smape_rf_tree, r2_rf_tree), </span>
+<span id="cb82-14"><a href="#cb82-14" aria-hidden="true" tabindex="-1"></a> <span class="at">Boosting =</span> <span class="fu">c</span>(mse_boost_tree, rmse_boost_tree, smape_boost_tree, r2_boost_tree) )</span>
+<span id="cb82-15"><a href="#cb82-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-16"><a href="#cb82-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">13</span>) { error_table[,i]<span class="ot">&lt;-</span> <span class="fu">round</span>(error_table[,i],<span class="dv">2</span>) }</span>
+<span id="cb82-17"><a href="#cb82-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-18"><a href="#cb82-18" aria-hidden="true" tabindex="-1"></a>t_error_table <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">t</span>(error_table[,<span class="dv">2</span><span class="sc">:</span><span class="dv">13</span>]))</span>
+<span id="cb82-19"><a href="#cb82-19" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(t_error_table) <span class="ot">&lt;-</span> error_table[,<span class="dv">1</span>]</span>
+<span id="cb82-20"><a href="#cb82-20" aria-hidden="true" tabindex="-1"></a>t_error_table <span class="sc">|&gt;</span>  <span class="fu">gt</span>(<span class="at">rownames_to_stub =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+
+<div id="jqubpnrgkh" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#jqubpnrgkh table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#jqubpnrgkh thead, #jqubpnrgkh tbody, #jqubpnrgkh tfoot, #jqubpnrgkh tr, #jqubpnrgkh td, #jqubpnrgkh th {
+  border-style: none;
+}
+
+#jqubpnrgkh p {
+  margin: 0;
+  padding: 0;
+}
+
+#jqubpnrgkh .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#jqubpnrgkh .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#jqubpnrgkh .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#jqubpnrgkh .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#jqubpnrgkh .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#jqubpnrgkh .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jqubpnrgkh .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#jqubpnrgkh .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#jqubpnrgkh .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#jqubpnrgkh .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#jqubpnrgkh .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#jqubpnrgkh .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#jqubpnrgkh .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#jqubpnrgkh .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#jqubpnrgkh .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#jqubpnrgkh .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#jqubpnrgkh .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#jqubpnrgkh .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#jqubpnrgkh .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jqubpnrgkh .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#jqubpnrgkh .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#jqubpnrgkh .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#jqubpnrgkh .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jqubpnrgkh .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#jqubpnrgkh .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#jqubpnrgkh .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jqubpnrgkh .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jqubpnrgkh .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#jqubpnrgkh .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jqubpnrgkh .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#jqubpnrgkh .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#jqubpnrgkh .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#jqubpnrgkh .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jqubpnrgkh .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#jqubpnrgkh .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#jqubpnrgkh .gt_left {
+  text-align: left;
+}
+
+#jqubpnrgkh .gt_center {
+  text-align: center;
+}
+
+#jqubpnrgkh .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#jqubpnrgkh .gt_font_normal {
+  font-weight: normal;
+}
+
+#jqubpnrgkh .gt_font_bold {
+  font-weight: bold;
+}
+
+#jqubpnrgkh .gt_font_italic {
+  font-style: italic;
+}
+
+#jqubpnrgkh .gt_super {
+  font-size: 65%;
+}
+
+#jqubpnrgkh .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#jqubpnrgkh .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#jqubpnrgkh .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#jqubpnrgkh .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#jqubpnrgkh .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#jqubpnrgkh .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#jqubpnrgkh .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id=""></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="MSE">MSE</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="RMSE">RMSE</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="SMAPE">SMAPE</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="R2">R2</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><th id="stub_1_1" scope="row" class="gt_row gt_left gt_stub">Ridge</th>
+<td headers="stub_1_1 MSE" class="gt_row gt_right">73.88</td>
+<td headers="stub_1_1 RMSE" class="gt_row gt_right">8.60</td>
+<td headers="stub_1_1 SMAPE" class="gt_row gt_right">1.77</td>
+<td headers="stub_1_1 R2" class="gt_row gt_right">0.26</td></tr>
+    <tr><th id="stub_1_2" scope="row" class="gt_row gt_left gt_stub">Ridge.cv</th>
+<td headers="stub_1_2 MSE" class="gt_row gt_right">69.96</td>
+<td headers="stub_1_2 RMSE" class="gt_row gt_right">8.36</td>
+<td headers="stub_1_2 SMAPE" class="gt_row gt_right">1.77</td>
+<td headers="stub_1_2 R2" class="gt_row gt_right">0.29</td></tr>
+    <tr><th id="stub_1_3" scope="row" class="gt_row gt_left gt_stub">Lasso</th>
+<td headers="stub_1_3 MSE" class="gt_row gt_right">94.20</td>
+<td headers="stub_1_3 RMSE" class="gt_row gt_right">9.71</td>
+<td headers="stub_1_3 SMAPE" class="gt_row gt_right">1.78</td>
+<td headers="stub_1_3 R2" class="gt_row gt_right">0.20</td></tr>
+    <tr><th id="stub_1_4" scope="row" class="gt_row gt_left gt_stub">Lasso.cv</th>
+<td headers="stub_1_4 MSE" class="gt_row gt_right">69.38</td>
+<td headers="stub_1_4 RMSE" class="gt_row gt_right">8.33</td>
+<td headers="stub_1_4 SMAPE" class="gt_row gt_right">1.78</td>
+<td headers="stub_1_4 R2" class="gt_row gt_right">0.30</td></tr>
+    <tr><th id="stub_1_5" scope="row" class="gt_row gt_left gt_stub">Sarima</th>
+<td headers="stub_1_5 MSE" class="gt_row gt_right">99.36</td>
+<td headers="stub_1_5 RMSE" class="gt_row gt_right">9.97</td>
+<td headers="stub_1_5 SMAPE" class="gt_row gt_right">1.78</td>
+<td headers="stub_1_5 R2" class="gt_row gt_right">0.00</td></tr>
+    <tr><th id="stub_1_6" scope="row" class="gt_row gt_left gt_stub">Sarimax</th>
+<td headers="stub_1_6 MSE" class="gt_row gt_right">69.44</td>
+<td headers="stub_1_6 RMSE" class="gt_row gt_right">8.33</td>
+<td headers="stub_1_6 SMAPE" class="gt_row gt_right">1.78</td>
+<td headers="stub_1_6 R2" class="gt_row gt_right">0.30</td></tr>
+    <tr><th id="stub_1_7" scope="row" class="gt_row gt_left gt_stub">SVR</th>
+<td headers="stub_1_7 MSE" class="gt_row gt_right">68.39</td>
+<td headers="stub_1_7 RMSE" class="gt_row gt_right">8.27</td>
+<td headers="stub_1_7 SMAPE" class="gt_row gt_right">1.77</td>
+<td headers="stub_1_7 R2" class="gt_row gt_right">0.41</td></tr>
+    <tr><th id="stub_1_8" scope="row" class="gt_row gt_left gt_stub">Tree</th>
+<td headers="stub_1_8 MSE" class="gt_row gt_right">69.25</td>
+<td headers="stub_1_8 RMSE" class="gt_row gt_right">8.32</td>
+<td headers="stub_1_8 SMAPE" class="gt_row gt_right">1.76</td>
+<td headers="stub_1_8 R2" class="gt_row gt_right">0.31</td></tr>
+    <tr><th id="stub_1_9" scope="row" class="gt_row gt_left gt_stub">Prune.Tree</th>
+<td headers="stub_1_9 MSE" class="gt_row gt_right">66.49</td>
+<td headers="stub_1_9 RMSE" class="gt_row gt_right">8.15</td>
+<td headers="stub_1_9 SMAPE" class="gt_row gt_right">1.77</td>
+<td headers="stub_1_9 R2" class="gt_row gt_right">0.33</td></tr>
+    <tr><th id="stub_1_10" scope="row" class="gt_row gt_left gt_stub">Bagging</th>
+<td headers="stub_1_10 MSE" class="gt_row gt_right">58.92</td>
+<td headers="stub_1_10 RMSE" class="gt_row gt_right">7.68</td>
+<td headers="stub_1_10 SMAPE" class="gt_row gt_right">1.75</td>
+<td headers="stub_1_10 R2" class="gt_row gt_right">0.46</td></tr>
+    <tr><th id="stub_1_11" scope="row" class="gt_row gt_left gt_stub">Random.Forest</th>
+<td headers="stub_1_11 MSE" class="gt_row gt_right">54.59</td>
+<td headers="stub_1_11 RMSE" class="gt_row gt_right">7.39</td>
+<td headers="stub_1_11 SMAPE" class="gt_row gt_right">1.75</td>
+<td headers="stub_1_11 R2" class="gt_row gt_right">0.47</td></tr>
+    <tr><th id="stub_1_12" scope="row" class="gt_row gt_left gt_stub">Boosting</th>
+<td headers="stub_1_12 MSE" class="gt_row gt_right">51.88</td>
+<td headers="stub_1_12 RMSE" class="gt_row gt_right">7.20</td>
+<td headers="stub_1_12 SMAPE" class="gt_row gt_right">1.75</td>
+<td headers="stub_1_12 R2" class="gt_row gt_right">0.48</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+</div>
+</div>
 </section>
 <section id="results-and-conclusion" class="level1" data-number="5">
 <h1 data-number="5"><span class="header-section-number">5</span> Results and Conclusion</h1>
-<p>Eshel and Farrell <span class="citation" data-cites="eshel2000">(<a href="#ref-eshel2000" role="doc-biblioref">Eshel and Farrell 2000</a>)</span> investigated rainfall variability over Eastern Mediterranean and they showed that rainfall is mostly depend on pressure anomalies. Lower air pressure is mostly related with precipitation since mostly frontal systems brings rainfall over Eastern Mediterranean. These frontal systems also means windy storms which comes from over Mediterranean Sea. Similarly, relative humidity is highly related with precipitation since rainfall formation is much easier in saturated air conditions. As everyone might guess cloud is necessary for rainfall production. By the way, dew point temperature means that how much air should be cooled to be saturated without any moisture addition. Thus, closer dew point temperature and air temperature means highly saturated and vice versa. As stated above, relative humidity, cloud coverage, air pressure, dew point temperature, wind direction, wind speed and temperature should be used as predictors while response is precipitation. However, only relative humidity, air pressure and wind direction parameters are used in our pruned trees. This situation most probably caused because of predictor’s correlation between each other. Correlation matrix of variables is given in Figure 11. As shown in the Figure, some variables are highly correlated with each other whether positive or negative. For example, correlation coefficient between cloud coverage and relative humidity is 0.7 and -0.6 between dew point temperature and air pressure. Thus, using many variables has become unnecessary.</p>
+<p>Eshel and Farrell <span class="citation" data-cites="eshel2000">(<a href="#ref-eshel2000" role="doc-biblioref">Eshel and Farrell 2000</a>)</span> investigated rainfall variability over Eastern Mediterranean and they showed that rainfall is mostly depend on pressure anomalies. Lower air pressure is mostly related with precipitation since mostly frontal systems brings rainfall over Eastern Mediterranean. These frontal systems also means windy storms which comes from over Mediterranean Sea. Similarly, relative humidity is highly related with precipitation since rainfall formation is much easier in saturated air conditions. As everyone might guess cloud is necessary for rainfall production. By the way, dew point temperature means that how much air should be cooled to be saturated without any moisture addition. Thus, closer dew point temperature and air temperature means highly saturated and vice versa. As stated above, relative humidity, cloud coverage, air pressure, dew point temperature, wind direction, wind speed and temperature should be used as predictors while response is precipitation. However, mostly relative humidity and air pressure parameters become our main predictors on modelling precipitation. This situation most probably caused because of predictor’s correlation between each other as showed on cor matrix.</p>
 
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-choubin2018" class="csl-entry" role="listitem">
 Choubin, Bahram, Gholamreza Zehtabian, Ali Azareh, Elham Rafiei-Sardooi, Farzaneh Sajedi-Hosseini, and Özgür Kişi. 2018. <span>“Precipitation Forecasting Using Classification and Regression Trees (CART) Model: A Comparative Study of Different Approaches.”</span> <em>Environmental Earth Sciences</em> 77 (8). <a href="https://doi.org/10.1007/s12665-018-7498-z">https://doi.org/10.1007/s12665-018-7498-z</a>.
 </div>
@@ -1379,27 +1910,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
-      }
-    }
-  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+  function tippyHover(el, contentFn) {
     const config = {
       allowHTML: true,
+      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1409,17 +1923,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start',
+      placement: 'bottom-start'
     };
-    if (contentFn) {
-      config.content = contentFn;
-    }
-    if (onTriggerFn) {
-      config.onTrigger = onTriggerFn;
-    }
-    if (onUntriggerFn) {
-      config.onUntrigger = onUntriggerFn;
-    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1431,130 +1936,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
-    });
-  }
-  const xrefs = window.document.querySelectorAll('a.quarto-xref');
-  const processXRef = (id, note) => {
-    // Strip column container classes
-    const stripColumnClz = (el) => {
-      el.classList.remove("page-full", "page-columns");
-      if (el.children) {
-        for (const child of el.children) {
-          stripColumnClz(child);
-        }
-      }
-    }
-    stripColumnClz(note)
-    if (id === null || id.startsWith('sec-')) {
-      // Special case sections, only their first couple elements
-      const container = document.createElement("div");
-      if (note.children && note.children.length > 2) {
-        container.appendChild(note.children[0].cloneNode(true));
-        for (let i = 1; i < note.children.length; i++) {
-          const child = note.children[i];
-          if (child.tagName === "P" && child.innerText === "") {
-            continue;
-          } else {
-            container.appendChild(child.cloneNode(true));
-            break;
-          }
-        }
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(container);
-        }
-        return container.innerHTML
-      } else {
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(note);
-        }
-        return note.innerHTML;
-      }
-    } else {
-      // Remove any anchor links if they are present
-      const anchorLink = note.querySelector('a.anchorjs-link');
-      if (anchorLink) {
-        anchorLink.remove();
-      }
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(note);
-      }
-      // TODO in 1.5, we should make sure this works without a callout special case
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
-      }
-    }
-  }
-  for (var i=0; i<xrefs.length; i++) {
-    const xref = xrefs[i];
-    tippyHover(xref, undefined, function(instance) {
-      instance.disable();
-      let url = xref.getAttribute('href');
-      let hash = undefined; 
-      if (url.startsWith('#')) {
-        hash = url;
-      } else {
-        try { hash = new URL(url).hash; } catch {}
-      }
-      if (hash) {
-        const id = hash.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note !== null) {
-          try {
-            const html = processXRef(id, note.cloneNode(true));
-            instance.setContent(html);
-          } finally {
-            instance.enable();
-            instance.show();
-          }
-        } else {
-          // See if we can fetch this
-          fetch(url.split('#')[0])
-          .then(res => res.text())
-          .then(html => {
-            const parser = new DOMParser();
-            const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.getElementById(id);
-            if (note !== null) {
-              const html = processXRef(id, note);
-              instance.setContent(html);
-            } 
-          }).finally(() => {
-            instance.enable();
-            instance.show();
-          });
-        }
-      } else {
-        // See if we can fetch a full url (with no hash to target)
-        // This is a special case and we should probably do some content thinning / targeting
-        fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.querySelector('main.content');
-          if (note !== null) {
-            // This should only happen for chapter cross references
-            // (since there is no id in the URL)
-            // remove the first header
-            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-              note.children[0].remove();
-            }
-            const html = processXRef(null, note);
-            instance.setContent(html);
-          } 
-        }).finally(() => {
-          instance.enable();
-          instance.show();
-        });
-      }
-    }, function(instance) {
+      return note.innerHTML;
     });
   }
       let selectedAnnoteEl;
@@ -1598,7 +1980,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
-            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1624,32 +2005,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
-        // Handle positioning of the toggle
-    window.addEventListener(
-      "resize",
-      throttle(() => {
-        elRect = undefined;
-        if (selectedAnnoteEl) {
-          selectCodeLines(selectedAnnoteEl);
-        }
-      }, 10)
-    );
-    function throttle(fn, ms) {
-    let throttle = false;
-    let timer;
-      return (...args) => {
-        if(!throttle) { // first call gets through
-            fn.apply(this, args);
-            throttle = true;
-        } else { // all the others get throttled
-            if(timer) clearTimeout(timer); // cancel #2
-            timer = setTimeout(() => {
-              fn.apply(this, args);
-              timer = throttle = false;
-            }, ms);
-        }
-      };
-    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -1710,7 +2065,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
-
 
 
 

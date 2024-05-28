@@ -1,5 +1,5 @@
 ---
-title: "Daily Rainfall Modelling in one of the automated-weather observation station in Mugla Province of TC<rkiye"
+title: "Daily Rainfall Modelling in one of the automated-weather observation station in Mugla Province of Turkiye"
 author: 
   - name: Mehmet AKSOY *(aksoy.mehmet@metu.edu.tr)*
     affiliations:
@@ -58,7 +58,7 @@ The SARIMA (Seasonal Autoregressive Integrated Moving Average) model is a powerf
 
 -   **Ensemble Methods**: Combining multiple SARIMA models with regularization techniques can help in stabilizing the predictions and improving the robustness of the model.
 
-### **Tree Models and Regularization**
+**Tree Models and Regularization**
 
 Tree-based models, including Decision Trees, Random Forests, and Gradient Boosting Machines (GBMs), can benefit from regularization techniques to improve their performance and prevent overfitting.
 
@@ -96,7 +96,7 @@ Tree-based models, including Decision Trees, Random Forests, and Gradient Boosti
 
     -   **Column Subsampling**: Reduces overfitting by randomly selecting a subset of features for each tree.
 
-This study is focused on daily rainfall modelling for MuDla Province by using meteorological observations.
+This study is focused on daily rainfall modelling for Mugla Province by using meteorological observations.
 
 # Preliminary Preparations
 
@@ -109,6 +109,7 @@ library(tidyverse)
 library(lubridate)
 library(corrplot)
 library(rnaturalearth)
+library(rnaturalearthdata)
 library(sf)
 library(ggplot2)
 library(forecast)
@@ -125,22 +126,21 @@ library(tree)
 library(randomForest)
 library(gbm)
 library(VIM)
-library(dplyr)
 library(mice)
-library(forecast)
 library(Metrics)
 library(caret)
 library(e1071)
 library(kernlab)
+library(gt)
 ```
 
 ## Study Location & Data
 
-In this study, MuDla Province is selected as the study area. This province is located in the southwestern part of Turkey, adjacent to the Mediterranean Sea, and is characterized by a Mediterranean climate with hot, dry summers and mild, wet winters. MuDla's diverse topography, ranging from coastal areas to mountainous regions, makes it an ideal location for climatic and hydrological studies.
+In this study, Mugla Province is selected as the study area. This province is located in the southwestern part of Turkey, adjacent to the Mediterranean Sea, and is characterized by a Mediterranean climate with hot, dry summers and mild, wet winters. Mugla's diverse topography, ranging from coastal areas to mountainous regions, makes it an ideal location for climatic and hydrologic studies.
 
-The meteorological station 17292, situated within MuDla Province, is operated by the Turkish State Meteorological Service (TSMS). This station has been consistently providing reliable climatic observations, including temperature, precipitation, humidity, and wind speed data, which are essential for understanding the local climate patterns and trends. The data collected from this station play a crucial role in various research studies, particularly those related to water resources management, agricultural planning, and climate change impact assessments in the region.
+The meteorological station 17292, situated within Mugla Province, is operated by the Turkish State Meteorological Service (TSMS). This station has been consistently providing reliable climatic observations, including temperature, precipitation, humidity, and wind speed data, which are essential for understanding the local climate patterns and trends. The data collected from this station play a crucial role in various research studies, particularly those related to water resources management, agricultural planning, and climate change impact assessments in the region.
 
-The figure below illustrates the precise location of meteorological station 17292 within MuDla Province. This visual representation aids in contextualizing the spatial distribution of climatic data collected and emphasizes the station's strategic position for capturing representative climatic information for the entire province.
+The figure below illustrates the precise location of meteorological station 17292 within Mugla Province. This visual representation aids in contextualizing the spatial distribution of climatic data collected and emphasizes the station's strategic position for capturing representative climatic information for the entire province.
 
 ```{r, fig.width=9,fig.height=6}
 #| warning: false
@@ -464,22 +464,13 @@ df |>
 
 Hydrologists use a different time measurement compared to the traditional January-to-December calendar year. For those who model and monitor water movement in the environment, the year starts on October 1st and concludes on September 30th. This period is referred to as a water year. B To better understand the numbering system, each month is assigned a numerical value starting from the beginning of the water year. The water year commences in October, thus October is designated as month 1. Consequently, subsequent months follow this sequence, with January being represented as month 4.
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE}
+```{r, message=FALSE}
 #| warning: false
-#df_n<- 
-# df |> 
-#  dplyr::select(!Evapotranspiration) |> 
-#  drop_na()  |> 
-#  filter(Date < "2023-01-01" ) 
 
 df_n<- 
  df |> 
   dplyr::select(!Evapotranspiration) |> 
   filter(Date < "2023-01-01" ) 
-
-#df_n <- kNN(df_n, k = 5)
-#imputed_data <- mice(df_n, m = 5, maxit = 50, method = 'pmm', seed = 500)
-#df_n <- complete(imputed_data)
 
 invisible(capture.output({
   suppressMessages({
@@ -498,18 +489,21 @@ x<- model.matrix(Precipitation ~. , df_n )[,-c(1:2)]
 y<- df_n$Precipitation
 
 set.seed(1)
-#train <- sample(1:nrow(x), nrow(x)*0.8)
-#train <- seq(1:4419)
 train <-  seq(1: nrow(df_n |>  filter(Date < "2021-01-01" ) ) ) 
+
+# rsquare
+rsq <- function (x, y) round(cor(x, y) ^ 2, 2)
 
 #  RIDGE
 grid <- 10^seq(10, -2, length=100)
 ridge.mod <- glmnet(x[train,], y[train], alpha=0)
 
 plot_glmnet(ridge.mod,label=8)
-
 ridge.pred <- predict(ridge.mod, s=4, newx = x[-train,])
-mean( (ridge.pred - y[-train])^2 ) # mse
+mse_ridge= mse(ridge.pred, y[-train])
+rmse_ridge= rmse(ridge.pred, y[-train])
+smape_ridge= smape(ridge.pred, y[-train])
+r2_ridge= rsq(as.numeric(ridge.pred), as.numeric(y[-train]))
 
 # ten-fold cross-validation
 set.seed(1)
@@ -518,13 +512,15 @@ plot(cv.out)
 bestlambda <- cv.out$lambda.min ; bestlambda
 
 ridge.pred <- predict(ridge.mod, s=bestlambda, newx = x[-train,])
-mean( (ridge.pred - y[-train])^2 )
+mse_cv.ridge= mse(ridge.pred, y[-train])
+rmse_cv.ridge= rmse(ridge.pred, y[-train])
+smape_cv.ridge= smape(ridge.pred, y[-train])
+r2_cv.ridge= rsq(as.numeric(ridge.pred), as.numeric(y[-train]))
 
 out<- glmnet(x[train,], y[train],alpha=0)
 predict(out,type="coefficients",s=bestlambda)
-
 pp<- predict(out, newx = x[-train,], type = "response", s=bestlambda)
-pp2<- ifelse(pp < 0, 0, pp ) ## eksi tahminleri sD1fD1ra eEitledik
+pp2<- ifelse(pp < 0, 0, pp ) ## eksi tahminleri sifira esitledik
 
 plot(y[-train], pp2)
 
@@ -539,10 +535,16 @@ plot(cv.out)
 bestlam=cv.out$lambda.min ; bestlam
 
 lasso.pred <- predict(lasso.mod, s=4, newx = x[-train,])
-mean( (lasso.pred - y[-train])^2 )
+mse_lasso= mse(lasso.pred, y[-train])
+rmse_lasso= rmse(lasso.pred, y[-train])
+smape_lasso= smape(lasso.pred, y[-train])
+r2_lasso= rsq(as.numeric(lasso.pred), as.numeric(y[-train]))
 
 lasso.pred=predict(lasso.mod,s=bestlam ,newx=x[-train,])
-mean((lasso.pred-y[-train])^2)
+mse_cv.lasso= mse(lasso.pred, y[-train])
+rmse_cv.lasso= rmse(lasso.pred, y[-train])
+smape_cv.lasso= smape(lasso.pred, y[-train])
+r2_cv.lasso= rsq(as.numeric(lasso.pred), as.numeric(y[-train]))
 
 out<- glmnet(x[train,], y[train],alpha=1)
 predict(out,type="coefficients",s=bestlam)
@@ -551,7 +553,6 @@ pp_2<- predict(out, newx = x[-train,], type = "response", s=bestlam)
 pp2_2<- ifelse(pp_2 < 0, 0, pp_2 )
 
 plot(y[-train], pp2_2)
-
 ```
 
 -   Ridge Regression
@@ -578,8 +579,6 @@ result_stl <- stl(df_pre_ts, s.window = "periodic")
 plot(result_stl)
 ljung_box_result= Box.test(df_n$Precipitation, lag= 365, type= "Ljung-Box")
 print(ljung_box_result)
-
-
 ```
 
 -   Ho: No auto correlation for lags=365
@@ -610,7 +609,6 @@ Since our p-value is less than 0.05, it can be concluded that the time series is
 par(mfrow = c(1, 2))
 acf(df_n$Precipitation, main="ACF of Precipitation")
 pacf(df_n$Precipitation, main="PACF of Precipitation")
-
 ```
 
 Both??of??the ACF and PACF plots demonstrate significant spikes at lag 1. It can??be observed??that there is a repeated pattern in the ACF plot??which??is an indication of the seasonality. As a result, we should take seasonal differencing??and??there is no need for first-order differencing since our data is already in the stationary form.
@@ -642,8 +640,10 @@ y_hat_sarima= sarima_forecast$mean
 y_hat_sarima1=ifelse(y_hat_sarima<0,1e-6,y_hat_sarima)
 y_act= y[-train]
 
+mse_sarima= mse(y_act, y_hat_sarima)
 rmse_sarima= rmse(y_act, y_hat_sarima)
 smape_sarima= smape(y_act, y_hat_sarima1)
+r2_sarima= rsq(y_act, y_hat_sarima)
 
 print(paste("RMSE of the SARIMA Model: ", round(rmse_sarima,2)))
 print(paste("SMAPE of the SARIMA Model: ", round(smape_sarima,)))
@@ -665,8 +665,10 @@ y_hat_sarimax= sarimax_forecast$mean
 y_hat_sarimax1=ifelse(y_hat_sarimax<0,1e-6,y_hat_sarimax)
 y_act= y[-train]
 
+mse_sarimax= mse(y_act, y_hat_sarimax)
 rmse_sarimax= rmse(y_act, y_hat_sarimax)
 smape_sarimax= smape(y_act, y_hat_sarimax1)
+r2_sarimax= rsq(y_act, y_hat_sarimax)
 
 print(paste("RMSE of the SARIMAX Model: ", round(rmse_sarimax,2)))
 print(paste("SMAPE of the SARIMAX Model: ", round(smape_sarimax,2)))
@@ -688,8 +690,10 @@ svr_model <- train(y ~ ., data = df_n_lag_c1[train,], method = "svmRadial",
 svr_forecasts <- predict(svr_model, newdata = df_n_lag_c1[-train,])
 
 # Evaluate the model performance
+mse_svr= mse(svr_forecasts, df_n_lag_c1$y[-train])
 rmse_svr= rmse(svr_forecasts, df_n_lag_c1$y[-train])
 smape_svr= smape(svr_forecasts, df_n_lag_c1$y[-train])
+r2_svr= rsq(svr_forecasts, df_n_lag_c1$y[-train])
 
 print(paste("RMSE of the SVR Model: ", round(rmse_sarimax,2)))
 print(paste("SMAPE of the SVR Model: ", round(smape_sarimax,2)))
@@ -703,19 +707,20 @@ print(paste("SMAPE of the SVR Model: ", round(smape_sarimax,2)))
 ```{r}
 #| warning: false
 df_tree<- df_n[,-1]
+set.seed(1)
 tree.precipitation <- tree(Precipitation~.,df_tree, subset=train)
 summary(tree.precipitation)
 ```
 
-Notice that the output of summary() indicates that only five of the variables have been used in constructing the tree. Relative humidity, air pressure and month variables become the most important ones, as we expected except cloudiness. In the context of a regression tree, the deviance is simply the sum of squared errors for the tree. We now plot the tree.
+Notice that the output of summary() indicates that only seven of the variables have been used in constructing the tree. Relative humidity, air pressure, wind speed and cloudiness variables become the most important ones, as we expected. In the context of a regression tree, the deviance is simply the sum of squared errors for the tree. We now plot the tree.
 
-```{r, fig.width=9,fig.height=6}
+```{r, fig.width=12,fig.height=10}
 #| warning: false
 plot(tree.precipitation)
 text(tree.precipitation,pretty=0)
 ```
 
-Now we use the cv.tree() function to see whether pruning the tree will improve performance. K-fold cross validation technique is preformed to prune the regression tree. The minimum deviance is available where number of terminal nodes is 4. Thus, we can prune the regression tree from 10 to 4 terminal nodes.
+Now we use the cv.tree() function to see whether pruning the tree will improve performance. K-fold cross validation technique is preformed to prune the regression tree. The minimum deviance with less complexity is available where number of terminal nodes is 4. Thus, we can prune the regression tree from 14 to 4 terminal nodes.
 
 ```{r, fig.width=9,fig.height=5}
 #| warning: false
@@ -750,17 +755,27 @@ plot_test<-
   geom_point(size=2, alpha=0.5, color="dodgerblue") + 
   geom_abline() + 
   labs(x="Predicted Response",y="True Response") + 
-  annotate("text", x=60, y=20, label= 
+  annotate("text", x=30, y=60, label= 
              paste("MSE is",
              round(mean((yhat - df_tree.test)^2),2)))
 
 plot_test
+
+mse_tree= mse(yhat, df_tree.test)
+rmse_tree= rmse(yhat, df_tree.test)
+smape_tree= smape(yhat, df_tree.test)
+r2_tree= rsq(yhat, df_tree.test)
 ```
 
 In other words, the test set MSE associated with the regression tree is `r round(mean((yhat - df_tree.test)^2),2)`. The square root of the MSE is therefore around `r round(sqrt(mean((yhat - df_tree.test)^2)),2)`, indicating that this model leads to test predictions that are within around `r round(sqrt(mean((yhat - df_tree.test)^2)),2)` mm of the true median precipitation value for the Mugla Station.
 
 ```{r}
 yhat_prune <-predict(prune.precipitation,newdata=df_tree[-train,])
+
+mse_prune_tree= mse(yhat_prune, df_tree.test)
+rmse_prune_tree= rmse(yhat_prune, df_tree.test)
+smape_prune_tree= smape(yhat_prune, df_tree.test)
+r2_prune_tree= rsq(yhat_prune, df_tree.test)
 ```
 
 The MSE and RMSE for pruned tree are estimated as `r round(mean((yhat_prune - df_tree.test)^2),2)` and `r round(sqrt(mean((yhat_prune - df_tree.test)^2)),2)`, respectively. Due to the nature of regression trees the predictions equal to averages of response variables in training data based on embranchment of the tree. In our example, predictions are available for five and 4 variables for unpruned and pruned cases, respectively.
@@ -776,7 +791,7 @@ bag.precipitation
 
 ```
 
-The Random Forest model consists of 500 decision trees. MSE on training data for the last tree is estimated as 71.12541. Percentage of variance in the target variable value of 30.66% indicates that the model explains about 30.66% of the variance in precipitation. The explained variance of 30.66% suggests that the model captures about a third of the variability in precipitation based on the provided predictors. This is a moderate level of explanatory power, indicating that while the model is capturing some of the relationships, there is still a significant portion of variability that it doesn't explain.
+The Random Forest model consists of 500 decision trees. MSE on training data for the last tree is estimated as 71.45367. Percentage of variance in the target variable value of 33.56% indicates that the model explains about 33.56% of the variance in precipitation. The explained variance of 33.56% suggests that the model captures about a third of the variability in precipitation based on the provided predictors. This is a moderate level of explanatory power, indicating that while the model is capturing some of the relationships, there is still a significant portion of variability that it doesn't explain.
 
 ```{r, fig.width=9,fig.height=5}
 #| warning: false
@@ -789,12 +804,17 @@ theme_bw() +
 geom_point(size=2, alpha=0.5, color="dodgerblue") + 
 geom_abline() + 
 labs(x="Predicted Response",y="True Response") + 
-annotate("text", x=60, y=20, label= 
+annotate("text", x=40, y=70, label= 
            paste("MSE is",
            round(mean((yhat.bag - df_tree.test)^2),2)))
+
+mse_bag_tree= mse(yhat.bag, df_tree.test)
+rmse_bag_tree= rmse(yhat.bag, df_tree.test)
+smape_bag_tree= smape(yhat.bag, df_tree.test)
+r2_bag_tree= rsq(yhat.bag, df_tree.test)
 ```
 
-The test set MSE associated with the bagged regression tree is 60.15, this is almost 20% lower than that achived using an optimally-pruned single tree.
+The test set MSE associated with the bagged regression tree is `r round(mean((yhat.bag - df_tree.test)^2),2)`, this is almost 20% lower than that achived using an optimally-pruned single tree.
 
 Growing a random forest proceeds in exactly the same way, except that we use a smaller value of the mtry argument. By default, randomForest() uses p/3 variables when building a random forest of regression trees, and p^1/2^ variables when building a random forest of classification trees. Here we use mtry = 7
 
@@ -805,9 +825,14 @@ yhat.rf = predict(rf.precipitation, newdata=df_tree[-train,])
 round(mean((yhat.rf - df_tree.test)^2),2)
 
 importance(rf.precipitation)
+
+mse_rf_tree= mse(yhat.rf, df_tree.test)
+rmse_rf_tree= rmse(yhat.rf, df_tree.test)
+smape_rf_tree= smape(yhat.rf, df_tree.test)
+r2_rf_tree= rsq(yhat.rf, df_tree.test)
 ```
 
-The test set MSE is 55.59; this indicates that random forests yielded an improvement over bagging in this case. Using the importance() function, we can view the importance of each variable. Two measures of variable importance are reported. The former is based upon the mean decrease of accuracy in predictions on the out of bag samples when a given variable is excluded from the model. The latter is a measure of the total decrease in node impurity that results from splits over that variable, averaged over all trees. In the case of regression trees, the node impurity is measured by the training RSS. Plots of these importance measures can be produced using the varImpPlot() function.
+The test set MSE is `r round(mean((yhat.rf - df_tree.test)^2),2)`; this indicates that random forests yielded an improvement over bagging in this case. Using the importance() function, we can view the importance of each variable. Two measures of variable importance are reported. The former is based upon the mean decrease of accuracy in predictions on the out of bag samples when a given variable is excluded from the model. The latter is a measure of the total decrease in node impurity that results from splits over that variable, averaged over all trees. In the case of regression trees, the node impurity is measured by the training RSS. Plots of these importance measures can be produced using the varImpPlot() function.
 
 ```{r, fig.width=9,fig.height=7}
 #| warning: false
@@ -818,31 +843,60 @@ The graphs which are variable importance metrics by looking the Percentage Incre
 
 ### Boosting
 
-Here we use the gbm package, and within it the gbm() function, to fit boosted regression trees to the our data set. We run gbm() with the option distribution=???gaussian??? since this is a regression problem, shrinkage parameter/learning rate is taken as 0.03. The argument n.trees=5000 indicates that we want 5000 trees, and the option interaction.depth=6 limits the depth of each tree.
+Here we use the gbm package, and within it the gbm() function, to fit boosted regression trees to the our data set. We run gbm() with the option distribution=gaussian since this is a regression problem, shrinkage parameter/learning rate is taken as 0.03. The argument n.trees=5000 indicates that we want 5000 trees, and the option interaction.depth=6 limits the depth of each tree.
 
 ```{r}
 set.seed(1)
 boost.precipitation = gbm(Precipitation ~.,
                 data = df_tree[train,],
                 distribution = "gaussian",
-                shrinkage = .03,
-                interaction.depth=6,
-                n.trees = 5000)
+                shrinkage = .01,
+                interaction.depth=3,
+                n.trees = 500,verbose=F)
  
 summary(boost.precipitation)[2]
+
 ```
 
 We see that average relative humidity and air pressure variables are the most important variables. Now we can use the boosted model to predict daily precipitation on the test data.
 
 ```{r}
-yhat.boost <- predict(boost.precipitation,newdata=df_tree[-train,],n.trees=5000,interaction.depth=6)
+yhat.boost <- predict(boost.precipitation,newdata=df_tree[-train,],n.trees=500)
 round(mean((yhat.boost - df_tree.test)^2),2)
+
+mse_boost_tree= mse(yhat.boost, df_tree.test)
+rmse_boost_tree= rmse(yhat.boost, df_tree.test)
+smape_boost_tree= smape(yhat.boost, df_tree.test)
+r2_boost_tree= rsq(yhat.boost, df_tree.test)
 ```
 
-The test MSE of boosted model obtained is 54.74 and it is superior to the test MSE for random forests and bagging.
+The test MSE of boosted model obtained is `r round(mean((yhat.boost - df_tree.test)^2),2)` and it is superior to the test MSE for random forests and bagging.
 
 # Evaluation Metrics
 
+```{r}
+error_table<- data.frame (
+ Statistics = c("MSE","RMSE","SMAPE","R2"), 
+ Ridge = c(mse_ridge, rmse_ridge, smape_ridge, r2_ridge), 
+ Ridge.cv = c(mse_cv.ridge, rmse_cv.ridge, smape_cv.ridge, r2_cv.ridge), 
+ Lasso = c(mse_lasso, rmse_lasso, smape_lasso, r2_lasso), 
+ Lasso.cv = c(mse_cv.lasso, rmse_cv.lasso, smape_cv.lasso, r2_cv.lasso), 
+ Sarima = c(mse_sarima, rmse_sarima, smape_sarima, r2_sarima), 
+ Sarimax = c(mse_sarimax, rmse_sarimax, smape_sarimax, r2_sarimax), 
+ SVR = c(mse_svr, rmse_svr, smape_svr, r2_svr), 
+ Tree = c(mse_tree, rmse_tree, smape_tree, r2_tree), 
+ Prune.Tree = c(mse_prune_tree, rmse_prune_tree, smape_prune_tree, r2_prune_tree), 
+ Bagging = c(mse_bag_tree, rmse_bag_tree, smape_bag_tree, r2_bag_tree),
+ Random.Forest = c(mse_rf_tree, rmse_rf_tree, smape_rf_tree, r2_rf_tree), 
+ Boosting = c(mse_boost_tree, rmse_boost_tree, smape_boost_tree, r2_boost_tree) )
+
+for (i in 2:13) { error_table[,i]<- round(error_table[,i],2) }
+
+t_error_table <- data.frame(t(error_table[,2:13]))
+colnames(t_error_table) <- error_table[,1]
+t_error_table |>  gt(rownames_to_stub = TRUE)
+```
+
 # Results and Conclusion
 
-Eshel and Farrell [@eshel2000] investigated rainfall variability over Eastern Mediterranean and they showed that rainfall is mostly depend on pressure anomalies. Lower air pressure is mostly related with precipitation since mostly frontal systems brings rainfall over Eastern Mediterranean. These frontal systems also means windy storms which comes from over Mediterranean Sea. Similarly, relative humidity is highly related with precipitation since rainfall formation is much easier in saturated air conditions. As everyone might guess cloud is necessary for rainfall production. By the way, dew point temperature means that how much air should be cooled to be saturated without any moisture addition. Thus, closer dew point temperature and air temperature means highly saturated and vice versa. As stated above, relative humidity, cloud coverage, air pressure, dew point temperature, wind direction, wind speed and temperature should be used as predictors while response is precipitation. However, only relative humidity, air pressure and wind direction parameters are used in our pruned trees. This situation most probably caused because of predictor's correlation between each other. Correlation matrix of variables is given in Figure 11. As shown in the Figure, some variables are highly correlated with each other whether positive or negative. For example, correlation coefficient between cloud coverage and relative humidity is 0.7 and -0.6 between dew point temperature and air pressure. Thus, using many variables has become unnecessary.
+Eshel and Farrell [@eshel2000] investigated rainfall variability over Eastern Mediterranean and they showed that rainfall is mostly depend on pressure anomalies. Lower air pressure is mostly related with precipitation since mostly frontal systems brings rainfall over Eastern Mediterranean. These frontal systems also means windy storms which comes from over Mediterranean Sea. Similarly, relative humidity is highly related with precipitation since rainfall formation is much easier in saturated air conditions. As everyone might guess cloud is necessary for rainfall production. By the way, dew point temperature means that how much air should be cooled to be saturated without any moisture addition. Thus, closer dew point temperature and air temperature means highly saturated and vice versa. As stated above, relative humidity, cloud coverage, air pressure, dew point temperature, wind direction, wind speed and temperature should be used as predictors while response is precipitation. However, mostly relative humidity and air pressure parameters become our main predictors on modelling precipitation. This situation most probably caused because of predictor's correlation between each other as showed on cor matrix.
