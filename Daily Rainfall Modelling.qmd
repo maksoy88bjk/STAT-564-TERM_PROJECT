@@ -164,7 +164,7 @@ ggplot()  + geom_sf(fill = "white") +
 
 ### Data Handling
 
-Data period is between 01.01.2009 and 31.12.2023 for Mugla Station (17292). Elevation of the station is 646 meter. Daily precipitation data is used as response variable in modelling. Distinct daily observation variables are used as predictors such as temperature (b), dew point temperature (b), sea-level air pressure (mb), cloud coverage (0-8), relative humidity (%), solar exposure (hour), solar radiation (W/m^2^) direction of wind (B0) and speed (m/sec).
+Data period is between 01.01.2009 and 31.12.2023 for Mugla Station (17292). Elevation of the station is 646 meter. Daily precipitation data is used as response variable in modelling. Distinct daily observation variables are used as predictors such as temperature (C°), dew point temperature (C°), sea-level air pressure (mb), cloud coverage (0-8), relative humidity (%), solar exposure (hour), solar radiation (W/m^2^) direction of wind (B0) and speed (m/sec).
 
 ```{r}
 #| warning: false
@@ -200,13 +200,13 @@ write.table(df, "merge.txt", row.names = FALSE, quote = FALSE, sep = "\t")
 
     -   Most days experience less precipitation, but there are occasional instances of heavy rainfall, with a maximum of 168.6 mm.
 
-2.  **Temperature**: This is a measure of the warmth or coldness of the atmosphere as determined by a thermometer. It is typically reported in degrees Celsius (b).
+2.  **Temperature**: This is a measure of the warmth or coldness of the atmosphere as determined by a thermometer. It is typically reported in degrees Celsius.
 
-    -   The temperature ranges from cold to hot conditions, with mean temperatures around 10-15b and maximum temperatures reaching as high as 41.7b
+    -   The temperature ranges from cold to hot conditions, with mean temperatures around 10-15 C° and maximum temperatures reaching as high as 41.7.
 
-3.  **Dew Point Temperature**: This is the temperature at which air becomes saturated with moisture and dew can form. It is an indicator of the moisture content in the air and is measured in degrees Celsius (b).
+3.  **Dew Point Temperature**: This is the temperature at which air becomes saturated with moisture and dew can form. It is an indicator of the moisture content in the air and is measured in degrees Celsius.
 
-    -   Dewpoint temperatures indicate varying levels of atmospheric moisture, ranging from dry to humid conditions with maximum 19.9 b.
+    -   Dewpoint temperatures indicate varying levels of atmospheric moisture, ranging from dry to humid conditions with maximum 19.9 C°.
 
 4.  **Relative Humidity**: This is the amount of moisture in the air compared to what the air can hold at that temperature. It is expressed as a percentage (%).
 
@@ -230,7 +230,7 @@ write.table(df, "merge.txt", row.names = FALSE, quote = FALSE, sep = "\t")
 
     -   Evapotranspiration rates vary, reflecting differences in water loss from soil and plants.
 
-9.  **Solar Radiation**: This is the energy from the sun received at the Earth's surface. It is typically measured in watts per square meter (W/m).
+9.  **Solar Radiation**: This is the energy from the sun received at the Earth's surface. It is typically measured in watts per square meter (W/m^2^).
 
     -   Solar radiation fluctuates, affecting temperature and other weather parameters.
 
@@ -334,6 +334,19 @@ df |>
   labs(x = "Month", y = "Precipitation (mm)") + 
   geom_line(color = "navyblue", size = 1) + 
   geom_point(color = "navyblue", size = 2) + 
+  theme_bw() + theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+df |> 
+  mutate(Month = month(Date), Year = year(Date)) |> 
+  group_by(Month, Year) |> 
+  summarize(TotalPrecipitation = sum(Precipitation, na.rm = TRUE), 
+            .groups = 'drop') |> 
+  arrange(Year, Month) |> 
+  ggplot( aes(x = factor(Month, levels = 1:12, labels = month.name), 
+               y = TotalPrecipitation, color = factor(Year), group = Year)) +
+  geom_line() +  guides(color=guide_legend(title="Years")) +
+  labs(x = "Month", y = "Precipitation (mm)") + 
   theme_bw() + theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
@@ -701,9 +714,9 @@ ggplot(aes(x = Date, y = Precipitation, color = Type)) +
 theme_bw() +
 scale_color_manual(name=" ",values = c("Actual" = "dodgerblue",
                               "Predicted" = "firebrick"),
-                   labels = c("Actual", "Forecasts")) +
+                   labels = c("Actual", "Predicted")) +
 labs(x="Date",y="Precipitation (mm)") + 
-  theme(legend.position = c(.9,.8)) +ggtitle("Forecasts of Precipitation by using SVR Model")
+  theme(legend.position = c(.9,.8)) +ggtitle("Prediction of Precipitation by using SVR Model")
 
 ```
 
@@ -735,9 +748,14 @@ Now we use the cv.tree() function to see whether pruning the tree will improve p
 #| warning: false
 set.seed(1)
 cv.precipitation <- cv.tree(tree.precipitation);cv.precipitation
-plot(cv.precipitation$size, cv.precipitation$dev,
-     type='b', col="dodgerblue", lwd=2)
-abline(v = which.min(rev(cv.precipitation$dev)), col="firebrick", lwd=2, lty=2)
+
+data.frame(Size = cv.precipitation$size, Dev = cv.precipitation$dev) |> 
+ggplot(aes(x = Size, y = Dev)) + 
+geom_line(color="dodgerblue", size=1) +
+geom_point(color="dodgerblue", size=2) +
+geom_vline(xintercept = which.min(rev(cv.precipitation$dev)), 
+           color="firebrick",  linetype="dashed", size=2) +
+theme_bw() 
 ```
 
 The minimum deviance with less complexity is available where number of terminal nodes is 4. Thus, we can prune the regression tree from 14 to 4 terminal nodes. In this case, the four-node tree is selected by cross-validation. Thus, we can prune the tree, we could do so as follows, using the prune.tree() function:
@@ -898,10 +916,9 @@ ggplot(aes(x = Date, y = Precipitation, color = Type)) +
 theme_bw() +
 scale_color_manual(name=" ",values = c("Actual" = "dodgerblue",
                               "Predicted" = "firebrick"),
-                   labels = c("Actual", "Forecasts")) +
+                   labels = c("Actual", "Predicted")) +
 labs(x="Date",y="Precipitation (mm)") + 
-  theme(legend.position = c(.9,.8))+ggtitle("Forecasts of Precipitation by using GBM")
-
+  theme(legend.position = c(.9,.8))+ggtitle("Prediction of Precipitation by using Boosting")
 ```
 
 # Evaluation Metrics
@@ -940,8 +957,8 @@ We have applied several methodology for modelling daily precipitation in Mugla S
 
 In summary, based on the provided metrics:
 
--   Boosting appears to be the best-performing model overall, with the lowest MSE, RMSE, and high SMAPE and R2 values.
+-   Boosting appears to be the best-performing model overall, with the lowest MSE, RMSE, SMAPE and high R2 values.
 
 -   Random Forest also performs well across all metrics, indicating its effectiveness in capturing patterns in the data and making accurate predictions.
 
--   Other models such as Bagging and Prune.Tree also show competitive performance but are slightly outperformed by Boosting and Random Forest.
+-   Other models such as Bagging and Prune. Tree also show competitive performance but are slightly outperformed by Boosting and Random Forest.
