@@ -170,7 +170,7 @@ ggplot()  + geom_sf(fill = "white") +
 
 ### Data Handling
 
-Data period is between 01.01.2009 and 31.12.2023 for Mugla Station (17292). Elevation of the station is 646 meter. Daily precipitation data is used as response variable in modelling. Distinct daily observation variables are used as predictors such as temperature (C°), dew point temperature (C°), sea-level air pressure (mb), cloud coverage (0-8), relative humidity (%), solar exposure (hour), solar radiation (W/m^2^) direction of wind (B0) and speed (m/sec).
+Data period is between 01.01.2009 and 31.12.2023 for Mugla Station (17292). Elevation of the station is 646 meter. Daily precipitation data is used as response variable in modelling. Distinct daily observation variables are used as predictors such as temperature (CB0), dew point temperature (CB0), sea-level air pressure (mb), cloud coverage (0-8), relative humidity (%), solar exposure (hour), solar radiation (W/m^2^) direction of wind (B0) and speed (m/sec).
 
 ```{r}
 #| warning: false
@@ -208,11 +208,11 @@ write.table(df, "merge.txt", row.names = FALSE, quote = FALSE, sep = "\t")
 
 2.  **Temperature**: This is a measure of the warmth or coldness of the atmosphere as determined by a thermometer. It is typically reported in degrees Celsius.
 
-    -   The temperature ranges from cold to hot conditions, with mean temperatures around 10-15 C° and maximum temperatures reaching as high as 41.7.
+    -   The temperature ranges from cold to hot conditions, with mean temperatures around 10-15 CB0 and maximum temperatures reaching as high as 41.7.
 
 3.  **Dew Point Temperature**: This is the temperature at which air becomes saturated with moisture and dew can form. It is an indicator of the moisture content in the air and is measured in degrees Celsius.
 
-    -   Dewpoint temperatures indicate varying levels of atmospheric moisture, ranging from dry to humid conditions with maximum 19.9 C°.
+    -   Dewpoint temperatures indicate varying levels of atmospheric moisture, ranging from dry to humid conditions with maximum 19.9 CB0.
 
 4.  **Relative Humidity**: This is the amount of moisture in the air compared to what the air can hold at that temperature. It is expressed as a percentage (%).
 
@@ -366,7 +366,6 @@ df_pre=df[,c(1,2)]
 head(df_pre)
 
 #Calculating the number of null values if there is one.
-
 pre_null_values= sum(is.na(df_pre$Precipitation))
 print(paste("Number of Null Values in Precipitation Column:",pre_null_values))
 ```
@@ -379,34 +378,34 @@ missing_date= df_pre$Date[is.na(df_pre$Precipitation)]
 missing_date
 
 #Time Series Plot of Precipitation (with Missing Data Highlighted (2009-2024))
-ggplot(df_pre, aes(x = Date, y = Precipitation)) +
-  geom_line(color = "red", size = 0.5,alpha=0.5) +  # Continuous line plot
-  geom_smooth(method = "loess", se = FALSE, color = "orange", size = 1.5) +  #Trend line
-  geom_point(aes(color = !is.na(Precipitation)), size = 1,alpha=0.5, shape = 21, fill = "white", show.legend = FALSE) +
-  geom_text(data = subset(df_pre, is.na(Precipitation)), aes(label = "NA", y = 0), vjust = -0.5, color = "blue",size= 3) +  # Marking NAs
-  scale_color_manual(values = c("black", "red")) +  # Red points for non-missing data
-  labs(title = "Time Series Plot of Precipitation Data (2009-2024)",
-       x = "Date",
-       y = "Precipitation (mm)") +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1),
-        plot.title = element_text(hjust = 0.5)) #Centering the title
+ggplot(df_pre, aes(x= Date, y= Precipitation))+
+       geom_line(color= "red", size= 0.5,alpha=0.5)+  # Continuous line plot
+       geom_smooth(method= "loess", se= FALSE, color= "orange", size= 1.5)+
+       geom_point(aes(color= !is.na(Precipitation)), size= 1,alpha=0.5, shape= 21, fill= "white", show.legend= FALSE) +
+       geom_text(data= subset(df_pre, is.na(Precipitation)), aes(label= "NA", y= 0), vjust= -0.5, color= "blue",size= 3) + 
+       scale_color_manual(values= c("black", "red")) +
+      labs(title= "Time Series Plot of Precipitation Data (2009-2024)",
+       x= "Date",
+       y= "Precipitation (mm)")+
+       theme_minimal()+
+       theme(axis.text.x= element_text(angle= 45, hjust= 1),
+        plot.title= element_text(hjust= 0.5))
 
 #Time Series Plot of Precipitation (with Trend Line Highlighted (2021-2024))
 df_pre_p1= filter(df_pre, Date>= as.Date("2021-01-01"))
 
-ggplot(df_pre_p1, aes(x = Date, y = Precipitation)) +
-  geom_line(color = "red", size = 1) +  # Plotting the precipitation data
-  geom_point(aes(color = !is.na(Precipitation)), size = 2, shape = 21, fill = "white", show.legend = FALSE) +
-  scale_color_manual(values = c("orange", "red")) +  # Use red points to mark non-missing data
-  labs(title = "Time Series Plot of Precipitation Data (2021-2024)",
-       x = "Date",
-       y = "Precipitation (mm)") +
+ggplot(df_pre_p1, aes(x= Date, y= Precipitation)) +
+  geom_line(color= "red", size= 1) +  
+  geom_point(aes(color= !is.na(Precipitation)), size= 2, shape= 21, fill= "white", show.legend= FALSE) +
+  scale_color_manual(values= c("orange", "red")) + 
+  labs(title= "Time Series Plot of Precipitation Data (2021-2024)",
+       x= "Date",
+       y= "Precipitation (mm)") +
   theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Improve readability of x-axis labels
+  theme(axis.text.x= element_text(angle= 45, hjust= 1)) 
 ```
 
-According to the time series plot of the precipitation, there is no specific long-term trend (orange line) over the years. 4 of the 5 null values are found sequentially and one of them is located in "2012-11-09". The plot exhibits high volatility and also might be observed some seasonality (clearly observed in plot 2).
+According to the time series plot of the precipitation, there is no specific long-term trend (orange line) over the years. Since the majority of the precipitation in Mugla was recorded as zero, trend line is around 0 as well. 4 of the 5 null values are found sequentially and one of them is located in "2012-11-09". The plot exhibits high volatility and also might be observed some seasonality (clearly observed in plot 2).
 
 # Methodology
 
@@ -416,8 +415,8 @@ In the precipitation time series data, there is some null values in various of p
 
 ```{r}
 #| warning: false
-df_null=df %>% filter(Date < "2023-01-01" ) 
-df_null1=apply(df_null,2,function(x) sum(is.na(x)))
+df_null= df%>% filter(Date <"2023-01-01" ) 
+df_null1= apply(df_null,2,function(x) sum(is.na(x)))
 df_null1
 ```
 
@@ -460,27 +459,27 @@ y<- df_n$Precipitation
 set.seed(1)
 train <-  seq(1: nrow(df_n |>  filter(Date < "2021-01-01" ) ) ) 
 
-# rsquare
+# R-square
 rsq <- function (x, y) round(cor(x, y) ^ 2, 2)
 
-#  RIDGE
+# RIDGE
 grid <- 10^seq(10, -2, length=100)
 ridge.mod <- glmnet(x[train,], y[train], alpha=0)
 
 plot_glmnet(ridge.mod,label=8)
-ridge.pred <- predict(ridge.mod, s=4, newx = x[-train,])
+ridge.pred <- predict(ridge.mod, s=4, newx= x[-train,])
 mse_ridge= mse(ridge.pred, y[-train])
 rmse_ridge= rmse(ridge.pred, y[-train])
 smape_ridge= smape(ridge.pred, y[-train])
 r2_ridge= rsq(as.numeric(ridge.pred), as.numeric(y[-train]))
 
-# ten-fold cross-validation
+# 10-fold cross-validation
 set.seed(1)
 cv.out <- cv.glmnet(x[train,], y[train], alpha=0)
 plot(cv.out)
 bestlambda <- cv.out$lambda.min ; bestlambda
 
-ridge.pred <- predict(ridge.mod, s=bestlambda, newx = x[-train,])
+ridge.pred <- predict(ridge.mod, s=bestlambda, newx= x[-train,])
 mse_cv.ridge= mse(ridge.pred, y[-train])
 rmse_cv.ridge= rmse(ridge.pred, y[-train])
 smape_cv.ridge= smape(ridge.pred, y[-train])
@@ -488,8 +487,8 @@ r2_cv.ridge= rsq(as.numeric(ridge.pred), as.numeric(y[-train]))
 
 out<- glmnet(x[train,], y[train],alpha=0)
 predict(out,type="coefficients",s=bestlambda)
-pp<- predict(out, newx = x[-train,], type = "response", s=bestlambda)
-pp2<- ifelse(pp < 0, 0, pp ) ## eksi tahminleri sifira esitledik
+pp<- predict(out, newx= x[-train,], type= "response", s=bestlambda)
+pp2<- ifelse(pp < 0, 0, pp )
 
 plot(y[-train], pp2)
 
@@ -503,7 +502,7 @@ cv.out=cv.glmnet(x[train ,],y[train],alpha=1)
 plot(cv.out)
 bestlam=cv.out$lambda.min ; bestlam
 
-lasso.pred <- predict(lasso.mod, s=4, newx = x[-train,])
+lasso.pred <- predict(lasso.mod, s=4, newx= x[-train,])
 mse_lasso= mse(lasso.pred, y[-train])
 rmse_lasso= rmse(lasso.pred, y[-train])
 smape_lasso= smape(lasso.pred, y[-train])
@@ -518,7 +517,7 @@ r2_cv.lasso= rsq(as.numeric(lasso.pred), as.numeric(y[-train]))
 out<- glmnet(x[train,], y[train],alpha=1)
 predict(out,type="coefficients",s=bestlam)
 
-pp_2<- predict(out, newx = x[-train,], type = "response", s=bestlam)
+pp_2<- predict(out, newx= x[-train,], type= "response", s=bestlam)
 pp2_2<- ifelse(pp_2 < 0, 0, pp_2 )
 
 plot(y[-train], pp2_2)
@@ -534,11 +533,13 @@ We get similar results when we compare with the results of Ridge regression. Unl
 
 ## SARIMA & SARIMAX
 
+Before contructing SARIMA& SARIMAX to the precipitation data we should follow some assumptions which are stationarity, seasonality, heteroscedasticity and normality in residuals.
+
 ### Seasonality Analyze
 
--   Ho: No auto correlation for lags=365
+-   Ho: No auto correlation for lags= 365
 
--   H1: Some auto correlation for lags=365
+-   H1: Some auto correlation for lags= 365
 
 Since the p-value is less than 0.05 we suggest that there is some autocorrelation for lags=365 in Precipitation data which is a strong indication of seasonality. Also, we can clearly observe seasonality in the Seasonality Component plot.
 
@@ -548,9 +549,9 @@ On the other hand, when we examine the decomposition plot, there is still noise 
 #| warning: false
 
 #Seasonal Decomposition
-#Mean Imputation for NA values
-df_pre_ts= ts(df_n$Precipitation, frequency = 365)
-result_stl <- stl(df_pre_ts, s.window = "periodic")
+
+df_pre_ts= ts(df_n$Precipitation, frequency= 365)
+result_stl= stl(df_pre_ts, s.window= "periodic")
 plot(result_stl)
 ljung_box_result= Box.test(df_n$Precipitation, lag= 365, type= "Ljung-Box")
 print(ljung_box_result)
@@ -562,11 +563,11 @@ print(ljung_box_result)
 
 -   H1: The time series is stationary
 
-Since our p-value is less than 0.05, it can be concluded that the time series is stationary. That means that the mean, variance and autocorrelation of the series do not change over the years. Since we satisfied the assumption of stationary we can perform Statistical Models as well as Machine Learning Approaches.
+Since our p-value is less than 0.05, it can be concluded that the time series is stationary. That means that the mean, variance and autocorrelation of the series do not change over the years. Since we satisfied the assumption of stationary we do not need to take first-order differencing in the data.
 
 ```{r}
 #| warning: false
-adf_test= adf.test(df_n$Precipitation, alternative = "stationary")
+adf_test= adf.test(df_n$Precipitation, alternative= "stationary")
 print(adf_test)
 ```
 
@@ -574,18 +575,18 @@ print(adf_test)
 
 ```{r}
 #| warning: false
-par(mfrow = c(1, 2))
+par(mfrow= c(1, 2))
 acf(df_n$Precipitation, main="ACF of Precipitation")
 pacf(df_n$Precipitation, main="PACF of Precipitation")
 ```
 
-Both of the ACF and PACF plots demonstrate significant spikes at lag 1. It can be observed that there is a repeated pattern in the ACF plot which is an indication of the seasonality. As a result, we should take seasonal differencing and there is no need for first-order differencing since our data is already in the stationary form.
+Both of the ACF and PACF plots demonstrate significant spikes at lag 1. It can be observed that there is a repeated pattern in the ACF plot which is an indication of the seasonality. As a result, we should take seasonal differencing and there is no need for first-order differencing as looking the result of Augmented Dickey- Fuller Test.
 
 ```{r}
 #| warning: false
 df_n_diff= diff(df_n$Precipitation, lag=365)
 
-par(mfrow = c(1, 2))
+par(mfrow= c(1, 2))
 acf(df_n_diff, main="ACF of Precipitation")
 pacf(df_n_diff, main="PACF of Precipitation")
 ```
@@ -595,12 +596,11 @@ After utilizing seasonal differencing we seem to have solved seasonality problem
 ```{r}
 #| warning: false
 #SARIMA MODEL
-df_n_res= ts(df_n$Precipitation, frequency = 365)
+df_n_res= ts(df_n$Precipitation, frequency= 365)
 
 sarima_model= Arima(y[train], 
                        order= c(1, 0, 1), 
                        seasonal= c(1, 1, 1, 365))
-
 #summary(sarima_model)
 
 sarima_forecast= forecast(sarima_model, h= length(y[-train]))
@@ -632,12 +632,12 @@ sarimax_model= Arima(y[train],
 
 summary(sarimax_model)
 
-sarimax_forecast= forecast(sarimax_model, h= length(y[-train]), xreg = x[-train,])
+sarimax_forecast= forecast(sarimax_model, h= length(y[-train]), xreg= x[-train,])
 plot(sarimax_forecast)
 
 #Since precipitation cannot be non negative value, replaces those value with 0.
 y_hat_sarimax= sarimax_forecast$mean
-y_hat_sarimax1=ifelse(y_hat_sarimax<0,1e-6,y_hat_sarimax)
+y_hat_sarimax1= ifelse(y_hat_sarimax<0, 1e-6, y_hat_sarimax)
 y_act= y[-train]
 
 mse_sarimax= mse(y_act, y_hat_sarimax)
@@ -649,19 +649,16 @@ print(paste("MSE of the SARIMAX Model: ", round(mse_sarimax,2)))
 print(paste("RMSE of the SARIMAX Model: ", round(rmse_sarimax,2)))
 print(paste("SMAPE of the SARIMAX Model: ", round(smape_sarimax,2)))
 
-data.frame(Date = c(df_n$Date, df_n$Date),
-                      Precipitation = c(y, 
-                                append(rep(NA,length(train)), y_hat_sarimax1)),
-                      Type = rep(c("Actual", "Predicted"), 
-                                 each = length(df_n$Date))) |> 
-ggplot(aes(x = Date, y = Precipitation, color = Type)) + 
-  geom_line() +
-theme_bw() +
-scale_color_manual(name=" ",values = c("Actual" = "dodgerblue",
-                              "Predicted" = "firebrick"),
-                   labels = c("Actual", "Forecasts")) +
-labs(x="Date",y="Precipitation (mm)") + 
-  theme(legend.position = c(.9,.8)) +ggtitle("Forecasts of Precipitation by using SARIMAX Model")
+data.frame(Date= c(df_n$Date, df_n$Date),
+            Precipitation= c(y, 
+            append(rep(NA,length(train)), y_hat_sarimax1)),
+            Type= rep(c("Actual", "Predicted"), 
+            each= length(df_n$Date))) |> 
+            ggplot(aes(x= Date, y= Precipitation, color= Type))+ 
+            geom_line()+ theme_bw()+ scale_color_manual(name=" ",values= c("Actual"= "dodgerblue", "Predicted"= "firebrick"),
+            labels= c("Actual", "Forecasts"))+
+            labs(x="Date",y="Precipitation (mm)")+ 
+            theme(legend.position= c(.9,.8))+ ggtitle("Forecasts of Precipitation by using SARIMAX Model")
 
 ```
 
@@ -669,15 +666,15 @@ According to the results, SARIMAX (with predictor variables) demonstrates fine r
 
 ```{r}
 #| warning: false
-residuals_sarimax <- residuals(sarimax_model)
+residuals_sarimax= residuals(sarimax_model)
 
 # Plot of Residuals
-ggplot(data = data.frame(Date= df_n$Date[train], Residuals= residuals_sarimax), aes(x= Date, y= Residuals)) +
-  geom_line()+
-  theme_bw()+
-  labs(title ="Residuals of SARIMAX Model", x ="Date", y ="Residuals")
+ggplot(data= data.frame(Date= df_n$Date[train], Residuals= residuals_sarimax), aes(x= Date, y= Residuals)) +
+    geom_line()+
+    theme_bw()+
+    labs(title ="Residuals of SARIMAX Model", x ="Date", y ="Residuals")
 
-# Q-Q grafi??i
+# Q-Q Plot
 qqnorm(residuals_sarimax)
 qqline(residuals_sarimax)
 ```
@@ -688,17 +685,17 @@ Before completing the SARIMAX modelling, the assumption of residuals of heterosc
 
 ```{r}
 #| warning: false
-df_n_lag= data.frame(Date = df_n$Date, y = y) %>% mutate(Lag1 = lag(y, 1), Lag7 = lag(y, 7)) %>% na.omit()
+df_n_lag= data.frame(Date= df_n$Date, y= y) %>% mutate(Lag1= lag(y, 1), Lag7= lag(y, 7)) %>% na.omit()
 x_lag=x[-(1:7), ]
 df_n_lag_c= cbind(df_n_lag, x_lag)
 df_n_lag_c1= df_n_lag_c[!names(df) %in% c("Date")]
 # Fit the SVR model
-svr_model <- train(y ~ ., data = df_n_lag_c1[train,], method = "svmRadial", 
-                   trControl = trainControl(method = "cv", number = 5),
-                   preProcess = c("center", "scale"))
+svr_model= train(y ~ ., data= df_n_lag_c1[train,], method= "svmRadial", 
+                   trControl= trainControl(method= "cv", number= 5),
+                   preProcess= c("center", "scale"))
 
 
-svr_forecasts <- predict(svr_model, newdata = df_n_lag_c1[-train,])
+svr_forecasts= predict(svr_model, newdata= df_n_lag_c1[-train,])
 
 # Evaluate the model performance
 mse_svr= mse(svr_forecasts, df_n_lag_c1$y[-train])
@@ -710,23 +707,21 @@ print(paste("MSE of the SVR Model: ", round(mse_svr,2)))
 print(paste("RMSE of the SVR Model: ", round(rmse_svr,2)))
 print(paste("SMAPE of the SVR Model: ", round(smape_svr,2)))
 
-data.frame(Date = c(df_n_lag $Date, df_n_lag $Date),
-                      Precipitation = c(df_n_lag$y, 
-                                append(rep(NA,length(train)), svr_forecasts)),
-                      Type = rep(c("Actual", "Predicted"), 
-                                 each = length(df_n_lag$Date))) |> 
-ggplot(aes(x = Date, y = Precipitation, color = Type)) + 
-  geom_line() +
-theme_bw() +
-scale_color_manual(name=" ",values = c("Actual" = "dodgerblue",
-                              "Predicted" = "firebrick"),
-                   labels = c("Actual", "Predicted")) +
-labs(x="Date",y="Precipitation (mm)") + 
-  theme(legend.position = c(.9,.8)) +ggtitle("Prediction of Precipitation by using SVR Model")
+data.frame(Date= c(df_n_lag $Date, df_n_lag $Date),
+                Precipitation= c(df_n_lag$y, 
+                append(rep(NA,length(train)), svr_forecasts)),
+                Type= rep(c("Actual", "Predicted"), 
+                each= length(df_n_lag$Date))) |> 
+                ggplot(aes(x= Date, y= Precipitation, color= Type)) + 
+                geom_line() +theme_bw() +
+                scale_color_manual(name=" ",values= c("Actual"= "dodgerblue","Predicted"= "firebrick"),
+                labels= c("Actual", "Predicted")) +
+                labs(x="Date",y="Precipitation (mm)") + 
+                theme(legend.position= c(.9,.8)) +ggtitle("Prediction of Precipitation by using SVR Model")
 
 ```
 
-SVR is also implemented in the dataset. The model is constructed with a 5-fold cross-validation and radial method by using scaled and centered data. Also, 1 day and 7 days lagged are added as a factor to get better results. According to the results we get similar results compared to SARIMAX. SVR also generally captures the trend and seasonal variation but not wells in the values with the higher magnitudes.
+SVR is also implemented in the dataset. The model is constructed with a 5-fold cross-validation and radial method by using scaled and centered data. Also, 1 day and 7 days lagged are added as a factor to get better results. According to the metrics, we get similar results compared to SARIMAX. SVR also generally captures the trend and seasonal variation but not wells in the values with the higher magnitudes.
 
 ## Tree-Based Methods
 
@@ -755,11 +750,11 @@ Now we use the cv.tree() function to see whether pruning the tree will improve p
 set.seed(1)
 cv.precipitation <- cv.tree(tree.precipitation);cv.precipitation
 
-data.frame(Size = cv.precipitation$size, Dev = cv.precipitation$dev) |> 
-ggplot(aes(x = Size, y = Dev)) + 
+data.frame(Size= cv.precipitation$size, Dev= cv.precipitation$dev) |> 
+ggplot(aes(x= Size, y= Dev)) + 
 geom_line(color="dodgerblue", size=1) +
 geom_point(color="dodgerblue", size=2) +
-geom_vline(xintercept = which.min(rev(cv.precipitation$dev)), 
+geom_vline(xintercept= which.min(rev(cv.precipitation$dev)), 
            color="firebrick",  linetype="dashed", size=2) +
 theme_bw() 
 ```
@@ -816,7 +811,7 @@ The MSE and RMSE for pruned tree are estimated as `r round(mean((yhat_prune - df
 
 ### Bagging and Random Forests
 
-Here we apply bagging and random forests to the our data, using the randomForest package in R. Recall that bagging is simply a special case of a random forest with m = p. Therefore, the randomForest() function can be used to perform both random forests and bagging. The argument mtry=16 indicates that all 16 predictors should be considered for each split of the tree.
+Here we apply bagging and random forests to the our data, using the randomForest package in R. Recall that bagging is simply a special case of a random forest with m= p. Therefore, the randomForest() function can be used to perform both random forests and bagging. The argument mtry=16 indicates that all 16 predictors should be considered for each split of the tree.
 
 ```{r}
 set.seed(1)
@@ -830,7 +825,7 @@ The Random Forest model consists of 500 decision trees. MSE on training data for
 ```{r, fig.width=9,fig.height=5}
 #| warning: false
 
-yhat.bag = predict(bag.precipitation, newdata=df_tree[-train,])
+yhat.bag= predict(bag.precipitation, newdata=df_tree[-train,])
 
 data.frame(yhat.bag, df_tree.test) |> 
 ggplot(aes(x= yhat, y=df_tree.test)) + 
@@ -850,13 +845,13 @@ r2_bag_tree= rsq(yhat.bag, df_tree.test)
 
 The test set MSE associated with the bagged regression tree is `r round(mean((yhat.bag - df_tree.test)^2),2)`, this is almost 20% lower than that achieved using an optimally-pruned single tree.
 
-Growing a random forest proceeds in exactly the same way, except that we use a smaller value of the mtry argument. By default, randomForest() uses p/3 variables when building a random forest of regression trees, and p^1/2^ variables when building a random forest of classification trees. Here we use mtry = 7
+Growing a random forest proceeds in exactly the same way, except that we use a smaller value of the mtry argument. By default, randomForest() uses p/3 variables when building a random forest of regression trees, and p^1/2^ variables when building a random forest of classification trees. Here we use mtry= 7
 
 ```{r}
 #| warning: false
 set.seed(1)
 rf.precipitation <- randomForest(Precipitation ~., data=df_tree, subset=train, mtry=7,importance=TRUE)
-yhat.rf = predict(rf.precipitation, newdata=df_tree[-train,])
+yhat.rf= predict(rf.precipitation, newdata=df_tree[-train,])
 round(mean((yhat.rf - df_tree.test)^2),2)
 
 importance(rf.precipitation)
@@ -887,8 +882,8 @@ boost.precipitation = gbm(Precipitation ~.,
                 data = df_tree[train,],
                 distribution = "gaussian",
                 shrinkage = .01,
-                interaction.depth=3,
-                n.trees = 500,verbose=F)
+                interaction.depth = 3,
+                n.trees = 500,verbose = F)
  
 summary(boost.precipitation)[2]
 
@@ -912,7 +907,7 @@ The test MSE of boosted model obtained is `r round(mean((yhat.boost - df_tree.te
 ```{r, fig.width=9,fig.height=5}
 #| warning: false
 
-data.frame(Date = c(df_n$Date, df_n$Date),
+data.frame(Date= c(df_n$Date, df_n$Date),
                       Precipitation = c(df_n$Precipitation, 
                                 append(rep(NA,length(train)), yhat.boost)),
                       Type = rep(c("Actual", "Predicted"), 
