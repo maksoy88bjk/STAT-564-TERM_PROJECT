@@ -30,6 +30,12 @@ format:
 bibliography: references.bib
 ---
 
+::: callout-important
+## Disclaimer
+
+This document is a product of the final project for the STAT 564 lecture, focusing on statistical data analysis and machine learning models. It is essential to acknowledge that minor errors may be present, and the methods employed may not necessarily reflect the optimal approach related to the data set.
+:::
+
 # Introduction
 
 Precipitation is one of the most important meteorological factors that have large impacts on human life and ecosystems worldwide in many ways such as freshwater, irrigation, hydropower production etc. As many authors have indicated that the nature of precipitation shows high variability in terms of both spatial and temporal scales [@domroes1998a; @f.2002a; @mitchell2005a]. Therefore, studies on precipitation are very considerable particularly taking into account of climate change effects.
