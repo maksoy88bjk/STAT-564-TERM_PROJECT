@@ -170,7 +170,7 @@ ggplot()  + geom_sf(fill = "white") +
 
 ### Data Handling
 
-Data period is between 01.01.2009 and 31.12.2023 for Mugla Station (17292). Elevation of the station is 646 meter. Daily precipitation data is used as response variable in modelling. Distinct daily observation variables are used as predictors such as temperature (CB0), dew point temperature (CB0), sea-level air pressure (mb), cloud coverage (0-8), relative humidity (%), solar exposure (hour), solar radiation (W/m^2^) direction of wind (B0) and speed (m/sec).
+Data period is between 01.01.2009 and 31.12.2023 for Mugla Station (17292). Elevation of the station is 646 meter. Daily precipitation data is used as response variable in modelling. Distinct daily observation variables are used as predictors such as temperature (C°), dew point temperature (C°), sea-level air pressure (mb), cloud coverage (0-8), relative humidity (%), solar exposure (hour), solar radiation (W/m^2^) direction of wind (°) and speed (m/sec).
 
 ```{r}
 #| warning: false
@@ -208,11 +208,11 @@ write.table(df, "merge.txt", row.names = FALSE, quote = FALSE, sep = "\t")
 
 2.  **Temperature**: This is a measure of the warmth or coldness of the atmosphere as determined by a thermometer. It is typically reported in degrees Celsius.
 
-    -   The temperature ranges from cold to hot conditions, with mean temperatures around 10-15 CB0 and maximum temperatures reaching as high as 41.7.
+    -   The temperature ranges from cold to hot conditions, with mean temperatures around 10-15 C° and maximum temperatures reaching as high as 41.7.
 
 3.  **Dew Point Temperature**: This is the temperature at which air becomes saturated with moisture and dew can form. It is an indicator of the moisture content in the air and is measured in degrees Celsius.
 
-    -   Dewpoint temperatures indicate varying levels of atmospheric moisture, ranging from dry to humid conditions with maximum 19.9 CB0.
+    -   Dewpoint temperatures indicate varying levels of atmospheric moisture, ranging from dry to humid conditions with maximum 19.9 C°.
 
 4.  **Relative Humidity**: This is the amount of moisture in the air compared to what the air can hold at that temperature. It is expressed as a percentage (%).
 
